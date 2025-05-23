@@ -1,0 +1,28 @@
+{
+  "name": "typestorm",
+  "version": "1.0.0",
+  "description": "Orbital 2025 TypeStorm",
+  "main": "index.js",
+  "scripts": {
+    "dev" :"nodemon  server.js",
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gab-er/TypeStorm.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gab-er/TypeStorm/issues"
+  },
+  "homepage": "https://github.com/gab-er/TypeStorm#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
