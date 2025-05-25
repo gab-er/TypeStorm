@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { Disclosure, DisclosureButton, DisclosurePanel} from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
@@ -5,6 +6,7 @@ import Link from 'next/link'
 import LoginButton from './LoginButton'
 import ProfileIcon from './ProfileIcon'
 import Logo from './Logo'
+import useAuthStore from '../stores/useAuthStore'
 
 const navigation = [
   { name: 'Home', href: '/', current: true },
@@ -17,6 +19,8 @@ function classNames(...classes) {
 }
 
 const Navbar = () => {
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+
      return (
   <Disclosure as="nav" className="bg-blue-600">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -54,8 +58,10 @@ const Navbar = () => {
             </div>
           </div>
           {/* Sign in button */}
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <LoginButton />
+              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                {/* If logged in -> Login button does not show */}
+                { !isLoggedIn && <LoginButton /> }
+              
             {/* Profile dropdown */}
             <ProfileIcon />
           </div>
