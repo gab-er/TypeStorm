@@ -2,7 +2,7 @@ import React from 'react'
 import Logo from './Logo';
 import Link from 'next/link';
 
-const LoginBox = ({handleSubmit}) => {
+const LoginBox = ({handleSubmit, handleChange}) => {
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -25,6 +25,7 @@ const LoginBox = ({handleSubmit}) => {
                   type="text"
                   required
                   autoComplete="username"
+                  onChange={handleChange}
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-white-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-white-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 text-black"
                 />
               </div>
@@ -48,6 +49,7 @@ const LoginBox = ({handleSubmit}) => {
                   type="password"
                   required
                   autoComplete="current-password"
+                  onChange={handleChange}
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-white-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-white-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 text-black"
                 />
               </div>

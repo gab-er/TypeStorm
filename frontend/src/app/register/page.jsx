@@ -3,9 +3,7 @@ import React from 'react'
 import RegisterBox from "../components/RegisterBox"
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Head from 'next/head'
 import useAuthStore from '../stores/useAuthStore'
-
 const URL = "https://typestorm-hy7h.onrender.com"
 
 
