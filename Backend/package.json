@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "Orbital 2025 TypeStorm",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "dev" :"nodemon  server.js",
-    "start": "node server.js",
+    "dev": "nodemon  ./src/server.js",
+    "start": "node ./src/server.js",
+    "migrate": "npx prisma migrate dev --name init",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,7 +22,13 @@
   },
   "homepage": "https://github.com/gab-er/TypeStorm#readme",
   "dependencies": {
-    "express": "^5.1.0"
+    "@prisma/client": "^6.8.2",
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.16.0",
+    "prisma": "^6.8.2"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
