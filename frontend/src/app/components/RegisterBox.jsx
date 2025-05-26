@@ -2,8 +2,18 @@ import React from 'react'
 import Logo from './Logo';
 import Link from 'next/link';
 import Head from 'next/head';
+import PasswordStrengthBar from 'react-password-strength-bar';
 
-const RegisterBox = ({handleSubmit, handleChange}) => {
+const RegisterBox = (
+  {
+    minPasswordLength, 
+    handleSubmit, 
+    handleUsernameChange, 
+    handlePasswordChange, 
+    inputPassword, 
+    usernameError, 
+    passwordError }) => {
+
   return (
     <>
       <Head>
@@ -28,11 +38,13 @@ const RegisterBox = ({handleSubmit, handleChange}) => {
                   name="username"
                   type="text"
                   required
-                  autoComplete="username"
-                  onChange={handleChange}
+                  onChange={handleUsernameChange}
+                  placeholder='Username'
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-white-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-white-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 text-black"
                 />
               </div>
+              {/* Error message pops up if there is an error */}
+              { usernameError && <p className="text-red-400"> Error: {usernameError} </p>}
             </div>
 
             <div>
@@ -47,10 +59,22 @@ const RegisterBox = ({handleSubmit, handleChange}) => {
                   name="password"
                   type="password"
                   required
-                  autoComplete="current-password"
-                  onChange={handleChange}
+                  onChange={handlePasswordChange}
+                  placeholder='Password'
+                  minLength={minPasswordLength}
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-white-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-white-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 text-black"
                 />
+                {/* Password strength meter */}
+                <PasswordStrengthBar
+                  password={inputPassword}
+                  minLength={minPasswordLength}
+                  onChangeScore={(score, feedback) => {
+                    console.log("Score: ", score);
+                    console.log("Feedback: ", feedback);
+                  }}
+                  />
+                  {/* Error message pops up if there is an error */}
+                  { passwordError && <p className="text-red-400"> Error: {passwordError} </p>}
               </div>
             </div>
 

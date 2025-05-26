@@ -1,5 +1,4 @@
 'use client'
-import React from 'react'
 import LoginBox from '../components/LoginBox'
 import RegisterBox from "../components/RegisterBox"
 import { useState } from 'react'
@@ -30,6 +29,8 @@ const Login = () => {
                 body: JSON.stringify(formData),
             })
             const data = await res.json();
+            // 404 -> User not found
+            // 401 -> Password not correct
             if (!res.ok) {
                 setError(data.message || "Something went wrong")
             } else {
