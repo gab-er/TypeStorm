@@ -2,7 +2,13 @@ import React from 'react'
 import Logo from './Logo';
 import Link from 'next/link';
 
-const LoginBox = ({handleSubmit, handleChange}) => {
+const LoginBox = (
+  {
+    handleSubmit, 
+    handleUsernameChange, 
+    handlePasswordChange,
+    usernameError, 
+    passwordError }) => {
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -25,11 +31,13 @@ const LoginBox = ({handleSubmit, handleChange}) => {
                   type="text"
                   required
                   autoComplete="username"
-                  onChange={handleChange}
+                  onChange={handleUsernameChange}
                   placeholder='Username'
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-white-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-white-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 text-black"
                 />
               </div>
+              {/* Error message pops up if there is an error */}
+              { usernameError && <p className="text-red-400"> Error: {usernameError} </p>}
             </div>
 
             <div>
@@ -38,9 +46,9 @@ const LoginBox = ({handleSubmit, handleChange}) => {
                   Password
                 </label>
                 <div className="text-sm">
-                  <Link href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                  {/* <Link href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
                     Forgot password?
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <div className="mt-2">
@@ -50,11 +58,13 @@ const LoginBox = ({handleSubmit, handleChange}) => {
                   type="password"
                   required
                   autoComplete="current-password"
-                  onChange={handleChange}
+                  onChange={handlePasswordChange}
                   placeholder='Password'
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-white-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-white-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 text-black"
                 />
               </div>
+              {/* Error message pops up if there is an error */}
+              { passwordError && <p className="text-red-400"> Error: {passwordError} </p>}
             </div>
 
             <div>

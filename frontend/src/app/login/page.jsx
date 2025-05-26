@@ -4,23 +4,54 @@ import RegisterBox from "../components/RegisterBox"
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import useAuthStore from '../stores/useAuthStore'
-const URL = "https://typestorm-hy7h.onrender.com" 
+const URL = process.env.NEXT_PUBLIC_API_KEY
 
 const Login = () => {
+    const [usernameError, setUsernameError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [inputUsername, setInputUsername] = useState('');
+    const [inputPassword, setInputPassword] = useState('');
     const [error, setError] = useState('');
-    const [formData, setFormData] = useState({ username: '', password: '' });
     const router = useRouter();
 
-    // handleChange
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    // handleUsernameChange
+    const handleUsernameChange = (e) => {
+        const newUsername = e.target.value
+        setInputUsername(newUsername);
+
+        // If there is a username error, clear it 
+        if (usernameError) {
+            setUsernameError("")
+        }
+    };
+
+    // handlePasswordChange
+    const handlePasswordChange = (e) => {
+        const newPassword = e.target.value
+        setInputPassword(newPassword);
+
+        // If there is a password error, clear it 
+        if (passwordError) {
+            setPasswordError("")
+        }
     };
 
     // OnSubmit
     const handleSubmit = async (e) => { 
         e.preventDefault();
+        console.log("button pressed");
+        // If there is an error with either the username or password
+        if (usernameError !== "" || passwordError !== "") {
+            return // Do not allow the data to be submitted
+        }
 
+        // Submit data to backend 
         try {
+            const formData = {
+                username: inputUsername,
+                password: inputPassword,
+            }
+
             const res = await fetch(`${URL}/auth/login`, {
                 method: 'POST',
                 headers: {
@@ -28,26 +59,44 @@ const Login = () => {
                 },
                 body: JSON.stringify(formData),
             })
+            console.log(res);
+
+            // Username not found -> 404 Status code 
+            if (res.status === 404) {
+                setUsernameError("Username not found")
+                return
+            }  else if (res.status === 401) {
+                // Password is incorrect -> 401 Status code 
+                setPasswordError("Password is incorrect")
+                return
+            }
+
             const data = await res.json();
-            // 404 -> User not found
-            // 401 -> Password not correct
+            console.log("Submitted data");
+
             if (!res.ok) {
                 setError(data.message || "Something went wrong")
+                console.log("res not ok");
             } else {
                 localStorage.setItem('token', data.token);
                 useAuthStore.getState().login(data.token)
-                console.log("signed in");
                 router.push('/')
             }
-        
-        } catch (error) {
+
+        } catch (e) {
             setError("Failed to connect to server")
-            console.log("unable to sign in");
+            console.log(error); 
         }
     }
+
   return (
     <>
-        <LoginBox handleSubmit={handleSubmit} handleChange={handleChange}/>
+        <LoginBox 
+        handleSubmit={handleSubmit} 
+        handleUsernameChange={handleUsernameChange} 
+        handlePasswordChange={handlePasswordChange}
+        usernameError={usernameError}
+        passwordError={passwordError}/>
     </>
   )
 }

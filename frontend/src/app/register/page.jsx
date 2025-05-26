@@ -3,10 +3,9 @@ import RegisterBox from "../components/RegisterBox"
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import useAuthStore from '../stores/useAuthStore'
-const URL = "https://typestorm-hy7h.onrender.com"
-const MIN_PASSWORD_LENGTH = 5
-const MIN_USERNAME_LENGTH = 4
-
+const URL = process.env.NEXT_PUBLIC_API_KEY
+const MIN_PASSWORD_LENGTH = process.env.NEXT_PUBLIC_MIN_PASSWORD_LENGTH
+const MIN_USERNAME_LENGTH = process.env.NEXT_PUBLIC_MIN_USERNAME_LENGTH
 
 const Register = () => {
     const [usernameError, setUsernameError] = useState('');
@@ -73,20 +72,28 @@ const Register = () => {
                 },
                 body: JSON.stringify(formData),
             })
+
+            // Check if username is taken (501 Status Code)
+            if (res.status === 501) {
+                setUsernameError("Username is taken")
+                return
+            } 
+
             const data = await res.json();
             console.log("Submitted data");
 
             if (!res.ok) {
                 setError(data.message || "Something went wrong")
+                
             } else {
                 localStorage.setItem('token', data.token);
                 useAuthStore.getState().login(data.token)
                 router.push('/')
             }
 
-        } catch (error) {
+        } catch (e) {
             setError("Failed to connect to server")
-            console.log({error});
+            console.log(error);
         }
     }
 
