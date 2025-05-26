@@ -87,7 +87,7 @@ const Register = () => {
                 
             } else {
                 localStorage.setItem('token', data.token);
-                useAuthStore.getState().login(data.token)
+                useAuthStore.getState().login(formData.username, data.token)
                 router.push('/')
             }
 

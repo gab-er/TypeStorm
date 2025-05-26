@@ -39,7 +39,6 @@ const Login = () => {
     // OnSubmit
     const handleSubmit = async (e) => { 
         e.preventDefault();
-        console.log("button pressed");
         // If there is an error with either the username or password
         if (usernameError !== "" || passwordError !== "") {
             return // Do not allow the data to be submitted
@@ -79,7 +78,7 @@ const Login = () => {
                 console.log("res not ok");
             } else {
                 localStorage.setItem('token', data.token);
-                useAuthStore.getState().login(data.token)
+                useAuthStore.getState().login(formData.username, data.token)
                 router.push('/')
             }
 

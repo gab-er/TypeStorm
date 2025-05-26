@@ -3,9 +3,11 @@ import { create } from 'zustand'
 const useAuthStore = create((set) => ({
   isLoggedIn: false,
   token: null,
+  username: "",
 
   // Action to log in
-  login: (token) => set(() => ({
+  login: (username, token) => set(() => ({
+    username: username,
     isLoggedIn: true,
     token: token,
   })),

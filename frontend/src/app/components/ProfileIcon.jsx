@@ -43,9 +43,9 @@ const ProfileIcon = () => {
           </button>
         </MenuItem>
         <MenuItem>
-          <button className="cursor-pointer block w-full px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100 data-focus:outline-hidden">
-          <LogoutButton/>
-           </button>
+          <div className="cursor-pointer text-center block w-full px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100 data-focus:outline-hidden">
+            <LogoutButton/>
+          </div>
         </MenuItem>
       </MenuItems>
     </Menu>
