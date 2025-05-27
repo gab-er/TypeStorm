@@ -1,6 +1,3 @@
-import Link from "next/link";
-import { create } from "zustand";
-
 export const metadata = { 
     title: "TypeStorm"
 }

@@ -10,9 +10,11 @@ const RegisterBox = (
     handleSubmit, 
     handleUsernameChange, 
     handlePasswordChange, 
+    handleConfirmPasswordChange,
     inputPassword, 
     usernameError, 
-    passwordError }) => {
+    passwordError,
+    confirmPasswordError }) => {
 
   return (
     <>
@@ -27,7 +29,7 @@ const RegisterBox = (
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6" onSubmit={handleSubmit}>
+          <form action="#" method="POST" className="space-y-4" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-lg/6 font-medium text-white-900">
                 Username
@@ -68,15 +70,34 @@ const RegisterBox = (
                   password={inputPassword}
                   minLength={minPasswordLength}
                   onChangeScore={(score, feedback) => {
-                    console.log("Score: ", score);
-                    console.log("Feedback: ", feedback);
                   }}
                   />
                   {/* Error message pops up if there is an error */}
                   { passwordError && <p className="text-red-400"> Error: {passwordError} </p>}
+                  
               </div>
             </div>
 
+            <div>
+              <div className="flex items-center justify-between">
+                <label htmlFor="password" className="block text-lg/6 font-medium text-white-900">
+                  Confirm Password
+                </label>
+              </div>
+              <div className="mt-2">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  required
+                  onChange={handleConfirmPasswordChange}
+                  placeholder='Password'
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-white-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-white-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 text-black"
+                />
+                {/* Error message pops up if there is an error */}
+                { confirmPasswordError && <p className="text-red-400"> Error: {confirmPasswordError} </p>}
+              </div>
+            </div>
             <div>
               <button
                 type="submit"
