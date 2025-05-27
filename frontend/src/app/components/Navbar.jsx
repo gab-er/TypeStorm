@@ -84,7 +84,7 @@ const Navbar = () => {
             {toDisplay}
 
             {/* Profile dropdown */}
-            <ProfileIcon />
+            <ProfileIcon isLoggedIn={isLoggedIn}/>
           </div>
         </div>
       </div>

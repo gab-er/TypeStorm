@@ -17,7 +17,7 @@ import {
 import Link from "next/link";
 import LogoutButton from "./LogoutButton";
 
-const ProfileIcon = () => {
+const ProfileIcon = ({isLoggedIn}) => {
   return (
     <Menu as="div" className="relative ml-3">
       <div>
@@ -42,11 +42,13 @@ const ProfileIcon = () => {
               Settings
           </button>
         </MenuItem>
-        <MenuItem>
+        {/* Need to fix this -> use useEffect? Navbar is not re-rendering */}
+        { {isLoggedIn} && 
+          <MenuItem>
           <div className="cursor-pointer text-center block w-full px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100 data-focus:outline-hidden">
-            <LogoutButton/>
-          </div>
-        </MenuItem>
+              <LogoutButton /> 
+          </div> 
+          </MenuItem> }
       </MenuItems>
     </Menu>
   );

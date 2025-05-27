@@ -7,6 +7,7 @@ const LogoutButton = () => {
         if (useAuthStore.getState().isLoggedIn) { 
             useAuthStore.getState().logout();
             console.log("logged out");
+            console.log(useAuthStore.getState().isLoggedIn);
             router.push('/');
         }
     }
