@@ -58,7 +58,6 @@ const Login = () => {
                 },
                 body: JSON.stringify(formData),
             })
-            console.log(res);
 
             // Username not found -> 404 Status code 
             if (res.status === 404) {

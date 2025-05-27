@@ -3,6 +3,9 @@ import RegisterBox from "../components/RegisterBox"
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import useAuthStore from '../stores/useAuthStore'
+import { validateConfirmPassword, validatePassword } from "@/lib/registerValidation"
+import { validateUsername } from "@/lib/registerValidation"
+
 const URL = process.env.NEXT_PUBLIC_API_KEY
 const MIN_PASSWORD_LENGTH = process.env.NEXT_PUBLIC_MIN_PASSWORD_LENGTH
 const MIN_USERNAME_LENGTH = process.env.NEXT_PUBLIC_MIN_USERNAME_LENGTH
@@ -10,6 +13,7 @@ const MIN_USERNAME_LENGTH = process.env.NEXT_PUBLIC_MIN_USERNAME_LENGTH
 const Register = () => {
     const [usernameError, setUsernameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [confirmPasswordError, setConfirmPasswordError] = useState('');
     const [inputUsername, setInputUsername] = useState("");
     const [inputPassword, setInputPassword] = useState("");
     const [error, setError] = useState("");
@@ -20,11 +24,9 @@ const Register = () => {
         const newUsername = e.target.value
         setInputUsername(newUsername);
 
-        if (newUsername.length < MIN_USERNAME_LENGTH) {
-            setUsernameError(`Username must be at least ${MIN_USERNAME_LENGTH} characters long.`);
-        } else {
-            setUsernameError('');
-        }
+        const error = validateUsername(newUsername)
+        setUsernameError(error)
+
     };
 
     // handlePasswordChange
@@ -32,21 +34,17 @@ const Register = () => {
         const newPassword = e.target.value
         setInputPassword(newPassword);
 
-        if (newPassword.length < MIN_PASSWORD_LENGTH) {
-            setPasswordError(`Password must be at least ${MIN_PASSWORD_LENGTH} characters long.`);
-        } else if (newPassword.length > 20) {
-            setPasswordError('Password cannot exceed 20 characters.');
-        } else if (!/(?=.*[!@#$%^&*])/.test(newPassword)) {
-            setPasswordError('Password must contain at least one special character.');
-        } else if (!/(?=.*[0-9])/.test(newPassword)) {
-            setPasswordError('Password must contain at least one number.')
-        } else if (!/(?=.*[A-Z])/.test(newPassword)) {
-            setPasswordError('Password must contain at least one uppercase letter.')
-        } else if (!/(?=.*[a-z])/.test(newPassword)) {
-            setPasswordError('Password must contain at least one lowercase letter.')
-        } else {
-            setPasswordError('');
-        }
+        const error = validatePassword(newPassword)
+        setPasswordError(error)
+
+    };
+
+    // handleConfirmPasswordChange
+    const handleConfirmPasswordChange = (e) => {
+        const newPassword = e.target.value
+
+        const error = validateConfirmPassword(newPassword, inputPassword)
+        setConfirmPasswordError(error)
     };
 
     // OnSubmit
@@ -54,7 +52,7 @@ const Register = () => {
         e.preventDefault();
 
         // If there is an error with either the username or password
-        if (usernameError !== "" || passwordError !== "") {
+        if (usernameError !== "" || passwordError !== "" || confirmPasswordError !== "") {
             return // Do not allow the data to be submitted
         }
 
@@ -80,7 +78,6 @@ const Register = () => {
             } 
 
             const data = await res.json();
-            console.log("Submitted data");
 
             if (!res.ok) {
                 setError(data.message || "Something went wrong")
@@ -103,10 +100,12 @@ const Register = () => {
             handleSubmit={handleSubmit} 
             handleUsernameChange={handleUsernameChange} 
             handlePasswordChange={handlePasswordChange}
+            handleConfirmPasswordChange={handleConfirmPasswordChange}
             inputPassword={inputPassword}
             minPasswordLength={MIN_PASSWORD_LENGTH}
             usernameError={usernameError}
             passwordError={passwordError}
+            confirmPasswordError={confirmPasswordError}
             />
         </>
     )
