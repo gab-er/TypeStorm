@@ -1,3 +1,5 @@
+import TypeBox from "./components/TypeBox";
+
 export const metadata = { 
     title: "TypeStorm"
 }
@@ -5,7 +7,7 @@ export const metadata = {
 export default function Home() {
   return (
     <> 
-      <h1></h1>
+      <TypeBox />
     </>
   );
 }
