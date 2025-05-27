@@ -1,0 +1,37 @@
+{
+  "name": "typestorm",
+  "version": "1.0.0",
+  "description": "Orbital 2025 TypeStorm",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build" : "npm install && npx prisma generate",
+    "dev": "nodemon  ./src/server.js",
+    "start": "node ./src/server.js",
+    "migrate": "npx prisma migrate dev --name init",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gab-er/TypeStorm.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gab-er/TypeStorm/issues"
+  },
+  "homepage": "https://github.com/gab-er/TypeStorm#readme",
+  "dependencies": {
+    "@prisma/client": "^6.8.2",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.16.0",
+    "prisma": "^6.8.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
