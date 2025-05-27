@@ -91,7 +91,7 @@ const RegisterBox = (
                   type="password"
                   required
                   onChange={handleConfirmPasswordChange}
-                  placeholder='Password'
+                  placeholder='Confirm Password'
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-white-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-white-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 text-black"
                 />
                 {/* Error message pops up if there is an error */}
