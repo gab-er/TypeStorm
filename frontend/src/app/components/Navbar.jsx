@@ -26,12 +26,9 @@ function classNames(...classes) {
 
 const Navbar = () => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
-  let toDisplay = <LoginButton />;
 
-  // Show either login button or 'welcome back, username'
-  if (isLoggedIn) {
-    toDisplay = <WelcomeBack />;
-  }
+  // Show login button if logged in, else show 'welcome back, username'
+  let toDisplayLogin = (isLoggedIn && <WelcomeBack />) || <LoginButton />;
 
   return (
     <Disclosure as="nav" className="bg-blue-600">
@@ -79,12 +76,12 @@ const Navbar = () => {
             </div>
           </div>
           {/* Sign in button */}
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            {/* If logged in -> Login button does not show */}
-            {toDisplay}
+          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 mx-10 gap-1">
+            {/* If logged in -> Login button does not show, shows "Welcome back username" instead*/}
+            {toDisplayLogin}
 
-            {/* Profile dropdown */}
-            <ProfileIcon isLoggedIn={isLoggedIn}/>
+            {/* If logged in -> Profile dropdown is shown */}
+            { isLoggedIn && <ProfileIcon isLoggedIn={isLoggedIn}/>}
           </div>
         </div>
       </div>
