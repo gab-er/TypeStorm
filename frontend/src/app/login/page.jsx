@@ -4,6 +4,7 @@ import RegisterBox from "../components/RegisterBox"
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import useAuthStore from '../stores/useAuthStore'
+import Loading from '../loading'
 const URL = process.env.NEXT_PUBLIC_API_KEY
 
 const Login = () => {
@@ -11,6 +12,7 @@ const Login = () => {
     const [passwordError, setPasswordError] = useState('');
     const [inputUsername, setInputUsername] = useState('');
     const [inputPassword, setInputPassword] = useState('');
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const router = useRouter();
 
@@ -47,6 +49,8 @@ const Login = () => {
 
         // Submit data to backend 
         try {
+            // Show loading animation (Do not reset to false to avoid flashing of the sign in box)
+            setLoading(true)
             const formData = {
                 username: inputUsername,
                 password: inputPassword,
@@ -75,6 +79,7 @@ const Login = () => {
 
             if (!res.ok) {
                 setError(data.message || "Something went wrong")
+                setLoading(false)
                 console.log(error);
             } else {
                 localStorage.setItem('token', data.token);
@@ -85,17 +90,18 @@ const Login = () => {
         } catch (e) {
             setError("Failed to connect to server")
             console.log(error); 
-        }
+        } 
     }
 
   return (
+    // If loading, show loading icon
     <>
-        <LoginBox 
+        {loading && <Loading /> || <LoginBox 
         handleSubmit={handleSubmit} 
         handleUsernameChange={handleUsernameChange} 
         handlePasswordChange={handlePasswordChange}
         usernameError={usernameError}
-        passwordError={passwordError}/>
+        passwordError={passwordError} />}
     </>
   )
 }

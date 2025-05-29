@@ -1,6 +1,7 @@
 import React from 'react'
 import Logo from './Logo';
 import Link from 'next/link';
+import Loading from '../loading';
 
 const LoginBox = (
   {
@@ -9,6 +10,7 @@ const LoginBox = (
     handlePasswordChange,
     usernameError, 
     passwordError }) => {
+
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
