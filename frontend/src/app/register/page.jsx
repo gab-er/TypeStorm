@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import useAuthStore from '../stores/useAuthStore'
 import { validateConfirmPassword, validatePassword } from "@/lib/registerValidation"
 import { validateUsername } from "@/lib/registerValidation"
+import Loading from "../loading"
 
 const URL = process.env.NEXT_PUBLIC_API_KEY
 const MIN_PASSWORD_LENGTH = process.env.NEXT_PUBLIC_MIN_PASSWORD_LENGTH
@@ -16,6 +17,7 @@ const Register = () => {
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
     const [inputUsername, setInputUsername] = useState("");
     const [inputPassword, setInputPassword] = useState("");
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const router = useRouter();
 
@@ -58,6 +60,8 @@ const Register = () => {
 
         // Submit data to backend 
         try {
+            // Show loading animation (Do not reset to false to avoid flashing of the registration box)
+            setLoading(true)
             const formData = {
                 username: inputUsername,
                 password: inputPassword,
@@ -81,7 +85,7 @@ const Register = () => {
 
             if (!res.ok) {
                 setError(data.message || "Something went wrong")
-                
+                console.log(error);
             } else {
                 localStorage.setItem('token', data.token);
                 useAuthStore.getState().login(formData.username, data.token)
@@ -95,8 +99,9 @@ const Register = () => {
     }
 
     return (
+        // If loading, show loading icon
         <>
-            <RegisterBox 
+            {loading && <Loading /> || <RegisterBox 
             handleSubmit={handleSubmit} 
             handleUsernameChange={handleUsernameChange} 
             handlePasswordChange={handlePasswordChange}
@@ -106,7 +111,7 @@ const Register = () => {
             usernameError={usernameError}
             passwordError={passwordError}
             confirmPasswordError={confirmPasswordError}
-            />
+            />}
         </>
     )
 }
