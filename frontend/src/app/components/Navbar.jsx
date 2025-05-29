@@ -12,7 +12,6 @@ import ProfileIcon from "./ProfileIcon";
 import Logo from "./Logo";
 import useAuthStore from "../stores/useAuthStore";
 import WelcomeBack from "./WelcomeBack";
-import LinkBox from "./LinkBox";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
