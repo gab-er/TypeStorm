@@ -85,8 +85,8 @@ const Register = () => {
       if (res.status === 501) {
         setUsernameError(`Username \"${formData.username}\" is taken`);
         setLoading(false);
-        setInputUsername(formData.username)
-        setInputPassword(formData.password)
+        setInputUsername(formData.username);
+        setInputPassword(formData.password);
         return;
       }
 
@@ -110,19 +110,18 @@ const Register = () => {
   return (
     // If loading, show loading icon
     <>
-      {(loading && <Loading />) || (
-        <RegisterBox
-          handleSubmit={handleSubmit}
-          handleUsernameChange={handleUsernameChange}
-          handlePasswordChange={handlePasswordChange}
-          handleConfirmPasswordChange={handleConfirmPasswordChange}
-          inputPassword={inputPassword}
-          minPasswordLength={MIN_PASSWORD_LENGTH}
-          usernameError={usernameError}
-          passwordError={passwordError}
-          confirmPasswordError={confirmPasswordError}
-        />
-      )}
+      <RegisterBox
+        handleSubmit={handleSubmit}
+        handleUsernameChange={handleUsernameChange}
+        handlePasswordChange={handlePasswordChange}
+        handleConfirmPasswordChange={handleConfirmPasswordChange}
+        inputPassword={inputPassword}
+        minPasswordLength={MIN_PASSWORD_LENGTH}
+        usernameError={usernameError}
+        passwordError={passwordError}
+        confirmPasswordError={confirmPasswordError}
+        loading={loading}
+      />
     </>
   );
 };
