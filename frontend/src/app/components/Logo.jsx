@@ -1,16 +1,16 @@
-import React from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
+import React from "react";
+import Link from "next/link";
+import Image from "next/image";
 
-const Logo = ({width, height}) => {
+const Logo = ({ width, height }) => {
   return (
-        <Image  
-        src = {`/images/TypeStormLogoLight.png`} 
-        alt = "TypeStorm"
-        width={width}
-        height={height}> 
-        </Image>
-  )
-}
+    <Image
+      src={`/images/TypeStormLogoLight.png`}
+      alt="TypeStorm"
+      width={width}
+      height={height}
+    ></Image>
+  );
+};
 
-export default Logo
+export default Logo;

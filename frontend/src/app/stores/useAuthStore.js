@@ -1,4 +1,4 @@
-import { create } from 'zustand'
+import { create } from "zustand";
 
 const useAuthStore = create((set) => ({
   isLoggedIn: false,
@@ -6,17 +6,19 @@ const useAuthStore = create((set) => ({
   username: "",
 
   // Action to log in
-  login: (username, token) => set(() => ({
-    username: username,
-    isLoggedIn: true,
-    token: token,
-  })),
+  login: (username, token) =>
+    set(() => ({
+      username: username,
+      isLoggedIn: true,
+      token: token,
+    })),
 
   // Action to log out
-  logout: () => set(() => ({
-    isLoggedIn: false,
-    token: null,
-  })),
+  logout: () =>
+    set(() => ({
+      isLoggedIn: false,
+      token: null,
+    })),
 }));
 
 export default useAuthStore;
