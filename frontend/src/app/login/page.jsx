@@ -68,10 +68,13 @@ const Login = () => {
       // Username not found -> 404 Status code
       if (res.status === 404) {
         setUsernameError("Username not found");
+        setLoading(false)
+        setUsernameError("Username not found");
         return;
       } else if (res.status === 401) {
         // Password is incorrect -> 401 Status code
         setPasswordError("Password is incorrect");
+        setLoading(false)
         return;
       }
 
@@ -82,8 +85,6 @@ const Login = () => {
         setError(data.message || "Something went wrong");
         console.log("res not ok");
         setLoading(false);
-        setInputUsername(formData.username)
-        setInputPassword(formData.password)
       } else {
         useAuthStore.getState().login(formData.username);
         router.push("/");
@@ -98,15 +99,14 @@ const Login = () => {
   return (
     // If loading, show loading icon
     <>
-      {(loading && <Loading />) || (
         <LoginBox
           handleSubmit={handleSubmit}
           handleUsernameChange={handleUsernameChange}
           handlePasswordChange={handlePasswordChange}
           usernameError={usernameError}
           passwordError={passwordError}
+          loading={loading}
         />
-      )}
     </>
   );
 };

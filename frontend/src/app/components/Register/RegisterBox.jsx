@@ -3,6 +3,7 @@ import Logo from "../Navbar/Logo";
 import Link from "next/link";
 import Head from "next/head";
 import PasswordStrengthBar from "react-password-strength-bar";
+import Loading from "@/app/loading";
 
 const RegisterBox = ({
   minPasswordLength,
@@ -14,7 +15,12 @@ const RegisterBox = ({
   usernameError,
   passwordError,
   confirmPasswordError,
+  loading,
 }) => {
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <>
       <Head>
@@ -106,9 +112,7 @@ const RegisterBox = ({
                 />
                 {/* Error message pops up if there is an error */}
                 {confirmPasswordError && (
-                  <p className="text-red-400">
-                    Error: {confirmPasswordError}
-                  </p>
+                  <p className="text-red-400">Error: {confirmPasswordError}</p>
                 )}
               </div>
             </div>
