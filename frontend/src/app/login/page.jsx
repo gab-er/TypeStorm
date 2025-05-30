@@ -82,9 +82,9 @@ const Login = () => {
         setError(data.message || "Something went wrong");
         console.log("res not ok");
         setLoading(false);
-        
+        setInputUsername(formData.username)
+        setInputPassword(formData.password)
       } else {
-        localStorage.setItem("token", data.token);
         useAuthStore.getState().login(formData.username);
         router.push("/");
       }

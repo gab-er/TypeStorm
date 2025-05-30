@@ -107,8 +107,7 @@ const RegisterBox = ({
                 {/* Error message pops up if there is an error */}
                 {confirmPasswordError && (
                   <p className="text-red-400">
-                    {" "}
-                    Error: {confirmPasswordError}{" "}
+                    Error: {confirmPasswordError}
                   </p>
                 )}
               </div>

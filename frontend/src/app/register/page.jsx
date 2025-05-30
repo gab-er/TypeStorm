@@ -83,7 +83,10 @@ const Register = () => {
 
       // Check if username is taken (501 Status Code)
       if (res.status === 501) {
-        setUsernameError("Username is taken");
+        setUsernameError(`Username \"${formData.username}\" is taken`);
+        setLoading(false);
+        setInputUsername(formData.username)
+        setInputPassword(formData.password)
         return;
       }
 
@@ -94,14 +97,14 @@ const Register = () => {
         console.log(error);
         setLoading(false);
       } else {
-        localStorage.setItem("token", data.token);
+        console.log("Success Registration");
         router.push("/login");
       }
     } catch (e) {
       setError("Failed to connect to server");
       console.log(error);
       setLoading(false);
-    } 
+    }
   };
 
   return (

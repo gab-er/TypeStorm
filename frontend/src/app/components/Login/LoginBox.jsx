@@ -1,4 +1,3 @@
-import React from "react";
 import Logo from "../Navbar/Logo";
 import Link from "next/link";
 import Loading from "../../loading";
