@@ -47,7 +47,8 @@ router.post('/login', async (req, res) => {
         res.cookie('jwt', token, {
             httpOnly : true,
             maxAge: 24 * 60 * 60 * 1000,
-            partitioned : true 
+            partitioned : true, 
+            secure:true
         })
         res.send({message:`Successfully Authenticated ${username}`})
     } catch(err) {
