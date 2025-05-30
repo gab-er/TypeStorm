@@ -59,7 +59,12 @@ router.post('/login', async (req, res) => {
 })
 
 router.post('/logout', (req,res) =>{
-    res.cookie('jwt', '', {maxAge:0})
+    res.cookie('jwt', '', {
+maxAge: 24 * 60 * 60 * 1000,
+            partitioned : true, 
+            secure:true,
+            maxAge: 0
+        })
     res.send({message:"Sucessfully Logged Out"})
 })
 

@@ -3,3 +3,4 @@
 .env
 test.rest
 node_modules/
+passwordMiddleware.js
