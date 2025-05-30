@@ -9,7 +9,11 @@ router.get('/', async (req,res) => {
             id : req.userId
         }
     })
-    res.json(user.username)
+    const data = {
+        id : user.id,
+        username: user.username
+    }
+    res.json(data)
 })
 
 export default router
