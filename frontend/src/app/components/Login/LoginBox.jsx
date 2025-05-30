@@ -1,7 +1,7 @@
 import React from "react";
-import Logo from "./Logo";
+import Logo from "../Navbar/Logo";
 import Link from "next/link";
-import Loading from "../loading";
+import Loading from "../../loading";
 
 const LoginBox = ({
   handleSubmit,
@@ -20,12 +20,7 @@ const LoginBox = ({
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form
-            action="#"
-            method="POST"
-            className="space-y-6"
-            onSubmit={handleSubmit}
-          >
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label
                 htmlFor="username"

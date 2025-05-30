@@ -1,5 +1,5 @@
 "use client";
-import RegisterBox from "../components/RegisterBox";
+import RegisterBox from "../components/Register/RegisterBox";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import useAuthStore from "../stores/useAuthStore";
@@ -9,8 +9,8 @@ import {
 } from "@/lib/registerValidation";
 import { validateUsername } from "@/lib/registerValidation";
 import Loading from "../loading";
+import url from "@/lib/apiUrl";
 
-const URL = process.env.NEXT_PUBLIC_API_KEY;
 const MIN_PASSWORD_LENGTH = process.env.NEXT_PUBLIC_MIN_PASSWORD_LENGTH;
 const MIN_USERNAME_LENGTH = process.env.NEXT_PUBLIC_MIN_USERNAME_LENGTH;
 
@@ -72,11 +72,12 @@ const Register = () => {
         password: inputPassword,
       };
 
-      const res = await fetch(`${URL}/auth/register`, {
+      const res = await fetch(`${url}/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(formData),
       });
 
@@ -91,15 +92,16 @@ const Register = () => {
       if (!res.ok) {
         setError(data.message || "Something went wrong");
         console.log(error);
+        setLoading(false);
       } else {
         localStorage.setItem("token", data.token);
-        useAuthStore.getState().login(formData.username, data.token);
-        router.push("/");
+        router.push("/login");
       }
     } catch (e) {
       setError("Failed to connect to server");
       console.log(error);
-    }
+      setLoading(false);
+    } 
   };
 
   return (

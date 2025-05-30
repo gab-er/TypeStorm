@@ -1,11 +1,11 @@
 "use client";
-import LoginBox from "../components/LoginBox";
-import RegisterBox from "../components/RegisterBox";
+import LoginBox from "../components/Login/LoginBox";
+import RegisterBox from "../components/Register/RegisterBox";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import useAuthStore from "../stores/useAuthStore";
 import Loading from "../loading";
-const URL = process.env.NEXT_PUBLIC_API_KEY;
+import url from "@/lib/apiUrl";
 
 const Login = () => {
   const [usernameError, setUsernameError] = useState("");
@@ -56,11 +56,12 @@ const Login = () => {
         password: inputPassword,
       };
 
-      const res = await fetch(`${URL}/auth/login`, {
+      const res = await fetch(`${url}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(formData),
       });
 
@@ -79,16 +80,18 @@ const Login = () => {
 
       if (!res.ok) {
         setError(data.message || "Something went wrong");
+        console.log("res not ok");
         setLoading(false);
-        console.log(error);
+        
       } else {
         localStorage.setItem("token", data.token);
-        useAuthStore.getState().login(formData.username, data.token);
+        useAuthStore.getState().login(formData.username);
         router.push("/");
       }
     } catch (e) {
       setError("Failed to connect to server");
       console.log(error);
+      setLoading(false);
     }
   };
 

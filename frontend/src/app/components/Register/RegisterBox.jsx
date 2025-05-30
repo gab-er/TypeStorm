@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "./Logo";
+import Logo from "../Navbar/Logo";
 import Link from "next/link";
 import Head from "next/head";
 import PasswordStrengthBar from "react-password-strength-bar";
@@ -28,12 +28,7 @@ const RegisterBox = ({
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form
-            action="#"
-            method="POST"
-            className="space-y-4"
-            onSubmit={handleSubmit}
-          >
+          <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
               <label
                 htmlFor="email"

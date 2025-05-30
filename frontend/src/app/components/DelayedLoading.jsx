@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useState, useEffect } from "react";
-import Navbar from "./Navbar";
+import Navbar from "./Navbar/Navbar";
 
 const DelayedLoading = () => {
   const [showSpinner, setShowSpinner] = useState(false);

@@ -9,6 +9,7 @@ const Logo = ({ width, height }) => {
       alt="TypeStorm"
       width={width}
       height={height}
+      priority={true}
     ></Image>
   );
 };

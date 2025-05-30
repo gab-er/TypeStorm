@@ -2,22 +2,28 @@ import { create } from "zustand";
 
 const useAuthStore = create((set) => ({
   isLoggedIn: false,
-  token: null,
   username: "",
+  isLoading: true,
 
   // Action to log in
   login: (username, token) =>
     set(() => ({
       username: username,
       isLoggedIn: true,
-      token: token,
+      isLoading: false
     })),
 
   // Action to log out
   logout: () =>
     set(() => ({
+      username: "",
       isLoggedIn: false,
-      token: null,
+      isLoading: false
+    })),
+
+  setIsLoading: (bool) => 
+    set(() => ({
+      isLoading: bool
     })),
 }));
 
