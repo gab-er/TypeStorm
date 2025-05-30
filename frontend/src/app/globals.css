@@ -1,7 +1,8 @@
 @import "tailwindcss";
+@import "@fontsource/inter/index.css";
 
 :root {
-  --background: #1E1F25;
+  --background: #1e1f25;
   --foreground: #ededed;
 }
 
@@ -14,7 +15,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #1E1F25;
+    --background: #1e1f25;
     --foreground: #ededed;
   }
 }
@@ -22,5 +23,5 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Inter, Helvetica, sans-serif;
 }

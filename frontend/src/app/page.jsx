@@ -1,14 +1,13 @@
-import Link from "next/link";
-import { create } from "zustand";
+import TypeBox from "./components/TypeBox";
 
-export const metadata = { 
-    title: "TypeStorm"
-}
+export const metadata = {
+  title: "TypeStorm",
+};
 
-export default function Home() {
+export default async function Home() {
   return (
-    <> 
-      <h1></h1>
+    <>
+      <TypeBox />
     </>
   );
 }

@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Disclosure,
   DisclosureButton,
@@ -16,8 +15,11 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import LogoutButton from "./LogoutButton";
+import { useRouter } from "next/navigation";
 
-const ProfileIcon = ({isLoggedIn}) => {
+const ProfileIcon = () => {
+  const router = useRouter();
+
   return (
     <Menu as="div" className="relative ml-3">
       <div>
@@ -34,21 +36,17 @@ const ProfileIcon = ({isLoggedIn}) => {
       >
         <MenuItem className="cursor-pointer block px-4 py-2">
           <button className="w-full px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100 data-focus:outline-hidden">
-              Your Profile
+            Your Profile
           </button>
         </MenuItem>
         <MenuItem className="cursor-pointer">
           <button className="block w-full px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100 data-focus:outline-hidden">
-              Settings
+            Settings
           </button>
         </MenuItem>
-        {/* Need to fix this -> use useEffect? Navbar is not re-rendering */}
-        { {isLoggedIn} && 
-          <MenuItem>
-          <div className="cursor-pointer text-center block w-full px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100 data-focus:outline-hidden">
-              <LogoutButton /> 
-          </div> 
-          </MenuItem> }
+        <MenuItem>
+          <LogoutButton />
+        </MenuItem>
       </MenuItems>
     </Menu>
   );

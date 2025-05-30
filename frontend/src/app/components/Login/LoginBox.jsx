@@ -1,14 +1,14 @@
-import React from 'react'
-import Logo from './Logo';
-import Link from 'next/link';
+import Logo from "../Navbar/Logo";
+import Link from "next/link";
+import Loading from "../../loading";
 
-const LoginBox = (
-  {
-    handleSubmit, 
-    handleUsernameChange, 
-    handlePasswordChange,
-    usernameError, 
-    passwordError }) => {
+const LoginBox = ({
+  handleSubmit,
+  handleUsernameChange,
+  handlePasswordChange,
+  usernameError,
+  passwordError,
+}) => {
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -19,9 +19,12 @@ const LoginBox = (
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="username" className="block text-lg/6 font-medium text-white-900">
+              <label
+                htmlFor="username"
+                className="block text-lg/6 font-medium text-white-900"
+              >
                 Username
               </label>
               <div className="mt-2">
@@ -32,17 +35,22 @@ const LoginBox = (
                   required
                   autoComplete="username"
                   onChange={handleUsernameChange}
-                  placeholder='Username'
+                  placeholder="Username"
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-white-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-white-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 text-black"
                 />
               </div>
               {/* Error message pops up if there is an error */}
-              { usernameError && <p className="text-red-400"> Error: {usernameError} </p>}
+              {usernameError && (
+                <p className="text-red-400"> Error: {usernameError} </p>
+              )}
             </div>
 
             <div>
               <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-lg/6 font-medium text-white-900">
+                <label
+                  htmlFor="password"
+                  className="block text-lg/6 font-medium text-white-900"
+                >
                   Password
                 </label>
                 <div className="text-sm">
@@ -59,12 +67,14 @@ const LoginBox = (
                   required
                   autoComplete="current-password"
                   onChange={handlePasswordChange}
-                  placeholder='Password'
+                  placeholder="Password"
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-white-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-white-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 text-black"
                 />
               </div>
               {/* Error message pops up if there is an error */}
-              { passwordError && <p className="text-red-400"> Error: {passwordError} </p>}
+              {passwordError && (
+                <p className="text-red-400"> Error: {passwordError} </p>
+              )}
             </div>
 
             <div>
@@ -78,8 +88,11 @@ const LoginBox = (
           </form>
 
           <p className="mt-10 text-center text-sm/6 text-white-500">
-            Not a member?{' '}
-            <Link href="/register" className="font-semibold text-indigo-600 hover:text-indigo-500">
+            Not a member?{" "}
+            <Link
+              href="/register"
+              className="font-semibold text-indigo-600 hover:text-indigo-500"
+            >
               Register for an account
             </Link>
           </p>
@@ -87,6 +100,6 @@ const LoginBox = (
       </div>
     </>
   );
-}
+};
 
-export default LoginBox
+export default LoginBox;
