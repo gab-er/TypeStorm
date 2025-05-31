@@ -16,6 +16,15 @@ router.post('/register', async (req,res) => {
             }
         })
         console.log('Account Successfully Created')
+        const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '24h'})
+        res.cookie('jwt', token, {
+            httpOnly : true,
+            maxAge: 24 * 60 * 60 * 1000,
+            partitioned : true, 
+            secure:true,
+            sameSite: 'none'
+        })
+        res.send({message:`Successfully Authenticated ${username}`})
     } catch (err) {
         console.log(err.message)
         res.sendStatus(501)
