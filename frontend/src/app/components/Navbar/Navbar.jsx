@@ -31,9 +31,9 @@ const Navbar = () => {
   // This hook will set the login display to the WelcomeBack component if logged in, or the login button if not logged in. It will react to changes in the isLoggedIn state.
   useEffect(() => {
     if (isLoggedIn) {
-      setLoginDisplay(<WelcomeBack />)
-    } else { 
-      setLoginDisplay(<LoginButton />)
+      setLoginDisplay(<WelcomeBack />);
+    } else {
+      setLoginDisplay(<LoginButton />);
     }
   }, [isLoggedIn]);
 
@@ -85,7 +85,9 @@ const Navbar = () => {
           {/* Sign in button */}
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 mx-10 gap-1">
             {/* If loading, it shows nothing. Else, it shows one of the login displays*/}
-            {!isLoading && loginDisplay || null}
+            {(!isLoading && loginDisplay) || (
+              <p className="select-none"> Loading... </p>
+            )}
 
             {/* If logged in -> Profile dropdown is shown */}
             {isLoggedIn && <ProfileIcon isLoggedIn={isLoggedIn} />}
