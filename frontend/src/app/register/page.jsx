@@ -1,6 +1,6 @@
 "use client";
 import RegisterBox from "../components/Register/RegisterBox";
-import { use, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import useAuthStore from "../stores/useAuthStore";
 import {
