@@ -24,6 +24,9 @@ const Register = () => {
   const [error, setError] = useState("");
   const router = useRouter();
 
+  // Login
+  const login = useAuthStore((state) => state.login);
+
   // handleUsernameChange
   const handleUsernameChange = (e) => {
     const newUsername = e.target.value;
@@ -72,6 +75,7 @@ const Register = () => {
         password: inputPassword,
       };
 
+      // Fetch data
       const res = await fetch(`${url}/auth/register`, {
         method: "POST",
         headers: {
@@ -97,8 +101,9 @@ const Register = () => {
         console.log(error);
         setLoading(false);
       } else {
-        console.log("Success Registration");
-        router.push("/login");
+        console.log("Successful Registration");
+        login(formData.username)
+        router.push("/");
       }
     } catch (e) {
       setError("Failed to connect to server");
