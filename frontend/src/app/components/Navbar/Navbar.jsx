@@ -12,6 +12,7 @@ import Logo from "./Logo";
 import useAuthStore from "../../stores/useAuthStore";
 import WelcomeBack from "./WelcomeBack";
 import { useState, useEffect } from "react";
+import DelayedLoadingDefault from "./DelayedLoadingDefault";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
@@ -86,7 +87,7 @@ const Navbar = () => {
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 mx-10 gap-1">
             {/* If loading, it shows nothing. Else, it shows one of the login displays*/}
             {(!isLoading && loginDisplay) || (
-              <p className="select-none"> Loading... </p>
+              <p> <DelayedLoadingDefault/> </p>
             )}
 
             {/* If logged in -> Profile dropdown is shown */}

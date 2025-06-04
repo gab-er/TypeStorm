@@ -6,13 +6,17 @@ export const cookieValidation = async () => {
   const setIsLoading = useAuthStore.getState().setIsLoading
 
   try {
+    console.log("about to fetch logged in status")
+    console.log(url);
     const res = await fetch(`${url}/user`, {
       method: "GET",
       credentials: "include",
     });
+    console.log("fetched logged in status");
     // If no valid cookie => not logged in
     if (res.status == 401 || !res.ok) {
       // do nothing
+      console.log("res not ok");
     } else {
       const data = await res.json();
       const username = data.username;
