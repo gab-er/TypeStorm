@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import {
   Disclosure,
   DisclosureButton,
@@ -10,8 +9,10 @@ import Link from "next/link";
 import LoginButton from "./LoginButton";
 import ProfileIcon from "./ProfileIcon";
 import Logo from "./Logo";
-import useAuthStore from "../stores/useAuthStore";
+import useAuthStore from "../../stores/useAuthStore";
 import WelcomeBack from "./WelcomeBack";
+import { useState, useEffect } from "react";
+import DelayedLoadingDefault from "./DelayedLoadingDefault";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
@@ -25,9 +26,17 @@ function classNames(...classes) {
 
 const Navbar = () => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const isLoading = useAuthStore((state) => state.isLoading);
+  const [loginDisplay, setLoginDisplay] = useState(null);
 
-  // Show login button if logged in, else show 'welcome back, username'
-  let toDisplayLogin = (isLoggedIn && <WelcomeBack />) || <LoginButton />;
+  // This hook will set the login display to the WelcomeBack component if logged in, or the login button if not logged in. It will react to changes in the isLoggedIn state.
+  useEffect(() => {
+    if (isLoggedIn) {
+      setLoginDisplay(<WelcomeBack />);
+    } else {
+      setLoginDisplay(<LoginButton />);
+    }
+  }, [isLoggedIn]);
 
   return (
     <Disclosure as="nav" className="bg-blue-600">
@@ -49,8 +58,8 @@ const Navbar = () => {
             </DisclosureButton>
           </div>
           {/* Team Logo */}
-          <Link href='/'> 
-            <Logo width="120" height="120"/>
+          <Link href="/">
+            <Logo width="120" height="120" />
           </Link>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex shrink-0 items-center"></div>
@@ -76,11 +85,13 @@ const Navbar = () => {
           </div>
           {/* Sign in button */}
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 mx-10 gap-1">
-            {/* If logged in -> Login button does not show, shows "Welcome back username" instead*/}
-            {toDisplayLogin}
+            {/* If loading, it shows nothing. Else, it shows one of the login displays*/}
+            {(!isLoading && loginDisplay) || (
+              <p> <DelayedLoadingDefault/> </p>
+            )}
 
             {/* If logged in -> Profile dropdown is shown */}
-            { isLoggedIn && <ProfileIcon isLoggedIn={isLoggedIn}/>}
+            {isLoggedIn && <ProfileIcon isLoggedIn={isLoggedIn} />}
           </div>
         </div>
       </div>

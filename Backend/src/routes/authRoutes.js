@@ -16,8 +16,6 @@ router.post('/register', async (req,res) => {
             }
         })
         console.log('Account Successfully Created')
-        const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '24h'})
-        res.json({token})
     } catch (err) {
         console.log(err.message)
         res.sendStatus(501)
@@ -44,7 +42,14 @@ router.post('/login', async (req, res) => {
         }
         console.log(`${username} has logged in`)
         const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '24h'})
-        res.json({token})
+        res.cookie('jwt', token, {
+            httpOnly : true,
+            maxAge: 24 * 60 * 60 * 1000,
+            partitioned : true, 
+            secure:true,
+            sameSite: 'none'
+        })
+        res.send({message:`Successfully Authenticated ${username}`})
     } catch(err) {
         console.log(err.message)
         res.sendStatus(503)
@@ -52,6 +57,15 @@ router.post('/login', async (req, res) => {
     }
 })
 
+router.post('/logout', (req,res) =>{
+    res.cookie('jwt', '', {
+            partitioned : true, 
+            secure:true,
+            maxAge: 0,
+            sameSite: 'none'
+        })
+    res.send({message:"Sucessfully Logged Out"})
+})
 
 
 export default router
