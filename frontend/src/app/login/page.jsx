@@ -1,10 +1,8 @@
 "use client";
 import LoginBox from "../components/Login/LoginBox";
-import RegisterBox from "../components/Register/RegisterBox";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import useAuthStore from "../stores/useAuthStore";
-import Loading from "../loading";
 import url from "@/lib/apiUrl";
 
 const Login = () => {
