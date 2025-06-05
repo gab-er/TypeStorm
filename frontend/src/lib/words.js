@@ -1,12 +1,13 @@
-import {words} from 'popular-english-words'
+import { words } from "popular-english-words";
+import Letter from "@/app/components/Letter";
+import Word from "@/app/components/Word";
 
-const mostCommonWords = words.getMostPopularLength(35, 5)
+// Returns an array of words
+const mostCommonWords = words.getMostPopularLength(35, 5);
 
-const wordsData = []
-for (let i = 0; i < mostCommonWords.length; i++) {
-    const obj = {key: i, value: mostCommonWords[i]}
-    wordsData.push(obj)
-}
+const wordsData = mostCommonWords;
 
-export {wordsData}
-// export [ {0: "Word0"}, {1: "Word1"}]
+// Obtaining an array of all letters
+const lettersData = mostCommonWords.join(" ").split("").flat();
+
+export { wordsData, lettersData };

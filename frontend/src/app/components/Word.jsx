@@ -1,13 +1,22 @@
-import React from 'react'
+import Letter from "./Letter";
 
-const Word = ({word}) => {
-    // "select-none" prevents the text from being selected 
-    // "ml-1 to add margin between each word"
+const Word = ({ wordId, word, typedWord }) => {
+
+  const letters = word.split("");
+
   return (
-    <div className="ml-2 text-3xl select-none opacity-80 text-white">
-        {word}
+    <div className="flex ml-2">
+      {letters.map((letter, index) => (
+        <Letter
+          key={index}
+          letter={letter}
+          id={index}
+          typedWord={typedWord}
+          wordId={wordId}
+        />
+      ))}
     </div>
-  )
-}
+  );
+};
 
-export default Word
+export default Word;
