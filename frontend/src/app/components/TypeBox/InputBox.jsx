@@ -4,6 +4,7 @@ import DisplayBox from "./DisplayBox";
 
 const InputBox = () => {
   const [typedText, setTypedText] = useState("");
+  const currentLetter = typedText.length;
 
   // Function to handle input box text changes
   const handleTextChange = (e) => {
@@ -21,12 +22,13 @@ const InputBox = () => {
 
   return (
     <>
-      <DisplayBox typedText={typedText} />
+      <DisplayBox typedText={typedText} currentLetter={currentLetter} />
       <input
+        type="text"
         value={typedText}
         onChange={handleTextChange}
         onKeyDown={handleOtherChanges} // This can detect key presses like esc to reset the text
-        className="opacity-0 cursor-default mx-75 w-[1000px] h-[200px] mt-40 gap-y-[1.5] gap-x-[0.25em] bg-white absolute text-black"
+        className="text-start opacity-0 cursor-default mx-75 w-[1000px] h-[200px] mt-40 gap-y-[1.5] gap-x-[0.25em] bg-white absolute text-black pb-40 pl-2.5 text-3xl"
       />
     </>
   );
