@@ -1,4 +1,4 @@
-import TypeBox from "./components/TypeBox";
+import TypeBox from "./components/TypeBox/TypeBox";
 
 export const metadata = {
   title: "TypeStorm",

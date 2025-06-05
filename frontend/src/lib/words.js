@@ -1,6 +1,6 @@
 import { words } from "popular-english-words";
-import Letter from "@/app/components/Letter";
-import Word from "@/app/components/Word";
+import Letter from "@/app/components/TypeBox/Letter";
+import Word from "@/app/components/TypeBox/Word";
 
 // Returns an array of words
 const mostCommonWords = words.getMostPopularLength(35, 5);

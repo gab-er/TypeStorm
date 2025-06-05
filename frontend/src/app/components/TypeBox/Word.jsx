@@ -1,7 +1,6 @@
 import Letter from "./Letter";
 
 const Word = ({ wordId, word, typedWord }) => {
-
   const letters = word.split("");
 
   return (
