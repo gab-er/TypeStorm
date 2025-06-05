@@ -5,6 +5,25 @@ import prisma from '../prismaClient.js'
 
 const router = express.Router()
 
+const cookieType = process.env.COOKIE_TYPE || "deploy"
+
+let cookieSettings;
+
+if (cookieType == "dev") {
+    const cookieSettings = {
+            httpOnly : true,
+            maxAge: 24 * 60 * 60 * 1000,
+        }
+} else {
+    const cookieSettings = {
+            httpOnly : true,
+            maxAge: 24 * 60 * 60 * 1000,
+            partitioned : true, 
+            secure:true,
+            sameSite: 'none'
+        }
+}
+
 router.post('/register', async (req,res) => {
     const {username, password} = req.body
     const hashedPassword = bcrypt.hashSync(password,10)
@@ -17,13 +36,7 @@ router.post('/register', async (req,res) => {
         })
         console.log('Account Successfully Created')
         const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '24h'})
-        res.cookie('jwt', token, {
-            httpOnly : true,
-            maxAge: 24 * 60 * 60 * 1000,
-            partitioned : true, 
-            secure:true,
-            sameSite: 'none'
-        })
+        res.cookie('jwt', token, cookieSettings)
         res.send({message:`Successfully Authenticated ${username}`})
     } catch (err) {
         console.log(err.message)
@@ -51,13 +64,7 @@ router.post('/login', async (req, res) => {
         }
         console.log(`${username} has logged in`)
         const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '24h'})
-        res.cookie('jwt', token, {
-            httpOnly : true,
-            maxAge: 24 * 60 * 60 * 1000,
-            partitioned : true, 
-            secure:true,
-            sameSite: 'none'
-        })
+        res.cookie('jwt', token, cookieSettings)
         res.send({message:`Successfully Authenticated ${username}`})
     } catch(err) {
         console.log(err.message)
