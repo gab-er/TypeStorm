@@ -1,10 +1,8 @@
-import { wordsData } from "@/lib/words";
 import Word from "./Word";
 import { useRef } from "react";
 
-const DisplayBox = ({ typedText, currentLetter }) => {
-  const typedWords = typedText.split(" ");
-  console.log(typedWords);
+const DisplayBox = ({ currentLetter, typedWords, wordsData }) => {
+  // Global ID for the caret to keep track of what position to be in
   const globalIdRef = useRef(0);
   globalIdRef.current = 0;
 
@@ -16,7 +14,6 @@ const DisplayBox = ({ typedText, currentLetter }) => {
           {wordsData.map((word, index) => (
             <Word
               key={index}
-              wordId={index}
               word={word}
               typedWord={typedWords[index]}
               globalIdRef={globalIdRef}

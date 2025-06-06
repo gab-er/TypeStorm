@@ -1,11 +1,6 @@
-const Letter = ({
-  letter,
-  id,
-  typedWord,
-  wordId,
-  globalIdRef,
-  currentLetter,
-}) => {
+import Caret from "./Caret";
+
+const Letter = ({ letter, id, typedWord, globalIdRef, currentLetter }) => {
   // Default color
   let color = "text-white";
   const globalId = globalIdRef.current;
@@ -25,11 +20,7 @@ const Letter = ({
   return (
     <span className="relative">
       {/* Caret */}
-      {showCaret && (
-        <span className="translate-x-[-6px] absolute text-yellow-500 text-2xl w-10 top-0 left-0 ">
-          |
-        </span>
-      )}
+      {showCaret && <Caret />}
       <span className={`${color} text-3xl select-none opacity-80`}>
         {letter}
       </span>
