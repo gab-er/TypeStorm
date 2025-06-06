@@ -1,6 +1,6 @@
 import Letter from "./Letter";
 
-const Word = ({ word, typedWord, globalIdRef, currentLetter }) => {
+const Word = ({ word, typedWord, globalIdRef, currentLetter, focus }) => {
   const letters = word.split("");
 
   // Create a Letter component from each letter
@@ -15,6 +15,7 @@ const Word = ({ word, typedWord, globalIdRef, currentLetter }) => {
             typedWord={typedWord}
             globalIdRef={globalIdRef}
             currentLetter={currentLetter}
+            focus={focus}
           />
         );
         return char;

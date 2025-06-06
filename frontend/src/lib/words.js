@@ -3,7 +3,7 @@ import Letter from "@/app/components/TypeBox/Letter";
 import Word from "@/app/components/TypeBox/Word";
 
 // Returns an array of words
-const mostCommonWords = words.getMostPopularLength(25, 5);
+const mostCommonWords = words.getMostPopularLength(33, 5);
 
 // Adding a space to the end of every word 
 const wordsData = mostCommonWords.map(word => word + " ");

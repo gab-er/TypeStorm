@@ -2,10 +2,13 @@
 import { useState, useRef } from "react";
 import DisplayBox from "./DisplayBox";
 import { wordsData } from "@/lib/words";
+import BlurBox from "./BlurBox";
 
 const InputBox = () => {
   const [typedText, setTypedText] = useState("");
+  const [focus, setFocus] = useState(true);
   const currentKeyRef = useRef(null);
+  const inputRef = useRef(null);
   const currentLetter = typedText.length;
 
   // Obtain all typed words
@@ -27,15 +30,14 @@ const InputBox = () => {
       return;
     }
 
-    // Handle consecutive spacebar presses - don't update typedText
     const addedChar = newText.slice(-1); // Char that was just added
     const lastChar = typedText.slice(-1); // Previous char in the input box
 
     if (
-      (addedChar === " " && lastChar === " ") ||
+      (addedChar === " " && lastChar === " ") || // Do not allow consecutive spaces
       (addedChar === " " && !lastChar) || // First character typed should not be a space
       (currentTypedWord.length + 2 > correctWord.length && addedChar != " ") || // Prevents the caret from going beyond the current word length
-      (addedChar == " " && currentTypedWord.length + 1 != correctWord.length) // {revents pressing space in the middle of a word
+      (addedChar == " " && currentTypedWord.length + 1 != correctWord.length) // Prevents pressing space in the middle of a word
     ) {
       return;
     }
@@ -57,20 +59,45 @@ const InputBox = () => {
     }
   };
 
+  // Function to handle focus of the input box
+  const handleFocus = () => {
+    setFocus(true);
+  };
+
+  // Function to handle blur of the input box
+  const handleBlur = () => {
+    setFocus(false);
+
+    // Unfocus the input box so you cannot type in it after clicking out
+    if (inputRef.current) {
+      inputRef.current.blur();
+    }
+  };
+
   return (
     <>
-      <DisplayBox
-        currentLetter={currentLetter}
-        typedWords={typedWords}
-        wordsData={wordsData}
-      />
-      <input
-        type="text"
-        value={typedText}
-        onChange={handleTextChange}
-        onKeyDown={handleOtherChanges} // This can detect key presses like esc to reset the text
-        className="text-start opacity-0 cursor-default mx-75 w-[1000px] h-[200px] mt-40 gap-y-[1.5] gap-x-[0.25em] bg-white absolute text-black pb-40 pl-2.5 text-3xl"
-      />
+      <div className="flex w-full h-screen justify-center relative">
+        <div className="absolute">
+          <DisplayBox
+            currentLetter={currentLetter}
+            typedWords={typedWords}
+            wordsData={wordsData}
+            focus={focus}
+          />
+        </div>
+        <input
+          type="text"
+          value={typedText}
+          onChange={handleTextChange}
+          onKeyDown={handleOtherChanges} // This can detect key presses like esc to reset the text
+          autoFocus
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          ref={inputRef}
+          className="text-start opacity-0 cursor-default w-[1000px] h-[200px] absolute bg-white text-black pb-40 pl-2.5 text-3xl mt-40" 
+        />
+        {!focus && <BlurBox className="absolute" />}
+      </div>
     </>
   );
 };

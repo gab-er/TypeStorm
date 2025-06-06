@@ -1,7 +1,7 @@
 import Word from "./Word";
 import { useRef } from "react";
 
-const DisplayBox = ({ currentLetter, typedWords, wordsData }) => {
+const DisplayBox = ({ currentLetter, typedWords, wordsData, focus }) => {
   // Global ID for the caret to keep track of what position to be in
   const globalIdRef = useRef(0);
   globalIdRef.current = 0;
@@ -9,8 +9,8 @@ const DisplayBox = ({ currentLetter, typedWords, wordsData }) => {
   // Create a Word component from each word
   return (
     <>
-      <div className="relative">
-        <div className="absolute flex flex-wrap mx-75 w-[1000px] h-[200px] mt-40 gap-y-[1.5] gap-x-[0.25em]">
+      <div className="w-full h-screen flex justify-center mt-40">
+        <div className="flex justify-left items-center flex-wrap w-[1000px] h-[200px] gap-y-[1.5] gap-x-[0.25em] mx-auto">
           {wordsData.map((word, index) => (
             <Word
               key={index}
@@ -18,6 +18,7 @@ const DisplayBox = ({ currentLetter, typedWords, wordsData }) => {
               typedWord={typedWords[index]}
               globalIdRef={globalIdRef}
               currentLetter={currentLetter}
+              focus={focus}
             />
           ))}
         </div>
