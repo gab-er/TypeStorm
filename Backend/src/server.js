@@ -1,9 +1,17 @@
+///Packages
 import express from 'express'
-import authRoutes from './routes/authRoutes.js'
-import userRoutes from './routes/userRoutes.js'
-import authMiddleware from './middleware/authMiddleware.js'
 import cors from "cors"
 import cookieParser from 'cookie-parser'
+
+///Routes
+import authRoutes from './routes/authRoutes.js'
+import userRoutes from './routes/userRoutes.js'
+import gameRoutes from './routes/gameRoutes.js'
+import statisticRoutes from './routes/statisticRoutes.js'
+
+///Middleware
+import authMiddleware from './middleware/authMiddleware.js'
+
 const app = express()
 const PORT = process.env.PORT || 8000
 
@@ -28,5 +36,9 @@ app.get('/', (req,res) => {
 app.use('/auth', authRoutes)
 
 app.use('/user', authMiddleware, userRoutes)
+
+app.use('/game', authMiddleware, gameRoutes)
+
+app.use('/statistic', authMiddleware, statisticRoutes)
 
 app.listen(PORT, console.log("Server is connected"))
