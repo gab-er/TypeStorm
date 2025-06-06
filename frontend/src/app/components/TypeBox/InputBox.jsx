@@ -77,7 +77,12 @@ const InputBox = () => {
   return (
     <>
       <div className="flex w-full h-screen justify-center relative">
-        <div className="absolute">
+        {!focus && (
+          <div className="absolute mt-30">
+            <BlurBox />
+          </div>
+        )}
+        <div className="absolute mt-30">
           <DisplayBox
             currentLetter={currentLetter}
             typedWords={typedWords}
@@ -89,14 +94,13 @@ const InputBox = () => {
           type="text"
           value={typedText}
           onChange={handleTextChange}
-          onKeyDown={handleOtherChanges} // This can detect key presses like esc to reset the text
+          onKeyDown={handleOtherChanges} 
           autoFocus
           onFocus={handleFocus}
           onBlur={handleBlur}
           ref={inputRef}
-          className="text-start opacity-0 cursor-default w-[1000px] h-[200px] absolute bg-white text-black pb-40 pl-2.5 text-3xl mt-40" 
+          className="text-start opacity-0 cursor-default w-[1000px] h-[200px] absolute bg-white text-black pb-40 pl-2.5 text-3xl mt-30 border"
         />
-        {!focus && <BlurBox className="absolute" />}
       </div>
     </>
   );

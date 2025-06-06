@@ -9,7 +9,7 @@ const DisplayBox = ({ currentLetter, typedWords, wordsData, focus }) => {
   // Create a Word component from each word
   return (
     <>
-      <div className="w-full h-screen flex justify-center mt-40">
+      <div className="w-full h-screen flex justify-center">
         <div className="flex justify-left items-center flex-wrap w-[1000px] h-[200px] gap-y-[1.5] gap-x-[0.25em] mx-auto">
           {wordsData.map((word, index) => (
             <Word
