@@ -2,7 +2,6 @@ import Letter from "./Letter";
 
 const Word = ({ word, typedWord, globalIdRef, currentLetter, focus }) => {
   const letters = word.split("");
-
   // Create a Letter component from each letter
   return (
     <div className="flex ml-2">

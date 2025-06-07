@@ -23,9 +23,7 @@ const Letter = ({
       color = "text-red-400";
     }
   }
-
   globalIdRef.current += 1;
-
   return (
     <span className={`relative ${blur}`}>
       {/* Caret */}

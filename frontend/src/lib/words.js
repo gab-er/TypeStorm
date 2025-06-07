@@ -3,13 +3,45 @@ import Letter from "@/app/components/TypeBox/Letter";
 import Word from "@/app/components/TypeBox/Word";
 
 // Returns an array of words
-const mostCommonWords = words.getMostPopularLength(33, 5);
+const mostCommonWords = words.getMostPopularLength(500, 5);
 
-// Adding a space to the end of every word 
-const wordsData = mostCommonWords.map(word => word + " ");
-console.log(wordsData);
+// Adding a space to the end of every word
+const wordsData = mostCommonWords.map((word) => word + " ");
 
 // Obtaining an array of all letters
 const lettersData = mostCommonWords.join(" ").split("").flat();
 
-export { wordsData };
+// Function to split an array of words into arrays of arrays of word (for wordlines)
+const splitWords = (wordsData, wordsPerLine) => {
+  const lines = [];
+  const length = wordsData.length;
+  for (let i = 0; i < length; i += wordsPerLine) {
+    lines.push(wordsData.slice(i, i + wordsPerLine));
+  }
+  return lines;
+};
+
+// Function to count the number of letters in a line of words
+const countLetters = (line) => {
+  let count = 0;
+  line.map((word) => {
+    count += word.length;
+  });
+
+  return count;
+};
+
+// Function to randomly shuffle a given array of words
+const shuffleWords = (arr) => {
+  // Yates-Fisher algorithm to shuffle
+  // const arr = words.getMostPopular(count);
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    let temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+  }
+  return arr;
+};
+
+export { wordsData, splitWords, countLetters, shuffleWords };

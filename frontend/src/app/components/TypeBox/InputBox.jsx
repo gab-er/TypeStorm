@@ -1,15 +1,41 @@
 "use client";
 import { useState, useRef } from "react";
 import DisplayBox from "./DisplayBox";
-import { wordsData } from "@/lib/words";
+import { wordsData, splitWords, countLetters, shuffleWords } from "@/lib/words";
 import BlurBox from "./BlurBox";
 
+const WORDS_PER_LINE = 11;
+const LINES_ON_SCREEN = 3;
+
+shuffleWords(wordsData);
+
 const InputBox = () => {
+  // State to keep track of what is being typed in the input box
   const [typedText, setTypedText] = useState("");
+
+  // State to keep track of whether the input box is clicked on or not
   const [focus, setFocus] = useState(true);
+
+  // State to keep track of what is the current line
+  const [currentLineIndex, setCurrentLineIndex] = useState(0);
+
+  // Reference for what key was just pressed
   const currentKeyRef = useRef(null);
+
+  // Reference for the input box for focusing and blurring
   const inputRef = useRef(null);
+
+  // Current letter for caret to display on
   const currentLetter = typedText.length;
+
+  // Split the word data into lines
+  const lines = splitWords(wordsData, WORDS_PER_LINE);
+
+  // Which lines are currently visible on screen
+  const visibleLines = lines.slice(
+    currentLineIndex,
+    currentLineIndex + LINES_ON_SCREEN
+  );
 
   // Obtain all typed words
   let typedWords = typedText.split(" ");
@@ -47,6 +73,19 @@ const InputBox = () => {
     typedWords = typedText.split(" ").filter((word) => {
       return word != "";
     });
+
+    // Shifting the display when the middle line has been fully typed
+    const wordsTyped = typedWords.length;
+
+    if (wordsTyped === 2 * WORDS_PER_LINE && addedChar === " ") {
+      // 2 lines have been typed and space is pressed
+      // Obtain the length of the first visible line
+      const firstLineLength = countLetters(visibleLines[0]);
+
+      // Remove the first line from the typed text
+      setTypedText(newText.slice(firstLineLength)); // Must use newText since typeText is not fully updated
+      setCurrentLineIndex((prev) => prev + 1);
+    }
   };
 
   // Function to handle key presses that do not change the input text
@@ -88,13 +127,17 @@ const InputBox = () => {
             typedWords={typedWords}
             wordsData={wordsData}
             focus={focus}
+            currentLineIndex={currentLineIndex}
+            WORDS_PER_LINE={WORDS_PER_LINE}
+            LINES_ON_SCREEN={LINES_ON_SCREEN}
+            visibleLines={visibleLines}
           />
         </div>
         <input
           type="text"
           value={typedText}
           onChange={handleTextChange}
-          onKeyDown={handleOtherChanges} 
+          onKeyDown={handleOtherChanges}
           autoFocus
           onFocus={handleFocus}
           onBlur={handleBlur}
