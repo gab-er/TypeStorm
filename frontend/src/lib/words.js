@@ -2,8 +2,10 @@ import { words } from "popular-english-words";
 import Letter from "@/app/components/TypeBox/Letter";
 import Word from "@/app/components/TypeBox/Word";
 
-// Returns an array of words
-const mostCommonWords = words.getMostPopularLength(500, 5);
+// Returns an array of words (note this is predetermined)
+const mostCommonWords = words.getMostPopularFilter(1000, (word) => {
+  return word.length > 2 && word.length < 10;
+});
 
 // Adding a space to the end of every word
 const wordsData = mostCommonWords.map((word) => word + " ");
@@ -16,7 +18,8 @@ const splitWords = (wordsData, wordsPerLine) => {
   const lines = [];
   const length = wordsData.length;
   for (let i = 0; i < length; i += wordsPerLine) {
-    lines.push(wordsData.slice(i, i + wordsPerLine));
+    const line = wordsData.slice(i, i + wordsPerLine);
+    lines.push(line);
   }
   return lines;
 };
@@ -34,7 +37,6 @@ const countLetters = (line) => {
 // Function to randomly shuffle a given array of words
 const shuffleWords = (arr) => {
   // Yates-Fisher algorithm to shuffle
-  // const arr = words.getMostPopular(count);
   for (let i = arr.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
     let temp = arr[i];

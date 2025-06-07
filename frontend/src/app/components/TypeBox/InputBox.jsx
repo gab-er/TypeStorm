@@ -1,15 +1,22 @@
 "use client";
 import { useState, useRef } from "react";
 import DisplayBox from "./DisplayBox";
-import { wordsData, splitWords, countLetters, shuffleWords } from "@/lib/words";
+import { splitWords, countLetters } from "@/lib/words";
 import BlurBox from "./BlurBox";
 
-const WORDS_PER_LINE = 11;
+const WORDS_PER_LINE = 9;
 const LINES_ON_SCREEN = 3;
 
-shuffleWords(wordsData);
+// This offset is to keep track of the correct word position after the lines update
 
-const InputBox = () => {
+const InputBox = ({
+  wordsData,
+  wordsTypedOffset,
+  setWordsTypedOffset,
+  lettersCorrectlyTyped,
+  setLettersCorrectlyTyped,
+  incrementLettersCorrectlyTyped,
+}) => {
   // State to keep track of what is being typed in the input box
   const [typedText, setTypedText] = useState("");
 
@@ -41,9 +48,9 @@ const InputBox = () => {
   let typedWords = typedText.split(" ");
 
   // Keep track of what word is currently being typed
-  const currentWordIndex = typedWords.length - 1;
+  let currentWordIndex = typedWords.length - 1;
   const currentTypedWord = typedWords[currentWordIndex];
-  const correctWord = wordsData[currentWordIndex];
+  const correctWord = wordsData[currentWordIndex + wordsTypedOffset];
 
   // Function to handle input box text changes
   const handleTextChange = (e) => {
@@ -59,6 +66,7 @@ const InputBox = () => {
     const addedChar = newText.slice(-1); // Char that was just added
     const lastChar = typedText.slice(-1); // Previous char in the input box
 
+    // Cases where input is not allowed
     if (
       (addedChar === " " && lastChar === " ") || // Do not allow consecutive spaces
       (addedChar === " " && !lastChar) || // First character typed should not be a space
@@ -67,6 +75,7 @@ const InputBox = () => {
     ) {
       return;
     }
+
     setTypedText(newText);
 
     // Obtain all typed words
@@ -76,15 +85,15 @@ const InputBox = () => {
 
     // Shifting the display when the middle line has been fully typed
     const wordsTyped = typedWords.length;
-
+    // 2 lines have been typed and space is pressed
     if (wordsTyped === 2 * WORDS_PER_LINE && addedChar === " ") {
-      // 2 lines have been typed and space is pressed
       // Obtain the length of the first visible line
       const firstLineLength = countLetters(visibleLines[0]);
 
       // Remove the first line from the typed text
       setTypedText(newText.slice(firstLineLength)); // Must use newText since typeText is not fully updated
       setCurrentLineIndex((prev) => prev + 1);
+      setWordsTypedOffset(wordsTypedOffset + WORDS_PER_LINE);
     }
   };
 
@@ -131,6 +140,9 @@ const InputBox = () => {
             WORDS_PER_LINE={WORDS_PER_LINE}
             LINES_ON_SCREEN={LINES_ON_SCREEN}
             visibleLines={visibleLines}
+            lettersCorrectlyTyped={lettersCorrectlyTyped}
+            setLettersCorrectlyTyped={setLettersCorrectlyTyped}
+            incrementLettersCorrectlyTyped={incrementLettersCorrectlyTyped}
           />
         </div>
         <input

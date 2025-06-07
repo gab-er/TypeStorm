@@ -1,6 +1,15 @@
 import Letter from "./Letter";
 
-const Word = ({ word, typedWord, globalIdRef, currentLetter, focus }) => {
+const Word = ({
+  word,
+  typedWord,
+  globalIdRef,
+  currentLetter,
+  focus,
+  lettersCorrectlyTyped,
+  setLettersCorrectlyTyped,
+  incrementLettersCorrectlyTyped,
+}) => {
   const letters = word.split("");
   // Create a Letter component from each letter
   return (
@@ -15,6 +24,9 @@ const Word = ({ word, typedWord, globalIdRef, currentLetter, focus }) => {
             globalIdRef={globalIdRef}
             currentLetter={currentLetter}
             focus={focus}
+            lettersCorrectlyTyped={lettersCorrectlyTyped}
+            setLettersCorrectlyTyped={setLettersCorrectlyTyped}
+            incrementLettersCorrectlyTyped={incrementLettersCorrectlyTyped}
           />
         );
         return char;

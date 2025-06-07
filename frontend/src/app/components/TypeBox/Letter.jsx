@@ -1,4 +1,7 @@
+"use client";
+
 import Caret from "./Caret";
+import { useState, useEffect } from "react";
 
 const Letter = ({
   letter,
@@ -7,7 +10,11 @@ const Letter = ({
   globalIdRef,
   currentLetter,
   focus,
+  lettersCorrectlyTyped,
+  setLettersCorrectlyTyped,
+  incrementLettersCorrectlyTyped,
 }) => {
+
   // Default color
   let color = "text-gray-500";
 
