@@ -7,11 +7,9 @@ const DisplayBox = ({
   focus,
   WORDS_PER_LINE,
   visibleLines,
-  lettersCorrectlyTyped,
-  setLettersCorrectlyTyped,
-  incrementLettersCorrectlyTyped
 }) => {
   // Global ID for the caret to keep track of what position to be in
+  // Just counting the number of letters up to that point 
   const globalIdRef = useRef(0);
   globalIdRef.current = 0;
 
@@ -30,9 +28,6 @@ const DisplayBox = ({
                 globalIdRef={globalIdRef}
                 currentLetter={currentLetter}
                 focus={focus}
-                lettersCorrectlyTyped={lettersCorrectlyTyped}
-                setLettersCorrectlyTyped={setLettersCorrectlyTyped}
-                incrementLettersCorrectlyTyped={incrementLettersCorrectlyTyped}
               />
             ))}
           </div>

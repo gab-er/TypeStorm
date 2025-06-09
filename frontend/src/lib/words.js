@@ -1,6 +1,4 @@
 import { words } from "popular-english-words";
-import Letter from "@/app/components/TypeBox/Letter";
-import Word from "@/app/components/TypeBox/Word";
 
 // Returns an array of words (note this is predetermined)
 const mostCommonWords = words.getMostPopularFilter(1000, (word) => {
@@ -22,6 +20,34 @@ const splitWords = (wordsData, wordsPerLine) => {
     lines.push(line);
   }
   return lines;
+};
+
+// Function to split a typed text into words, including spaces (eg. ["door ", "pig "])
+// O(n) time complexity with an array 
+const splitWordsWithSpaces = (typedText) => {
+  if (typedText === "") {
+    return [""];
+  } 
+
+  const res = [];
+  let word = [];
+  let i = 0;
+  while (i < typedText.length) {
+    if (typedText[i] === " ") {
+      word.push(typedText[i]);
+      res.push(word.join(""));
+      word = [];
+    } else {
+      word.push(typedText[i])
+    }
+
+    // word is unfinished, and if the last char is a space, dont add it (to prevent appending an empty string)
+    if (i === typedText.length - 1 && typedText[i] !== " ") {
+      res.push(word.join(""));
+    }
+    i++;
+  }
+  return res;
 };
 
 // Function to count the number of letters in a line of words
@@ -46,4 +72,4 @@ const shuffleWords = (arr) => {
   return arr;
 };
 
-export { wordsData, splitWords, countLetters, shuffleWords };
+export { wordsData, splitWords, countLetters, shuffleWords, splitWordsWithSpaces };
