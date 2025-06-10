@@ -8,7 +8,10 @@ router.get('/', async (req,res) =>{
         where: {
             userId: req.userId
         },
-        take: -5
+        take: 5,
+        orderBy: {
+            id: 'desc'
+        }
     })
     res.json(game)
 })
