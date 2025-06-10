@@ -36,9 +36,10 @@ router.post('/register', async (req,res) => {
         })
         const statistics = await prisma.statistic.createMany({
             data: [
-                {userId: user.id,gamemode: "SPRINT"},
                 {userId: user.id,gamemode: "STANDARD"},
-                {userId: user.id,gamemode: "MARATHON"}
+                {userId: user.id,gamemode: "TIMED30"},
+                {userId: user.id,gamemode: "TIMED60"},
+                {userId: user.id,gamemode: "TIMED120"}
             ]
         })
         console.log('Account Successfully Created')

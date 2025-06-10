@@ -44,7 +44,8 @@ model Statistic {
 }
 
 enum Gamemode {
-  SPRINT
   STANDARD
-  MARATHON
+  TIMED30
+  TIMED60
+  TIMED120
 }
