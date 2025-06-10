@@ -26,8 +26,25 @@ router.get('/:gamemode', async (req, res) => {
 
 
 router.post('/:gamemode', async (req, res) => {
-   const {averageAccuracy,bestAccuracy ,averageWpm, bestWpm} = req.body 
+   const {wpm,accuracy} = req.body
    const {gamemode} = req.params
+   const oldStatistic = await prisma.statistic.findFirst({
+        where: {
+            userId: req.userId,
+            gamemode:gamemode
+        }
+    })
+   const {averageAccuracy,bestAccuracy ,averageWpm, bestWpm, gamesPlayed} = oldStatistic
+   const pbAccuracy = accuracy >= bestAccuracy
+   const aaAccuracy = accuracy >= averageAccuracy
+   const pbWpm = wpm >= bestWpm
+   const aaWpm = wpm >= averageWpm
+   const result = {
+    pbAccuracy:pbAccuracy,
+    aaAccuracy:aaAccuracy,
+    pbWpm:pbAccuracy, 
+    aaWpm:aaWpm
+   }
    const statistic = await prisma.statistic.updateMany({
     where: {
         userId: req.userId,
@@ -35,14 +52,14 @@ router.post('/:gamemode', async (req, res) => {
     },
     data: {
         gamesPlayed: {increment:1},
-        averageAccuracy: averageAccuracy,
-        bestAccuracy: bestAccuracy,
-        averageWpm: averageWpm,
-        bestWpm: bestWpm
+        averageAccuracy: (averageAccuracy*gamesPlayed + accuracy)/(gamesPlayed+1),
+        bestAccuracy: accuracy > bestAccuracy? accuracy:bestAccuracy,
+        averageWpm: (averageWpm*gamesPlayed + wpm)/(gamesPlayed+1),
+        bestWpm: wpm > bestWpm? wpm:bestWpm
     },
 
    })
-   res.json(statistic)
+   res.json(result)
 
    
 
