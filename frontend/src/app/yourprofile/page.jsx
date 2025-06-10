@@ -5,10 +5,16 @@ import useAuthStore from "../stores/useAuthStore";
 import Loading from "../loading";
 import url from "@/lib/apiUrl";
 import Statistics from "../components/YourProfile/Statistics";
+import Profile from "../components/YourProfile/Profile";
+import StatisticsProvider from "../components/YourProfile/StatisticProvider";
+
 const YourProfile = () => {
     return (
         <>
-            <Statistics/>
+            <StatisticsProvider>
+                <Profile />
+                <Statistics/>
+            </StatisticsProvider>
         </>
     )
 }

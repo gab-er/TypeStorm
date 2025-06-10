@@ -14,7 +14,7 @@ const StatisticDisplay = () => {
                 <thead>
                     <tr>
                         <th  className="p-2 "></th>
-                        <th  className="text-center p-2 underline">{gamemode}</th>
+                        <th  className="text-center p-2 underline min-w-[200px]">{gamemode}</th>
                         <th  className="p-2 "></th>
                     </tr>
                 </thead>

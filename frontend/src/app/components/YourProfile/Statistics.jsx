@@ -10,11 +10,9 @@ const Statistics = () => {
   const isLoading = useStatStore((state) => state.isLoading)
   return (
         <>
-            <StatisticsProvider>
                 <h1 className='text-white-700 text-3xl relative flex mx-auto p-4  h-auto  w-7/10 '>Statistics</h1>
                 <StatisticButtons/>
                 <StatisticDisplay/>
-            </StatisticsProvider>
         </>
     )
 }
