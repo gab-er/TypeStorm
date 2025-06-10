@@ -7,6 +7,19 @@ router.get('/', async (req,res) =>{
     const game = await prisma.game.findMany({
         where: {
             userId: req.userId
+        },
+        take: -5
+    })
+    res.json(game)
+})
+
+router.get('/all', async (req,res) =>{
+    const game = await prisma.game.findMany({
+        where: {
+            userId: req.userId
+        },
+        orderBy: {
+            id: 'desc'
         }
     })
     res.json(game)
