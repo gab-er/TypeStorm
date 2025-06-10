@@ -3,35 +3,109 @@ import InputBox from "./InputBox";
 import { useEffect, useState } from "react";
 import { shuffleWords, wordsData } from "@/lib/words";
 import useWordsStore from "@/app/stores/useWordsStore";
+import StatsBox from "../StatsBox";
 
 // The InputBox contains two things: An invisible input box and a box to display the given words
 
 const TypeBox = () => {
+  const [wordsTypedOffset, setWordsTypedOffset] = useState(0); // Keep track of how many first lines have been typed, This offset is to keep track of the correct word position after the lines update
+  const [numWords, setNumWords] = useState(10); // Number of words in total to type for one game
   const [shuffledWordsData, setShuffledWordsData] = useState([]);
+  const [gameCompleted, setGameCompleted] = useState(false);
+  const [currentLineIndex, setCurrentLineIndex] = useState(0); // State to keep track of what is the current line
+  const [typedWordsCount, setTypedWordsCount] = useState(0);
+  const [typedText, setTypedText] = useState(""); // State to keep track of what is being typed in the input box
+  const [startedTyping, setStartedTyping] = useState(false);
 
-  // This offset is to keep track of the correct word position after the lines update
-  // Keep track of how many first lines have been typed
-  const [wordsTypedOffset, setWordsTypedOffset] = useState(0);
+  // Words Store Reset Functions
+  const resetErrors = useWordsStore((state) => state.resetErrors);
+  const resetLettersCorrectlyTyped = useWordsStore(
+    (state) => state.resetLettersCorrectlyTyped
+  );
+  const resetLettersTyped = useWordsStore((state) => state.resetLettersTyped);
+  const startTimer = useWordsStore((state) => state.startTimer);
+  const endTimer = useWordsStore((state) => state.endTimer);
+  const getElapsedTime = useWordsStore((state) => state.getElapsedTime);
+  const resetTimers = useWordsStore(state => state.resetTimers);
 
   // Shuffle the wordsData on first component mount
   useEffect(() => {
     setShuffledWordsData(shuffleWords(wordsData));
   }, []);
 
-  // If the number of lines typed reaches a threshold, append a shuffled word array to the wordsData to make it infinite
   useEffect(() => {
-    if (wordsTypedOffset > wordsData.length - 50) {
-      setShuffledWordsData((prev) => [...prev, ...shuffleWords(wordsData)]);
+    // Start timer if startedTyping === true
+    if (startedTyping) {
+      console.log("started timer");
+      startTimer();
     }
-  }, [wordsTypedOffset]);
+    // Stop timer if startedTyping === false
+    if (gameCompleted) {
+      console.log("ended timer");
+      endTimer();
+    }
+
+  }, [startedTyping, gameCompleted]);
+
+  // Function to reset the game
+  const resetGame = () => {
+    // Reset letters typed counts
+    resetLettersCorrectlyTyped();
+    resetLettersTyped();
+    resetErrors();
+    setTypedWordsCount(0);
+
+    // Reset the displayed words back to the start
+    setCurrentLineIndex(0);
+    setWordsTypedOffset(0);
+
+    // Reset typed text
+    setTypedText("");
+
+    // Reset game completion status
+    setGameCompleted(false);
+
+    // Shuffle words again
+    setShuffledWordsData(shuffleWords(wordsData));
+
+    // Reset timers
+    setStartedTyping(false);
+    resetTimers();
+  };
+
+  // If the number of lines typed reaches a threshold, append a shuffled word array to the wordsData to make it infinite
+  // useEffect(() => {
+  //   if (wordsTypedOffset > wordsData.length - 50) {
+  //     setShuffledWordsData((prev) => [...prev, ...shuffleWords(wordsData)]);
+  //   }
+  // }, [wordsTypedOffset]);
 
   return (
     <div>
-      <InputBox
-        wordsData={shuffledWordsData}
-        wordsTypedOffset={wordsTypedOffset}
-        setWordsTypedOffset={setWordsTypedOffset}
-      />
+      {(gameCompleted && (
+        <StatsBox
+          gameCompleted={gameCompleted}
+          setGameCompleted={setGameCompleted}
+          resetGame={resetGame}
+        />
+      )) || (
+        <InputBox
+          wordsData={shuffledWordsData.slice(0, numWords)}
+          wordsTypedOffset={wordsTypedOffset}
+          setWordsTypedOffset={setWordsTypedOffset}
+          numWords={numWords}
+          gameCompleted={gameCompleted}
+          setGameCompleted={setGameCompleted}
+          currentLineIndex={currentLineIndex}
+          setCurrentLineIndex={setCurrentLineIndex}
+          typedWordsCount={typedWordsCount}
+          setTypedWordsCount={setTypedWordsCount}
+          typedText={typedText}
+          setTypedText={setTypedText}
+          setStartedTyping={setStartedTyping}
+          startedTyping={startedTyping}
+        />
+      )}
     </div>
   );
 };

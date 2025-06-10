@@ -4,13 +4,51 @@ const useWordsStore = create((set, get) => ({
   lettersCorrectlyTyped: 0,
   lettersTyped: 0,
   errors: 0,
+  startTime: null,
+  endTime: null,
+
+  // Action to set start time
+  startTimer: () => {
+    set({ startTime: Date.now() });
+  },
+
+  // Action to set end time
+  endTimer: () => {
+    set({ endTime: Date.now() });
+  },
+
+  // Action to get elapsed time
+  getElapsedTime: () => {
+    const startTime = get().startTime;
+    console.log("start time: ", startTime);
+    const endTime = get().endTime;
+    console.log("end time: ", endTime);
+    const elapsedTime = startTime
+      ? ((endTime || Date.now()) - startTime) / 1000
+      : 0;
+      console.log("elapsed time: ", elapsedTime);
+    return elapsedTime;
+  },
+
+  // Action to reset timers
+  resetTimers: () => {
+    set({ startTime: null, endTime: null });
+  },
+
+  // Action to get accuracy
+  getAccuracy: () => {
+    const lettersCorrectlyTyped = get().lettersCorrectlyTyped;
+    const errors = get().errors;
+    const accuracy =
+      (lettersCorrectlyTyped / (lettersCorrectlyTyped + errors)) * 100;
+    return accuracy.toFixed(1);
+  },
 
   // Action to get gross WPM (need to add duration)
   grossWPM: () => get().lettersTyped,
 
   // Action to increment lettersCorrectlyTyped
   increaseLettersCorrectlyTyped: () => {
-    console.log("New correct count: ", get().lettersCorrectlyTyped);
     set((state) => ({
       lettersCorrectlyTyped: state.lettersCorrectlyTyped + 1,
     }));
@@ -31,8 +69,6 @@ const useWordsStore = create((set, get) => ({
 
   // Action to increment lettersTyped
   increaseLettersTyped: () => {
-    console.log("New total count: ", get().lettersTyped);
-    console.log("--------------------------");
     set((state) => ({
       lettersTyped: state.lettersTyped + 1,
     }));

@@ -5,13 +5,26 @@ import { splitWords, countLetters, splitWordsWithSpaces } from "@/lib/words";
 import BlurBox from "./BlurBox";
 import useWordsStore from "@/app/stores/useWordsStore";
 
-const WORDS_PER_LINE = 9;
+const WORDS_PER_LINE = 10;
 const LINES_ON_SCREEN = 3;
 
-const InputBox = ({ wordsData, wordsTypedOffset, setWordsTypedOffset }) => {
-  const [typedText, setTypedText] = useState(""); // State to keep track of what is being typed in the input box
+const InputBox = ({
+  wordsData,
+  wordsTypedOffset,
+  setWordsTypedOffset,
+  numWords,
+  gameCompleted,
+  setGameCompleted,
+  currentLineIndex,
+  setCurrentLineIndex,
+  typedWordsCount,
+  setTypedWordsCount,
+  typedText,
+  setTypedText,
+  setStartedTyping,
+  startedTyping,
+}) => {
   const [focus, setFocus] = useState(true); // State to keep track of whether the input box is clicked on or not
-  const [currentLineIndex, setCurrentLineIndex] = useState(0); // State to keep track of what is the current line
 
   // Functions to increase/decrease/reset letters (correctly) typed
   const increaseLettersCorrectlyTyped = useWordsStore(
@@ -32,6 +45,8 @@ const InputBox = ({ wordsData, wordsTypedOffset, setWordsTypedOffset }) => {
   const resetLettersTyped = useWordsStore((state) => state.resetLettersTyped);
   const increaseErrors = useWordsStore((state) => state.increaseErrors);
   const resetErrors = useWordsStore((state) => state.resetErrors);
+  const resetTimers = useWordsStore((state) => state.resetTimers);
+  const getElapsedTime = useWordsStore((state) => state.getElapsedTime);
 
   // Reference for what key was just pressed
   const currentKeyRef = useRef(null);
@@ -48,14 +63,24 @@ const InputBox = ({ wordsData, wordsTypedOffset, setWordsTypedOffset }) => {
   // Which lines are currently visible on screen
   // Memoized so that it only recalculates when lines or currentLineIndex changes, not when the component re-renders
   const visibleLines = useMemo(() => {
-  return lines.slice(currentLineIndex, currentLineIndex + LINES_ON_SCREEN);
-}, [lines, currentLineIndex]);
+    return lines.slice(currentLineIndex, currentLineIndex + LINES_ON_SCREEN);
+  }, [lines, currentLineIndex]);
 
   // Obtain old typed words (prior to changing on new input)
   let typedWords = splitWordsWithSpaces(typedText);
 
   // Function to handle input box text changes
   const handleTextChange = (e) => {
+    // Do not allow changes once the game has completed
+    if (gameCompleted) {
+      return;
+    }
+
+    // Set start typing to true to start the timer
+    if (!startedTyping) {
+      setStartedTyping(true);
+    }
+
     const newText = e.target.value;
     const newTypedWords = splitWordsWithSpaces(newText);
 
@@ -95,6 +120,10 @@ const InputBox = ({ wordsData, wordsTypedOffset, setWordsTypedOffset }) => {
         decreaseLettersCorrectlyTyped();
       }
 
+      if (charDeleted === " ") {
+        setTypedWordsCount((prev) => prev - 1);
+      }
+
       setTypedText(newText);
       return;
     }
@@ -117,6 +146,20 @@ const InputBox = ({ wordsData, wordsTypedOffset, setWordsTypedOffset }) => {
       increaseErrors();
     }
 
+    // Added one to the total words typed counter
+    if (addedChar === " ") {
+      setTypedWordsCount((prev) => prev + 1);
+    }
+
+    // Check if the game has ended (reached the last letter)
+    if (
+      typedWordsCount === numWords - 1 &&
+      currentTypedWord.length === correctWord.length - 1
+    ) {
+      setTypedText(newText);
+      setGameCompleted(true);
+    }
+
     // Increase total letters typed
     increaseLettersTyped();
 
@@ -134,6 +177,7 @@ const InputBox = ({ wordsData, wordsTypedOffset, setWordsTypedOffset }) => {
       setCurrentLineIndex((prev) => prev + 1);
       setWordsTypedOffset(wordsTypedOffset + WORDS_PER_LINE);
     }
+    console.log(getElapsedTime());
   };
 
   // Function to handle key presses that do not change the input text
@@ -145,6 +189,7 @@ const InputBox = ({ wordsData, wordsTypedOffset, setWordsTypedOffset }) => {
       resetLettersCorrectlyTyped();
       resetLettersTyped();
       resetErrors();
+      setTypedWordsCount(0);
 
       // Reset the displayed words back to the start
       setCurrentLineIndex(0);
@@ -152,6 +197,9 @@ const InputBox = ({ wordsData, wordsTypedOffset, setWordsTypedOffset }) => {
 
       // Reset typed text
       setTypedText("");
+
+      // Reset timers
+      resetTimers();
     }
   };
 
@@ -169,6 +217,9 @@ const InputBox = ({ wordsData, wordsTypedOffset, setWordsTypedOffset }) => {
       inputRef.current.blur();
     }
   };
+
+  // Calculate WPM using a timer
+  // Set the WPM in the store
 
   return (
     <>
