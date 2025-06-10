@@ -42,7 +42,7 @@ router.post('/:gamemode', async (req, res) => {
    const result = {
     pbAccuracy:pbAccuracy,
     aaAccuracy:aaAccuracy,
-    pbWpm:pbAccuracy, 
+    pbWpm:pbWpm, 
     aaWpm:aaWpm
    }
    const statistic = await prisma.statistic.updateMany({

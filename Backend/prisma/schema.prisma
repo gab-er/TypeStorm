@@ -24,8 +24,8 @@ model User {
 
 model Game {
   id Int @id @default(autoincrement())
-  wpm Int
-  accuracy Decimal @db.Decimal(3,2) 
+  wpm Decimal
+  accuracy Decimal 
   gamemode Gamemode
   userId Int 
   user User @relation(fields: [userId], references: [id])
@@ -34,10 +34,10 @@ model Game {
 model Statistic {
   id Int @id @default(autoincrement())
   gamesPlayed Int @default(0)
-  averageWpm Int?
+  averageWpm Decimal?
   bestWpm Int?
-  averageAccuracy Decimal? @db.Decimal(3,2) 
-  bestAccuracy Decimal? @db.Decimal(3,2) 
+  averageAccuracy Decimal? 
+  bestAccuracy Decimal? 
   gamemode Gamemode
   userId Int 
   user User @relation(fields: [userId], references: [id])
