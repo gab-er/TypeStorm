@@ -5,7 +5,7 @@ import { splitWords, countLetters, splitWordsWithSpaces } from "@/lib/words";
 import BlurBox from "./BlurBox";
 import useWordsStore from "@/app/stores/useWordsStore";
 
-const WORDS_PER_LINE = 10;
+const WORDS_PER_LINE = 9;
 const LINES_ON_SCREEN = 3;
 
 const InputBox = ({
@@ -177,7 +177,6 @@ const InputBox = ({
       setCurrentLineIndex((prev) => prev + 1);
       setWordsTypedOffset(wordsTypedOffset + WORDS_PER_LINE);
     }
-    console.log(getElapsedTime());
   };
 
   // Function to handle key presses that do not change the input text
@@ -199,6 +198,7 @@ const InputBox = ({
       setTypedText("");
 
       // Reset timers
+      setStartedTyping(false);
       resetTimers();
     }
   };
@@ -218,19 +218,16 @@ const InputBox = ({
     }
   };
 
-  // Calculate WPM using a timer
-  // Set the WPM in the store
-
   return (
     <>
       {/* previously had w-full h-screen */}
       <div className="flex justify-center relative">
         {!focus && (
-          <div className="absolute mt-30">
+          <div className="absolute">
             <BlurBox />
           </div>
         )}
-        <div className="absolute mt-30">
+        <div className="absolute">
           <DisplayBox
             currentLetter={currentLetter}
             typedWords={typedWords}
@@ -250,7 +247,7 @@ const InputBox = ({
           onFocus={handleFocus}
           onBlur={handleBlur}
           ref={inputRef}
-          className="text-start opacity-0 cursor-default w-[1000px] h-[200px] absolute bg-white text-black pb-40 pl-2.5 text-3xl mt-30 border"
+          className="text-start opacity-0 cursor-default w-[1000px] h-[200px] absolute bg-white text-black pb-40 pl-2.5 text-3xl border"
         />
       </div>
     </>

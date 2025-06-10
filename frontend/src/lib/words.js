@@ -62,7 +62,7 @@ const countLetters = (line) => {
 
 // Function to randomly shuffle a given array of words
 const shuffleWords = (arr) => {
-  // Yates-Fisher algorithm to shuffle
+  // Yates-Fisher algorithm
   for (let i = arr.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
     let temp = arr[i];

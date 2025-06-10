@@ -9,7 +9,9 @@ const useWordsStore = create((set, get) => ({
 
   // Action to set start time
   startTimer: () => {
-    set({ startTime: Date.now() });
+    if (!get().startTime) {
+      set({ startTime: Date.now(), endTime: null });
+    }
   },
 
   // Action to set end time
@@ -20,13 +22,10 @@ const useWordsStore = create((set, get) => ({
   // Action to get elapsed time
   getElapsedTime: () => {
     const startTime = get().startTime;
-    console.log("start time: ", startTime);
     const endTime = get().endTime;
-    console.log("end time: ", endTime);
     const elapsedTime = startTime
       ? ((endTime || Date.now()) - startTime) / 1000
       : 0;
-      console.log("elapsed time: ", elapsedTime);
     return elapsedTime;
   },
 
@@ -44,8 +43,24 @@ const useWordsStore = create((set, get) => ({
     return accuracy.toFixed(1);
   },
 
-  // Action to get gross WPM (need to add duration)
-  grossWPM: () => get().lettersTyped,
+  // Action to get gross WPM
+  getGrossWPM: () => {
+    const lettersTyped = get().lettersCorrectlyTyped + get().errors;
+    const elapsedTime = get().getElapsedTime();
+    const grossWPM = Math.floor((lettersTyped / 5 / elapsedTime) * 60);
+    return grossWPM;
+  },
+
+  // Action to get net WPM
+  getNetWPM: () => {
+    const lettersCorrectlyTyped = get().lettersCorrectlyTyped;
+    const elapsedTime = get().getElapsedTime();
+    // const errors = get().errors;
+    // const grossWPM = get().getGrossWPM();
+    // const netWPM = Math.floor(grossWPM - (errors / elapsedTime * 60));
+    const netWPM = Math.floor((lettersCorrectlyTyped / 5 / elapsedTime) * 60);
+    return netWPM;
+  },
 
   // Action to increment lettersCorrectlyTyped
   increaseLettersCorrectlyTyped: () => {

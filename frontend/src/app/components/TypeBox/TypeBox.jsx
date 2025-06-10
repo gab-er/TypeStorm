@@ -8,8 +8,11 @@ import StatsBox from "../StatsBox";
 // The InputBox contains two things: An invisible input box and a box to display the given words
 
 const TypeBox = () => {
+  const WORDS_TO_TYPE = 50;
+
+  // States that need to be kept track of 
   const [wordsTypedOffset, setWordsTypedOffset] = useState(0); // Keep track of how many first lines have been typed, This offset is to keep track of the correct word position after the lines update
-  const [numWords, setNumWords] = useState(10); // Number of words in total to type for one game
+  const [numWords, setNumWords] = useState(WORDS_TO_TYPE); // Number of words in total to type for one game
   const [shuffledWordsData, setShuffledWordsData] = useState([]);
   const [gameCompleted, setGameCompleted] = useState(false);
   const [currentLineIndex, setCurrentLineIndex] = useState(0); // State to keep track of what is the current line
@@ -25,27 +28,29 @@ const TypeBox = () => {
   const resetLettersTyped = useWordsStore((state) => state.resetLettersTyped);
   const startTimer = useWordsStore((state) => state.startTimer);
   const endTimer = useWordsStore((state) => state.endTimer);
-  const getElapsedTime = useWordsStore((state) => state.getElapsedTime);
-  const resetTimers = useWordsStore(state => state.resetTimers);
+  const resetTimers = useWordsStore((state) => state.resetTimers);
 
   // Shuffle the wordsData on first component mount
   useEffect(() => {
     setShuffledWordsData(shuffleWords(wordsData));
   }, []);
 
+  // Events that will start/stop the timer
   useEffect(() => {
-    // Start timer if startedTyping === true
-    if (startedTyping) {
-      console.log("started timer");
+    // Start timer
+    if (startedTyping && !gameCompleted) {
       startTimer();
+      console.log("started timer");
     }
-    // Stop timer if startedTyping === false
-    if (gameCompleted) {
-      console.log("ended timer");
-      endTimer();
-    }
-
   }, [startedTyping, gameCompleted]);
+
+  useEffect(() => {
+    // Stop timer
+    if (gameCompleted) {
+      endTimer();
+      console.log("ended timer");
+    }
+  }, [gameCompleted]);
 
   // Function to reset the game
   const resetGame = () => {

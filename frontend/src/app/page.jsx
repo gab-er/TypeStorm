@@ -8,7 +8,9 @@ export const metadata = {
 export default async function Home() {
   return (
     <>
-      <TypeBox />
+      <div className="flex mt-30 justify-center">
+        <TypeBox />
+      </div>
     </>
   );
 }

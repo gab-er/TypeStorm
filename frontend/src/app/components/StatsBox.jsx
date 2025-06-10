@@ -9,10 +9,13 @@ const StatsBox = ({ gameCompleted, setGameCompleted, resetGame }) => {
   const lettersTyped = useWordsStore((state) => state.lettersTyped);
   const accuracy = useWordsStore((state) => state.getAccuracy()) || "-";
   const errors = useWordsStore((state) => state.errors);
-  const elapsedTime = useWordsStore(state => state.getElapsedTime)();
+  const elapsedTime = useWordsStore((state) => state.getElapsedTime)().toFixed(2);
+  const grossWPM = useWordsStore(state => state.getGrossWPM)();
+  const netWPM = useWordsStore(state => state.getNetWPM)();
+
 
   useEffect(() => {
-    // Reset game on space press 
+    // Reset game on space press
     const handleKeyDown = (event) => {
       if (gameCompleted && event.key == " ") {
         event.preventDefault();
@@ -30,12 +33,14 @@ const StatsBox = ({ gameCompleted, setGameCompleted, resetGame }) => {
 
   return (
     <div className="flex justify-center relative">
-      <div className="text-start opacity-50 cursor-default w-[1000px] h-[300px] absolute text-white pb-40 pl-2.5 text-3xl mt-30 border">
-        <p> LETTERS CORRECTLY TYPED : {lettersCorrectlyTyped} </p>
-        <p> LETTERS TYPED: {lettersTyped} </p>
-        <p> ERRORS: {errors} </p>
-        <p> ACCURACY: {accuracy}% </p>
-        <p> TIME: {elapsedTime} </p>
+      <div className="text-start opacity-50 cursor-default w-[1000px] h-[300px] absolute text-white pb-40 pl-2.5 text-2xl border">
+        <p> Total Letters Typed: {lettersTyped} </p>
+        <p> Letters Correctly Typed : {lettersCorrectlyTyped} </p>
+        <p> Errors: {errors} </p>
+        <p> Accuracy: {accuracy}% </p>
+        <p> Time: {elapsedTime}s </p>
+        <p> Gross WPM: {grossWPM} </p>
+        <p> Net WPM: {netWPM} </p>
         <p> PRESS "SPACE" TO START ANOTHER GAME </p>
       </div>
     </div>
