@@ -1,19 +1,19 @@
 "use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import useAuthStore from "../stores/useAuthStore";
-import Loading from "../loading";
-import url from "@/lib/apiUrl";
 import Statistics from "../components/YourProfile/Statistics";
 import Profile from "../components/YourProfile/Profile";
 import StatisticsProvider from "../components/YourProfile/StatisticProvider";
+import GameProvider from "../components/YourProfile/GameProvider";
+import History from "../components/YourProfile/History";
 
 const YourProfile = () => {
     return (
         <>
             <StatisticsProvider>
-                <Profile />
-                <Statistics/>
+                <GameProvider>
+                    <Profile />
+                    <Statistics/>
+                    <History/>
+                </GameProvider>
             </StatisticsProvider>
         </>
     )

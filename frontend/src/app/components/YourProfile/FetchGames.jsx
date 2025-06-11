@@ -1,10 +1,11 @@
-import useStatStore from "../../stores/useStatStore";
+import useGameStore from "../../stores/useGameStore";
 import url from "../../../lib/apiUrl";
 
-const FetchStatistics = async () => {
-    const addStats = useStatStore.getState().addStats;
+const FetchGames = async () => {
+    const addGames = useGameStore.getState().addGames;
+    const setIsLoading = useGameStore.getState().setIsLoading;
     try {
-        const res = await fetch(`${url}/statistic`, {
+        const res = await fetch(`${url}/game`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -13,8 +14,8 @@ const FetchStatistics = async () => {
 
         });
         const data = await res.json();
-        addStats(data);
-    
+        addGames(data);
+        console.log(data);
     } catch(error) {
         console.log('No data');
         console.log(error);
@@ -22,4 +23,4 @@ const FetchStatistics = async () => {
 
 }
 
-export default FetchStatistics
+export default FetchGames
