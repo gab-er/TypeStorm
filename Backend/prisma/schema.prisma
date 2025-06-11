@@ -27,6 +27,7 @@ model Game {
   id Int @id @default(autoincrement())
   wpm Decimal @db.Decimal(5,2)
   accuracy Decimal @db.Decimal(5,4)
+  errors Int @default(0)
   playedOn DateTime @default(now())
   gamemode Gamemode
   userId Int 

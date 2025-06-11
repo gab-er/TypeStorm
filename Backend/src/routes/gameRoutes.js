@@ -28,13 +28,15 @@ router.get('/all', async (req,res) =>{
     res.json(game)
 })
 
-router.post('/', async (req, res) =>{
-    const {wpm, accuracy, gamemode} = req.body
+router.post('/:gamemode', async (req, res) =>{
+    const {wpm, accuracy, errors} = req.body
+    const {gamemode} = req.params
     const game = await prisma.game.create({
         data: {
             wpm:wpm,
             accuracy:accuracy,
-            gamemode: gamemode,
+            errors: errors,
+            gamemode:gamemode,
             userId : req.userId
 
         }
