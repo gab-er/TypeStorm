@@ -5,7 +5,7 @@ import { splitWords, countLetters, splitWordsWithSpaces } from "@/lib/words";
 import BlurBox from "./BlurBox";
 import useWordsStore from "@/app/stores/useWordsStore";
 
-const WORDS_PER_LINE = 9;
+const WORDS_PER_LINE = 10;
 const LINES_ON_SCREEN = 3;
 
 const InputBox = ({
@@ -46,7 +46,6 @@ const InputBox = ({
   const increaseErrors = useWordsStore((state) => state.increaseErrors);
   const resetErrors = useWordsStore((state) => state.resetErrors);
   const resetTimers = useWordsStore((state) => state.resetTimers);
-  const getElapsedTime = useWordsStore((state) => state.getElapsedTime);
 
   // Reference for what key was just pressed
   const currentKeyRef = useRef(null);
@@ -162,13 +161,13 @@ const InputBox = ({
 
     // Increase total letters typed
     increaseLettersTyped();
-
     setTypedText(newText);
 
     // Shifting the display when the middle line has been fully typed
     const wordsTyped = typedWords.length;
-    // 2 lines have been typed and space is pressed
+
     if (wordsTyped === 2 * WORDS_PER_LINE && addedChar === " ") {
+      // 2 lines have been typed and space is pressed
       // Obtain the length of the first visible line
       const firstLineLength = countLetters(visibleLines[0]);
 
@@ -206,6 +205,13 @@ const InputBox = ({
   // Function to handle focus of the input box
   const handleFocus = () => {
     setFocus(true);
+    const input = inputRef.current;
+
+    // Forces cursor to the end of the input text 
+    if (input) {
+      const length = input.value.length;
+      input.setSelectionRange(length, length);
+    }
   };
 
   // Function to handle blur of the input box
@@ -245,6 +251,7 @@ const InputBox = ({
           onKeyDown={handleOtherChanges}
           autoFocus
           onFocus={handleFocus}
+          onClick={handleFocus} 
           onBlur={handleBlur}
           ref={inputRef}
           className="text-start opacity-0 cursor-default w-[1000px] h-[200px] absolute bg-white text-black pb-40 pl-2.5 text-3xl border"

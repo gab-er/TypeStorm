@@ -39,8 +39,8 @@ const useWordsStore = create((set, get) => ({
     const lettersCorrectlyTyped = get().lettersCorrectlyTyped;
     const errors = get().errors;
     const accuracy =
-      (lettersCorrectlyTyped / (lettersCorrectlyTyped + errors)) * 100;
-    return accuracy.toFixed(1);
+      (lettersCorrectlyTyped / (lettersCorrectlyTyped + errors)).toFixed(2);
+    return accuracy;
   },
 
   // Action to get gross WPM

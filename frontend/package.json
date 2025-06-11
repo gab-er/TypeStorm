@@ -12,6 +12,8 @@
     "@fontsource/inter": "^5.2.5",
     "@headlessui/react": "^2.2.4",
     "@heroicons/react": "^2.2.0",
+    "@tanstack/react-query": "^5.80.6",
+    "axios": "^1.9.0",
     "next": "15.3.2",
     "popular-english-words": "^1.0.2",
     "react": "^19.0.0",
