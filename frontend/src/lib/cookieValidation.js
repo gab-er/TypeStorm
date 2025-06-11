@@ -16,7 +16,7 @@ export const cookieValidation = async () => {
     } else {
       const data = await res.json();
       const username = data.username;
-      login(username); // Login => store the logged in state in the useAuthStore 
+      login(username, data); // Login => store the logged in state in the useAuthStore 
     } 
   } catch (error) {
     console.log(error);

@@ -1,12 +1,9 @@
 import useStatStore from "../../stores/useStatStore";
-import Loading from '@/app/loading';
+
 
 const StatisticDisplay = () => {
     const display = useStatStore((state) => state.displayedStat);
     const isLoading = useStatStore((state) => state.isLoading)
-    if (isLoading){
-        return <Loading/>;
-    } 
     const {averageWpm, bestWpm, averageAccuracy, bestAccuracy, gamesPlayed, gamemode} = display[0]
     return (
         <div className="relative flex flex-col  h-full w-7/10 mx-auto overflow-scroll text-white-700 shadow-md rounded-xl bg-gray-800 justify-center justify-items-center columns-3">
@@ -34,13 +31,13 @@ const StatisticDisplay = () => {
                 <tbody>
                     <tr>
                         <td className="text-center p-2">WPM</td>
-                        <td className="text-center p-2">{averageWpm ?? '-'}</td>
-                        <td className="text-center p-2">{bestWpm ?? '-'}</td>
+                        <td className="text-center p-2">{averageWpm? Math.round(averageWpm): '-'}</td>
+                        <td className="text-center p-2">{bestWpm? Math.round(bestWpm): '-'}</td>
                     </tr>
                     <tr>
                         <td className="text-center p-2">Accuracy</td>
-                        <td className="text-center p-2">{averageAccuracy ?? '-'}</td>
-                        <td className="text-center p-2">{bestAccuracy ?? '-'}</td>
+                        <td className="text-center p-2">{averageAccuracy? Math.round(averageAccuracy*100) + "%": '-'}</td>
+                        <td className="text-center p-2">{bestAccuracy? Math.round(bestAccuracy*100) + "%": '-'}</td>
                     </tr>
                 </tbody>
             </table>
