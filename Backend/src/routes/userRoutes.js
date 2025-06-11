@@ -11,7 +11,8 @@ router.get('/', async (req,res) => {
     })
     const data = {
         id : user.id,
-        username: user.username
+        username: user.username,
+        createdOn: user.createdOn
     }
     res.json(data)
 })
