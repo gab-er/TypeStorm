@@ -10,7 +10,7 @@ router.get('/', async (req,res) =>{
         },
         take: 5,
         orderBy: {
-            id: 'desc'
+            playedOn: 'desc'
         }
     })
     res.json(game)
@@ -22,7 +22,7 @@ router.get('/all', async (req,res) =>{
             userId: req.userId
         },
         orderBy: {
-            id: 'desc'
+            playedOn: 'desc'
         }
     })
     res.json(game)

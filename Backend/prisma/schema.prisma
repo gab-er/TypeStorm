@@ -18,6 +18,7 @@ model User {
   id Int @id @default(autoincrement())
   username String @unique
   password String
+  createdOn DateTime @default(now()) @db.Date
   games Game[]
   statistics Statistic[]
 }
@@ -26,6 +27,7 @@ model Game {
   id Int @id @default(autoincrement())
   wpm Decimal @db.Decimal(5,2)
   accuracy Decimal @db.Decimal(5,4)
+  playedOn DateTime @default(now())
   gamemode Gamemode
   userId Int 
   user User @relation(fields: [userId], references: [id])
