@@ -7,7 +7,7 @@ const StatisticsProvider = ( {children} ) => {
   // This useEffect hook will run only once on the first mount of every component
   useEffect( ()=> {
     FetchStatistics();
-  }, );
+  }, []);
   return children
 };
 

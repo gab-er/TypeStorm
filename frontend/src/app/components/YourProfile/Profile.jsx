@@ -39,8 +39,8 @@ const Profile = () => {
                     </div>
                     <div className='text-white-700 text-xl p-4 '> Created On: {createdOn.slice(0,10)} </div>
                 </div>
-                <div className='text-white-700 text-xl p-4 w-1/4 text-center'> {isNaN(WPM)?"- ":WPM} WPM </div>
-                <div className='text-white-700 text-xl p-4 w-1/4 text-center'> {isNaN(Accuracy)? '- ':Accuracy*100 + '%'} Accuracy </div>
+                <div className='text-white-700 text-xl p-4 w-1/4 text-center'> {isNaN(WPM)?"- ":Math.round(WPM)} WPM </div>
+                <div className='text-white-700 text-xl p-4 w-1/4 text-center'> {isNaN(Accuracy)? '- ':Math.round(Accuracy*100) + '%'} Accuracy </div>
                 <div className='text-white-700 text-xl p-4 w-1/4 text-center'> {totalGames} {totalGames == 1? "Game":"Games"} Played </div>
             </div>
         </>

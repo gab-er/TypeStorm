@@ -7,7 +7,7 @@ const GameProvider = ( {children} ) => {
 
   useEffect( ()=> {
     FetchGames();
-  }, );
+  }, []);
   return children
 };
 
