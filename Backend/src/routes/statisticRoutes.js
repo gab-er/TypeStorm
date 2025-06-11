@@ -65,4 +65,24 @@ router.post('/:gamemode', async (req, res) => {
 
 })
 
+router.put('/:gamemode', async (req,res) =>{
+    const {gamemode} = req.params
+    const statistic = await prisma.statistic.updateMany({
+    where: {
+        userId: req.userId,
+        gamemode:gamemode
+    },
+    data: {
+        gamesPlayed: 0,
+        averageAccuracy: null,
+        bestAccuracy: null,
+        averageWpm: null,
+        bestWpm: null
+    },
+
+   })
+   console.log("statistics reset")
+   res.json(statistic)
+})
+
 export default router
