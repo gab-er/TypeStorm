@@ -25,6 +25,7 @@ router.post('/next', async (req,res) => {
         },
         where: {
             id: {not:id},
+            userId:req.userId
         },
         take: 51,
         orderBy: {
@@ -41,7 +42,8 @@ router.post('/prev', async (req,res) => {
             id:id
         },
         where:{
-            id:{not:id}
+            id:{not:id},
+            userId:req.userId
         },
 
         orderBy: {
