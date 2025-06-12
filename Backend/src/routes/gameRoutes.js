@@ -20,8 +20,11 @@ router.get('/', async (req,res) =>{
 router.post('/next', async (req,res) => {
     const {id} = req.body
     const game = await prisma.game.findMany({
+        cursor:{
+            id:id
+        },
         where: {
-            id: {lt:id},
+            id: {not:id},
         },
         take: 50,
         orderBy: {
@@ -34,14 +37,17 @@ router.post('/next', async (req,res) => {
 router.post('/prev', async (req,res) => {
     const {id} = req.body
     const game = await prisma.game.findMany({
-        where: {
-            id: {gt:id},
-
+        cursor:{
+            id:id
         },
-        take: 50,
+        where:{
+            id:{not:id}
+        },
+
         orderBy: {
             id: 'desc'
-        }
+        },
+        take:-50
     })
     res.json(game)
 })
