@@ -26,7 +26,7 @@ router.post('/next', async (req,res) => {
         where: {
             id: {not:id},
         },
-        take: 50,
+        take: 51,
         orderBy: {
             id: 'desc'
         }
