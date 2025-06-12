@@ -3,6 +3,7 @@ import url from "../../../lib/apiUrl";
 
 const FetchStatistics = async () => {
     const addStats = useStatStore.getState().addStats;
+    const setIsLoading = useStatStore.getState().setIsLoading
     try {
         const res = await fetch(`${url}/statistic`, {
             method: "GET",
@@ -18,6 +19,8 @@ const FetchStatistics = async () => {
     } catch(error) {
         console.log('No data');
         console.log(error);
+    } finally {
+        setIsLoading(false)
     }
 
 }

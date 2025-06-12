@@ -1,7 +1,6 @@
 import React from 'react';
 import useStatStore from "../../stores/useStatStore";
 
-
 const setGamemode = useStatStore.getState().setGamemode;
 const StatisticButtons = () => {
   const gamemode = useStatStore((state) => state.gamemode); 

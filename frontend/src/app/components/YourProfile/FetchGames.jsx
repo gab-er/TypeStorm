@@ -5,7 +5,7 @@ const FetchGames = async () => {
     const addGames = useGameStore.getState().addGames;
     const setIsLoading = useGameStore.getState().setIsLoading;
     try {
-        const res = await fetch(`${url}/game`, {
+        const res = await fetch(`${url}/game/`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -19,6 +19,8 @@ const FetchGames = async () => {
     } catch(error) {
         console.log('No data');
         console.log(error);
+    } finally {
+        setIsLoading(false)
     }
 
 }

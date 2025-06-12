@@ -7,16 +7,13 @@ import {
 import React from 'react'
 import useStatStore from "../../stores/useStatStore";
 import useAuthStore from '../../stores/useAuthStore';
-import Loading from '@/app/loading';
 
 
 const Profile = () => {
     const statistics = useStatStore((state) => state.stats);
-    const isLoading = useStatStore((state) => state.isLoading)
     const username = useAuthStore((state)=> state.username)
     const userData = useAuthStore((state)=>state.userData)
-    const isLoadingAuth = useAuthStore((state)=>state.isLoading)
-    if (isLoading || isLoadingAuth) {return(<Loading/>)}
+
     let totalWPM=0, totalAccuracy=0, totalGames = 0;
     for (const stat of statistics) {
         const {averageWpm, averageAccuracy, gamesPlayed} = stat

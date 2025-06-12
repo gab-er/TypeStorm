@@ -3,7 +3,6 @@ import useStatStore from "../../stores/useStatStore";
 
 const StatisticDisplay = () => {
     const display = useStatStore((state) => state.displayedStat);
-    const isLoading = useStatStore((state) => state.isLoading)
     const {averageWpm, bestWpm, averageAccuracy, bestAccuracy, gamesPlayed, gamemode, averageScore, bestScore} = display[0]
     return (
         <div className="relative flex flex-col  h-full w-7/10 mx-auto overflow-scroll text-white-700 shadow-md rounded-xl bg-gray-800 justify-center justify-items-center columns-3">

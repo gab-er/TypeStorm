@@ -10,6 +10,7 @@ import {
 import { validateUsername } from "@/lib/registerValidation";
 import Loading from "../loading";
 import url from "@/lib/apiUrl";
+import { cookieValidation } from "@/lib/cookieValidation";
 
 const MIN_PASSWORD_LENGTH = process.env.NEXT_PUBLIC_MIN_PASSWORD_LENGTH;
 const MIN_USERNAME_LENGTH = process.env.NEXT_PUBLIC_MIN_USERNAME_LENGTH;
@@ -102,7 +103,7 @@ const Register = () => {
         setLoading(false);
       } else {
         console.log("Successful Registration");
-        login(formData.username)
+        cookieValidation();
         router.push("/");
       }
     } catch (e) {

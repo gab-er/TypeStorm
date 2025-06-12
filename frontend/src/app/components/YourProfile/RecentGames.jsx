@@ -1,15 +1,12 @@
-import GameProvider from "./GameProvider";
+
 import useGameStore from "@/app/stores/useGameStore";
-import Loading from "@/app/loading";
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@headlessui/react";
 
 const RecentGames = () => {
     const games = useGameStore((state)=>state.games)
-    const isLoading = useGameStore((state)=>state.isLoading)
     const [display, setDisplay] = useState(5)
-    if (isLoading) return (<Loading/>)
     return(
         <>
             <h1 className='text-white-700 text-3xl relative flex mx-auto p-4  h-auto  w-7/10 '>Recent Games</h1>
@@ -32,7 +29,7 @@ const RecentGames = () => {
                                 <td className="text-center p-2">{game.gamemode}</td>
                                 <td className="text-center p-2">-</td>
                                 <td className="text-center p-2">{game.wpm}</td>
-                                <td className="text-center p-2">{game.accuracy*100}%</td>
+                                <td className="text-center p-2">{Math.round(game.accuracy*100)}%</td>
                                 <td className="text-center p-2">{game.errors}</td>
                                 <td className="text-center p-2">{game.playedOn.slice(0,10)} {game.playedOn.slice(11,19)}</td>
                             </tr>

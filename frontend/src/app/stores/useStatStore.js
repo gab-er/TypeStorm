@@ -20,6 +20,10 @@ const useStatStore = create((set) => ({
       displayedStat: state.stats.filter((stat) => stat.gamemode == gamemode),
       gamemode:gamemode
     })),
+    setIsLoading: (bool) => 
+    set(() => ({
+      isLoading: bool
+    })),
 }));
 
 export default useStatStore;
