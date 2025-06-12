@@ -7,8 +7,8 @@ const WordHistory = ({ allTypedWords, wordsToType }) => {
   const allCorrectLetters = wordsToType.join("").split("").flat(); // Array of all correct letters to type
 
   return (
-    <div className="flex flex-col flex-wrap w-[1000px] items-center text-2xl text-gray-400">
-      Word History
+    <div className="flex flex-col flex-wrap w-[1200px] items-center text-2xl text-gray-400">
+      <strong>Word History</strong>
       <div>
         {allCorrectLetters.map((letter, index) => {
           let color = "text-white";

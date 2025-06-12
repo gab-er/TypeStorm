@@ -4,6 +4,7 @@ import DisplayBox from "./DisplayBox";
 import { splitWords, countLetters, splitWordsWithSpaces } from "@/lib/words";
 import BlurBox from "./BlurBox";
 import useWordsStore from "@/app/stores/useWordsStore";
+import WordCounter from "./WordCounter";
 
 const WORDS_PER_LINE = 10;
 const LINES_ON_SCREEN = 3;
@@ -122,6 +123,7 @@ const InputBox = ({
 
       if (charDeleted === " ") {
         setTypedWordsCount((prev) => prev - 1);
+        setAllTypedWords((prev) => prev.slice(0, -1)); // remove the previously typed word 
       }
 
       setTypedText(newText);

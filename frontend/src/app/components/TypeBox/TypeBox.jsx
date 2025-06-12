@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { shuffleWords, wordsData } from "@/lib/words";
 import useWordsStore from "@/app/stores/useWordsStore";
 import StatsBox from "../StatsBox/StatsBox";
-
+import WordCounter from "./WordCounter";
 // The InputBox contains two things: An invisible input box and a box to display the given words
 
 const TypeBox = () => {
@@ -90,16 +90,28 @@ const TypeBox = () => {
   // }, [wordsTypedOffset]);
 
   return (
-    <div>
-      {(gameCompleted && (
-        <StatsBox
-          gameCompleted={gameCompleted}
-          setGameCompleted={setGameCompleted}
-          resetGame={resetGame}
-          allTypedWords={allTypedWords}
-          wordsToType={wordsToType}
-        />
-      )) || (
+    (gameCompleted && (
+      <div>
+        <div className="translate-y-[-75px]">
+          <StatsBox
+            gameCompleted={gameCompleted}
+            setGameCompleted={setGameCompleted}
+            resetGame={resetGame}
+            allTypedWords={allTypedWords}
+            wordsToType={wordsToType}
+          />
+        </div>
+      </div>
+    )) || (
+      <div className="relative">
+        <div className="absolute translate-x-[-495px] translate-y-[-25px] w-[300px]">
+          {startedTyping && (
+            <WordCounter
+              allTypedWords={allTypedWords}
+              WORDS_TO_TYPE={WORDS_TO_TYPE}
+            />
+          )}
+        </div>
         <InputBox
           wordsData={wordsToType}
           wordsTypedOffset={wordsTypedOffset}
@@ -118,8 +130,8 @@ const TypeBox = () => {
           allTypedWords={allTypedWords}
           setAllTypedWords={setAllTypedWords}
         />
-      )}
-    </div>
+      </div>
+    )
   );
 };
 

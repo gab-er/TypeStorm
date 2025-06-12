@@ -24,6 +24,7 @@
     "npm": "^11.4.1",
     "popular-english-words": "^1.0.2",
     "react": "^19.0.0",
+    "react-confetti-explosion": "^3.0.3",
     "react-dom": "^19.0.0",
     "react-password-strength-bar": "^0.4.1",
     "zustand": "^5.0.5"

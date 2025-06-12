@@ -7,15 +7,17 @@ import {
 } from "@/lib/postStats";
 import StatInfo from "./StatInfo";
 import WordHistory from "./WordHistory";
+import ConfettiExplosion from "react-confetti-explosion";
+import DelayedLoadingDefault from "../Navbar/DelayedLoadingDefault";
 
-const StatsBox = ({
-  gameCompleted,
-  setGameCompleted,
-  resetGame,
-  allTypedWords,
-  wordsToType,
-}) => {
+const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType }) => {
   const [sentData, setSentData] = useState(false);
+  const [isNewPb, setIsNewPb] = useState(false);
+  const [pbWpm, setPbWpm] = useState(false);
+  const [aaWpm, setAaWpm] = useState(false);
+  const [pbAccuracy, setPbAccuracy] = useState(false);
+  const [aaAccuracy, setAaAccuracy] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [res, setRes] = useState({
     pbWpm: false,
@@ -23,28 +25,24 @@ const StatsBox = ({
     pbAccuracy: false,
     aaAccuracy: false,
   });
-  const pbWPM = res.pbWpm;
-  const aaWPM = res.aaWpm;
-  const pbAccuracy = res.pbAccuracy;
-  const aaAccuracy = res.aaAccuracy;
 
-  // Adjust colors of stats depending on result
-  let wpmColor = pbWPM
-    ? "text-yellow-500"
-    : aaWPM
-    ? "text-green-500"
-    : "text-white-500";
+  // Update if there were any new PBs or Above Averages
+  useEffect(() => {
+    if (res) {
+      setPbWpm(res.pbWpm);
+      setAaWpm(res.aaWpm);
+      setPbAccuracy(res.pbAccuracy);
+      setAaAccuracy(res.aaAccuracy);
+    }
+  }, [res]);
 
-  let accuracyColor = pbAccuracy
-    ? "text-yellow-500"
-    : aaAccuracy
-    ? "text-green-500"
-    : "text-white-500";
+  // Update to show confetti if there were new PBs
+  useEffect(() => {
+    if (pbWpm || pbAccuracy) {
+      setIsNewPb(true);
+    }
+  }, [pbWpm, pbAccuracy]);
 
-  const lettersCorrectlyTyped = useWordsStore(
-    (state) => state.lettersCorrectlyTyped
-  );
-  const lettersTyped = useWordsStore((state) => state.lettersTyped);
   const accuracy = useWordsStore((state) => state.getAccuracy());
   const errors = useWordsStore((state) => state.errors);
   const elapsedTime = useWordsStore((state) => state.getElapsedTime)().toFixed(
@@ -88,6 +86,7 @@ const StatsBox = ({
           console.log("submitting data; ", stats);
           const response = await postStatsStandard.mutateAsync(stats);
           setRes(response);
+          setIsLoading(false);
           console.log(response);
         } catch (error) {
           console.log(error);
@@ -115,37 +114,53 @@ const StatsBox = ({
   }, [gameCompleted]);
 
   return (
-    <div className="flex flex-col items-center">
-      {/* Stats */}
-      <div className="flex flex-col w-[600px] h-[300px] text-2xl">
-        {/* Row 1 */}
-        <div className="flex justify-between h-1/2">
-          <StatInfo title={"Net WPM"} stat={netWPM} />
-          <StatInfo title={"Raw WPM"} stat={grossWPM} />
+    // {(!isLoading && loginDisplay) || (
+    //           <DelayedLoadingDefault/>
+    //         )}
+    (!isLoading && (
+      <div className="flex flex-col items-center">
+        {isNewPb && <ConfettiExplosion particleCount={150} duration={3000} />}
+        {/* Stats */}
+        <div className="flex flex-col w-[600px] h-[300px] text-2xl">
+          {/* Row 1 */}
+          <div className="flex justify-between h-1/2">
+            <StatInfo
+              title={"Net WPM"}
+              stat={netWPM}
+              pbWpm={pbWpm}
+              aaWpm={aaWpm}
+            />
+            <StatInfo title={"Raw WPM"} stat={grossWPM} />
+          </div>
+          {/* Row 2 */}
+          <div className="flex justify-center h-1/2">
+            <StatInfo title={"Errors"} stat={errors} />
+            {/* className={`${accuracyColor}`} */}
+            <StatInfo
+              title={"Accuracy"}
+              stat={`${(accuracy * 100).toFixed(0)}%`}
+              pbAccuracy={pbAccuracy}
+              aaAccuracy={aaAccuracy}
+            />
+            <StatInfo title={"Time"} stat={`${elapsedTime}s`} />
+          </div>
         </div>
-        {/* Row 2 */}
-        <div className="flex justify-center h-1/2">
-          <StatInfo title={"Errors"} stat={errors} />
-          {/* className={`${accuracyColor}`} */}
-          <StatInfo
-            title={"Accuracy"}
-            stat={`${(accuracy * 100).toFixed(1)}%`}
+        {/* Word History */}
+        <div className="mt-4">
+          <WordHistory
+            allTypedWords={allTypedWords}
+            wordsToType={wordsToType}
           />
-          <StatInfo title={"Time"} stat={`${elapsedTime}s`} />
         </div>
+        {/* Space to start game  */}
+        <p className="flex justify-center items-center text-gray-300 text-xl mt-6">
+          <kbd className="ml-2 mr-2 px-2 py-0.5 text-lg font-semibold text-gray-600 bg-gray-900 border-gray-200  dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500 rounded-xl">
+            space
+          </kbd>
+          - start new game
+        </p>
       </div>
-      {/* Word History */}
-      <div className="mt-4">
-        <WordHistory allTypedWords={allTypedWords} wordsToType={wordsToType} />
-      </div>
-      {/* Space to start game  */}
-      <p className="flex justify-center items-center text-gray-300 text-xl mt-4">
-        <kbd className="ml-2 mr-2 px-2 py-1 text-lg font-semibold text-gray-800 bg-gray-900 border-gray-200  dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500 rounded-xl">
-          space
-        </kbd>
-        - start new game
-      </p>
-    </div>
+    )) || <DelayedLoadingDefault />
   );
 };
 
