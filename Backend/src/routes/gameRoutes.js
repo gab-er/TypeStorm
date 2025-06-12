@@ -4,13 +4,43 @@ import prisma from '../prismaClient.js'
 const router = express.Router()
 
 router.get('/', async (req,res) =>{
+    const limit = Math.min(Number(req.query.limit) || 25, 100)
     const game = await prisma.game.findMany({
         where: {
             userId: req.userId
         },
-        take: 25,
+        take: parseInt(limit) || 25,
         orderBy: {
             playedOn: 'desc'
+        }
+    })
+    res.json(game)
+})
+
+router.post('/next', async (req,res) => {
+    const {id} = req.body
+    const game = await prisma.game.findMany({
+        where: {
+            id: {lt:id},
+        },
+        take: 50,
+        orderBy: {
+            id: 'desc'
+        }
+    })
+    res.json(game)
+})
+
+router.post('/prev', async (req,res) => {
+    const {id} = req.body
+    const game = await prisma.game.findMany({
+        where: {
+            id: {gt:id},
+
+        },
+        take: 50,
+        orderBy: {
+            id: 'desc'
         }
     })
     res.json(game)
