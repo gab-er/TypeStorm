@@ -1,13 +1,21 @@
 "use client";
-import useWordsStore from "../stores/useWordsStore";
+import useWordsStore from "../../stores/useWordsStore";
 import { useState, useEffect } from "react";
 import {
   usePostStatsStandard,
   usePostStatsStandardGame,
 } from "@/lib/postStats";
+import StatInfo from "./StatInfo";
+import WordHistory from "./WordHistory";
 
-const StatsBox = ({ gameCompleted, setGameCompleted, resetGame }) => {
-  const [sentData, setSentData] = useState(false)
+const StatsBox = ({
+  gameCompleted,
+  setGameCompleted,
+  resetGame,
+  allTypedWords,
+  wordsToType,
+}) => {
+  const [sentData, setSentData] = useState(false);
 
   const [res, setRes] = useState({
     pbWpm: false,
@@ -107,17 +115,36 @@ const StatsBox = ({ gameCompleted, setGameCompleted, resetGame }) => {
   }, [gameCompleted]);
 
   return (
-    <div className="flex justify-center relative">
-      <div className="text-start opacity-50 cursor-default w-[1000px] h-[300px] absolute text-white pb-40 pl-2.5 text-2xl border">
-        <p> Total Letters Typed: {lettersTyped} </p>
-        <p> Letters Correctly Typed : {lettersCorrectlyTyped} </p>
-        <p> Errors: {errors} </p>
-        <p className={`${accuracyColor}`}> Accuracy: {(accuracy * 100).toFixed(1)}% </p>
-        <p> Time: {elapsedTime}s </p>
-        <p> Gross WPM: {grossWPM} </p>
-        <p className={`${wpmColor}`}> Net WPM: {netWPM} </p>
-        <p> PRESS "SPACE" TO START ANOTHER GAME </p>
+    <div className="flex flex-col items-center">
+      {/* Stats */}
+      <div className="flex flex-col w-[600px] h-[300px] text-2xl">
+        {/* Row 1 */}
+        <div className="flex justify-between h-1/2">
+          <StatInfo title={"Net WPM"} stat={netWPM} />
+          <StatInfo title={"Raw WPM"} stat={grossWPM} />
+        </div>
+        {/* Row 2 */}
+        <div className="flex justify-center h-1/2">
+          <StatInfo title={"Errors"} stat={errors} />
+          {/* className={`${accuracyColor}`} */}
+          <StatInfo
+            title={"Accuracy"}
+            stat={`${(accuracy * 100).toFixed(1)}%`}
+          />
+          <StatInfo title={"Time"} stat={`${elapsedTime}s`} />
+        </div>
       </div>
+      {/* Word History */}
+      <div className="mt-4">
+        <WordHistory allTypedWords={allTypedWords} wordsToType={wordsToType} />
+      </div>
+      {/* Space to start game  */}
+      <p className="flex justify-center items-center text-gray-300 text-xl mt-4">
+        <kbd className="ml-2 mr-2 px-2 py-1 text-lg font-semibold text-gray-800 bg-gray-900 border-gray-200  dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500 rounded-xl">
+          space
+        </kbd>
+        - start new game
+      </p>
     </div>
   );
 };

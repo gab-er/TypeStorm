@@ -3,21 +3,22 @@ import InputBox from "./InputBox";
 import { useEffect, useState } from "react";
 import { shuffleWords, wordsData } from "@/lib/words";
 import useWordsStore from "@/app/stores/useWordsStore";
-import StatsBox from "../StatsBox";
+import StatsBox from "../StatsBox/StatsBox";
 
 // The InputBox contains two things: An invisible input box and a box to display the given words
 
 const TypeBox = () => {
-  const WORDS_TO_TYPE = 10;
+  const WORDS_TO_TYPE = 5;
 
   // States that need to be kept track of
   const [wordsTypedOffset, setWordsTypedOffset] = useState(0); // Keep track of how many first lines have been typed, This offset is to keep track of the correct word position after the lines update
   const [numWords, setNumWords] = useState(WORDS_TO_TYPE); // Number of words in total to type for one game
-  const [shuffledWordsData, setShuffledWordsData] = useState([]);
+  const [wordsToType, setWordsToType] = useState([]);
   const [gameCompleted, setGameCompleted] = useState(false);
   const [currentLineIndex, setCurrentLineIndex] = useState(0); // State to keep track of what is the current line
   const [typedWordsCount, setTypedWordsCount] = useState(0);
   const [typedText, setTypedText] = useState(""); // State to keep track of what is being typed in the input box
+  const [allTypedWords, setAllTypedWords] = useState([]);
   const [startedTyping, setStartedTyping] = useState(false);
 
   // Words Store Reset Functions
@@ -32,7 +33,7 @@ const TypeBox = () => {
 
   // Shuffle the wordsData on first component mount
   useEffect(() => {
-    setShuffledWordsData(shuffleWords(wordsData));
+    setWordsToType(shuffleWords(wordsData).slice(0, numWords));
   }, []);
 
   // Events that will start/stop the timer
@@ -61,6 +62,7 @@ const TypeBox = () => {
     resetLettersTyped();
     resetErrors();
     setTypedWordsCount(0);
+    setAllTypedWords([]);
 
     // Reset the displayed words back to the start
     setCurrentLineIndex(0);
@@ -73,7 +75,7 @@ const TypeBox = () => {
     setGameCompleted(false);
 
     // Shuffle words again
-    setShuffledWordsData(shuffleWords(wordsData));
+    setWordsToType(shuffleWords(wordsData).slice(0, numWords));
 
     // Reset timers
     setStartedTyping(false);
@@ -94,10 +96,12 @@ const TypeBox = () => {
           gameCompleted={gameCompleted}
           setGameCompleted={setGameCompleted}
           resetGame={resetGame}
+          allTypedWords={allTypedWords}
+          wordsToType={wordsToType}
         />
       )) || (
         <InputBox
-          wordsData={shuffledWordsData.slice(0, numWords)}
+          wordsData={wordsToType}
           wordsTypedOffset={wordsTypedOffset}
           setWordsTypedOffset={setWordsTypedOffset}
           numWords={numWords}
@@ -111,6 +115,8 @@ const TypeBox = () => {
           setTypedText={setTypedText}
           setStartedTyping={setStartedTyping}
           startedTyping={startedTyping}
+          allTypedWords={allTypedWords}
+          setAllTypedWords={setAllTypedWords}
         />
       )}
     </div>

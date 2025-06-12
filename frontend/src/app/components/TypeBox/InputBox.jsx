@@ -23,6 +23,7 @@ const InputBox = ({
   setTypedText,
   setStartedTyping,
   startedTyping,
+  setAllTypedWords,
 }) => {
   const [focus, setFocus] = useState(true); // State to keep track of whether the input box is clicked on or not
 
@@ -148,6 +149,7 @@ const InputBox = ({
     // Added one to the total words typed counter
     if (addedChar === " ") {
       setTypedWordsCount((prev) => prev + 1);
+      setAllTypedWords((prev) => [...prev, currentTypedWord]);
     }
 
     // Check if the game has ended (reached the last letter)
@@ -155,6 +157,7 @@ const InputBox = ({
       typedWordsCount === numWords - 1 &&
       currentTypedWord.length === correctWord.length - 1
     ) {
+      setAllTypedWords((prev) => [...prev, currentTypedWord]);
       setTypedText(newText);
       setGameCompleted(true);
     }
@@ -188,6 +191,7 @@ const InputBox = ({
       resetLettersTyped();
       resetErrors();
       setTypedWordsCount(0);
+      setAllTypedWords([]);
 
       // Reset the displayed words back to the start
       setCurrentLineIndex(0);
@@ -207,7 +211,7 @@ const InputBox = ({
     setFocus(true);
     const input = inputRef.current;
 
-    // Forces cursor to the end of the input text 
+    // Forces cursor to the end of the input text
     if (input) {
       const length = input.value.length;
       input.setSelectionRange(length, length);
@@ -251,7 +255,7 @@ const InputBox = ({
           onKeyDown={handleOtherChanges}
           autoFocus
           onFocus={handleFocus}
-          onClick={handleFocus} 
+          onClick={handleFocus}
           onBlur={handleBlur}
           ref={inputRef}
           className="text-start opacity-0 cursor-default w-[1000px] h-[200px] absolute bg-white text-black pb-40 pl-2.5 text-3xl border"
