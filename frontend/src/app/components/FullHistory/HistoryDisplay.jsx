@@ -6,18 +6,15 @@ import { useState, useEffect } from "react"
 
 const HistoryDisplay = () => {
   const history = useGameStore((state)=>state.history)
-  const [firstEntry,setFirstEntry] = useState(history[0])
-  const[lastEntry,setLastEntry] = useState(history[49])
-  useEffect(()=>{
-    setFirstEntry(history[0]);
-    setLastEntry(history[history.length-1])
-  },[history])
-
+  const setPage = useGameStore((state) =>state.setPage)
+  const firstEntry=history[0]
+  const lastEntry = history[history.length-1]
+  
   return (
     <div className="flex flex-col gap-4 p-4 justify-center">
         <h1 className='text-white-700 text-3xl p-4  h-auto  text-center underline font-bold'>History</h1>
         <GameDisplay games = {history}/>
-        <PageButton firstEntry={firstEntry} setFirstEntry={setFirstEntry} lastEntry={lastEntry} setLastEntry={setLastEntry}/>
+        <PageButton firstEntry={firstEntry} lastEntry={lastEntry} />
     </div>
   )}
     

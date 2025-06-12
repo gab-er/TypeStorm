@@ -6,7 +6,6 @@ const FetchHistory = async (cursorid, isprev=false) => {
     const setIsLoading = useGameStore.getState().setIsLoading;
     setIsLoading(true);
     try {
-        
         const body = {
             id: cursorid,
         }

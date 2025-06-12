@@ -5,6 +5,7 @@ const FetchGames = async (limit, isHistory) => {
     const addGames = useGameStore.getState().addGames;
     const setIsLoading = useGameStore.getState().setIsLoading;
     const setHistory = useGameStore.getState().setHistory;
+    const setPage = useGameStore.getState().setPage;
     try {
         const res = await fetch(`${url}/game/?limit=${limit}`, {
             method: "GET",
@@ -15,7 +16,7 @@ const FetchGames = async (limit, isHistory) => {
 
         });
         const data = await res.json();
-        isHistory? setHistory(data):addGames(data);
+        isHistory? setHistory(data) && setPage(1):addGames(data);
         console.log(data);
     } catch(error) {
         console.log('No data');
