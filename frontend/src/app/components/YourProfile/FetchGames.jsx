@@ -1,11 +1,12 @@
 import useGameStore from "../../stores/useGameStore";
 import url from "../../../lib/apiUrl";
 
-const FetchGames = async () => {
+const FetchGames = async (limit, isHistory) => {
     const addGames = useGameStore.getState().addGames;
     const setIsLoading = useGameStore.getState().setIsLoading;
+    const setHistory = useGameStore.getState().setHistory;
     try {
-        const res = await fetch(`${url}/game/`, {
+        const res = await fetch(`${url}/game/?limit=${limit}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -14,7 +15,7 @@ const FetchGames = async () => {
 
         });
         const data = await res.json();
-        addGames(data);
+        isHistory? setHistory(data):addGames(data);
         console.log(data);
     } catch(error) {
         console.log('No data');

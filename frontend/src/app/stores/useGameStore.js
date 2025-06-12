@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 const useGameStore = create((set) => ({
   games: [],
+  history:[],
   isLoading: true,
 
 
@@ -15,6 +16,13 @@ const useGameStore = create((set) => ({
     set(() => ({
       isLoading: bool
     })),
+    setHistory: (games) =>
+    set(() => ({
+      history: games,
+      isLoading:false
+      
+    })),
+
 }));
 
 export default useGameStore;
