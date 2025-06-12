@@ -27,7 +27,7 @@ router.post('/next', async (req,res) => {
             id: {not:id},
             userId:req.userId
         },
-        take: 51,
+        take: 50,
         orderBy: {
             id: 'desc'
         }
