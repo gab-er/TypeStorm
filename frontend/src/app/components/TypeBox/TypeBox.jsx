@@ -8,10 +8,11 @@ import WordCounter from "./WordCounter";
 
 // The InputBox contains two things: An invisible input box and a box to display the given words
 const TypeBox = () => {
-  const WORDS_TO_TYPE = 10;
+  const WORDS_TO_TYPE = 50;
 
   // States that need to be kept track of
-  const [wordsTypedOffset, setWordsTypedOffset] = useState(0); // Keep track of how many first lines have been typed, This offset is to keep track of the correct word position after the lines update
+  // Keep track of how many first lines have been typed, This offset is to keep track of the correct word position after the lines update
+  const [wordsTypedOffset, setWordsTypedOffset] = useState(0);
   const [numWords, setNumWords] = useState(WORDS_TO_TYPE); // Number of words in total to type for one game
   const [wordsToType, setWordsToType] = useState([]);
   const [gameCompleted, setGameCompleted] = useState(false);
