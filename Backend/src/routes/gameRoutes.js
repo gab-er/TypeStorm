@@ -22,6 +22,7 @@ router.get('/length', async (req,res) =>{
         where: {
             userId: req.userId
         }
+        
     })
     res.json(length)
 })
