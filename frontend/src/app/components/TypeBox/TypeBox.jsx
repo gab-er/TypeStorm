@@ -35,6 +35,10 @@ const TypeBox = () => {
   // Randomize the wordsData on first component mount
   useEffect(() => {
     setWordsToType(generateRandomWords(wordsData, WORDS_TO_TYPE));
+
+    return () => {
+      resetGame();
+    };
   }, []);
 
   // Events that will start/stop the timer
