@@ -3,24 +3,27 @@ import url from "./apiUrl";
 
 export const cookieValidation = async () => {
   const login = useAuthStore.getState().login;
-  const setIsLoading = useAuthStore.getState().setIsLoading
+  const setIsLoading = useAuthStore.getState().setIsLoading;
 
   try {
+    console.log("about to fetch from user");
     const res = await fetch(`${url}/user`, {
       method: "GET",
       credentials: "include",
     });
+    console.log("res from user fetched");
     // If no valid cookie => not logged in
     if (res.status == 401 || !res.ok) {
       // do nothing
+      console.log("401 error or res not ok");
     } else {
       const data = await res.json();
       const username = data.username;
-      login(username, data); // Login => store the logged in state in the useAuthStore 
-    } 
+      login(username, data); // Login => store the logged in state in the useAuthStore
+    }
   } catch (error) {
     console.log(error);
   } finally {
-    setIsLoading(false); 
+    setIsLoading(false);
   }
 };
