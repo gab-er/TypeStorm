@@ -4,11 +4,11 @@ import DisplayBox from "./DisplayBox";
 import { splitWords, countLetters, splitWordsWithSpaces } from "@/lib/words";
 import BlurBox from "./BlurBox";
 import useWordsStore from "@/app/stores/useWordsStore";
-import WordCounter from "./WordCounter";
 
 const WORDS_PER_LINE = 10;
 const LINES_ON_SCREEN = 3;
 
+// The InputBox contains two things: An invisible input box and a box to display the given words
 const InputBox = ({
   wordsData,
   wordsTypedOffset,

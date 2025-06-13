@@ -26,6 +26,16 @@ const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType }) => {
     aaAccuracy: false,
   });
 
+  const headerDescriptions = {
+    netwpm:
+      "Measure of accurate typing speed: total correct characters divided by 5 and normalised to 60s",
+    rawwpm:
+      "Measure of total typing speed: total characters typed divided by 5 and normalised to 60s",
+    errors: "Total errors made while typing",
+    accuracy: "Percentage of correct characters typed",
+    time: "Time taken to type all words",
+  };
+
   // Update if there were any new PBs or Above Averages
   useEffect(() => {
     if (res) {
@@ -61,7 +71,7 @@ const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType }) => {
     const handleKeyDown = (event) => {
       if (gameCompleted && event.key == " ") {
         event.preventDefault();
-        event.stopPropagation();
+        event.stopPropagation(); // Prevents this from getting inputted into the next game
         resetGame();
       }
     };
@@ -87,7 +97,6 @@ const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType }) => {
           const response = await postStatsStandard.mutateAsync(stats);
           setRes(response);
           setIsLoading(false);
-          console.log(response);
         } catch (error) {
           console.log(error);
         }
@@ -103,7 +112,6 @@ const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType }) => {
             errors: errors,
           };
           const response = await postStatsStandardGame.mutateAsync(stats);
-          console.log(response);
         } catch (error) {
           console.log(error);
         }
@@ -125,24 +133,38 @@ const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType }) => {
           {/* Row 1 */}
           <div className="flex justify-between h-1/2">
             <StatInfo
-              title={"Net WPM"}
+              header={"Net WPM"}
               stat={netWPM}
               pbWpm={pbWpm}
               aaWpm={aaWpm}
+              headerDesc={headerDescriptions.netwpm}
             />
-            <StatInfo title={"Raw WPM"} stat={grossWPM} />
+            <StatInfo
+              header={"Raw WPM"}
+              stat={grossWPM}
+              headerDesc={headerDescriptions.rawwpm}
+            />
           </div>
           {/* Row 2 */}
           <div className="flex justify-center h-1/2">
-            <StatInfo title={"Errors"} stat={errors} />
+            <StatInfo
+              header={"Errors"}
+              stat={errors}
+              headerDesc={headerDescriptions.errors}
+            />
             {/* className={`${accuracyColor}`} */}
             <StatInfo
-              title={"Accuracy"}
+              header={"Accuracy"}
               stat={`${(accuracy * 100).toFixed(0)}%`}
               pbAccuracy={pbAccuracy}
               aaAccuracy={aaAccuracy}
+              headerDesc={headerDescriptions.accuracy}
             />
-            <StatInfo title={"Time"} stat={`${elapsedTime}s`} />
+            <StatInfo
+              header={"Time"}
+              stat={`${elapsedTime}s`}
+              headerDesc={headerDescriptions.time}
+            />
           </div>
         </div>
         {/* Word History */}

@@ -1,3 +1,6 @@
+import { Tooltip } from "@mui/material";
+import Typography from "@mui/material/Typography";
+
 const WordHistory = ({ allTypedWords, wordsToType }) => {
   // AllTypedWords is an array of the words typed
 
@@ -8,7 +11,24 @@ const WordHistory = ({ allTypedWords, wordsToType }) => {
 
   return (
     <div className="flex flex-col flex-wrap w-[1200px] items-center text-2xl text-gray-400">
-      <strong>Word History</strong>
+      <Tooltip
+        title={<Typography> Words that were given </Typography>}
+        placement="top"
+        slotProps={{
+          popper: {
+            modifiers: [
+              {
+                name: "offset",
+                options: {
+                  offset: [0, -14],
+                },
+              },
+            ],
+          },
+        }}
+      >
+        <strong>Word History</strong>
+      </Tooltip>
       <div>
         {allCorrectLetters.map((letter, index) => {
           let color = "text-white";
@@ -16,8 +36,25 @@ const WordHistory = ({ allTypedWords, wordsToType }) => {
             color = "text-red-400";
           }
           return (
-            <span key={index} className={`${color}`}>
-              {letter}
+            <span key={index} className={`${color} cursor-pointer`}>
+              <Tooltip
+                title={<Typography> {allTypedLetters[index]} </Typography>}
+                placement="top"
+                slotProps={{
+                  popper: {
+                    modifiers: [
+                      {
+                        name: "offset",
+                        options: {
+                          offset: [0, -14],
+                        },
+                      },
+                    ],
+                  },
+                }}
+              >
+                {letter}
+              </Tooltip>
             </span>
           );
         })}
