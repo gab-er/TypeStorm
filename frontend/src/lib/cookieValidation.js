@@ -13,9 +13,9 @@ export const cookieValidation = async () => {
     // If no valid cookie => not logged in
     if (res.status == 401 || !res.ok) {
       // do nothing
-      console.log("status code: ", res.status);
-      console.log("res: ", res);
-      console.log("message: ", res.message);
+      // console.log("status code: ", res.status);
+      // console.log("res: ", res);
+      // console.log("message: ", res.message);
     } else {
       const data = await res.json();
       const username = data.username;
