@@ -34,6 +34,14 @@ router.post('/register', async (req,res) => {
                 password : hashedPassword
             }
         })
+        const statistics = await prisma.statistic.createMany({
+            data: [
+                {userId: user.id,gamemode: "STANDARD"},
+                {userId: user.id,gamemode: "TIMED30"},
+                {userId: user.id,gamemode: "TIMED60"},
+                {userId: user.id,gamemode: "TIMED120"}
+            ]
+        })
         console.log('Account Successfully Created')
         const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '24h'})
         res.cookie('jwt', token, cookieSettings)
