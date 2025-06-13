@@ -122,9 +122,6 @@ const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType }) => {
   }, [gameCompleted]);
 
   return (
-    // {(!isLoading && loginDisplay) || (
-    //           <DelayedLoadingDefault/>
-    //         )}
     (!isLoading && (
       <div className="flex flex-col items-center">
         {isNewPb && <ConfettiExplosion particleCount={150} duration={3000} />}
@@ -152,7 +149,6 @@ const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType }) => {
               stat={errors}
               headerDesc={headerDescriptions.errors}
             />
-            {/* className={`${accuracyColor}`} */}
             <StatInfo
               header={"Accuracy"}
               stat={`${(accuracy * 100).toFixed(0)}%`}
