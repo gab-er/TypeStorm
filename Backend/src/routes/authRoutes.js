@@ -24,6 +24,8 @@ if (cookieType == "dev") {
         }
 }
 
+console.log(cookieSettings)
+
 router.post('/register', async (req,res) => {
     const {username, password} = req.body
     const hashedPassword = bcrypt.hashSync(password,10)
