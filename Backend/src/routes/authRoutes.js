@@ -7,22 +7,16 @@ const router = express.Router()
 
 const cookieType = process.env.COOKIE_TYPE || "deploy"
 
-let cookieSettings;
-
-if (cookieType == "dev") {
-    const cookieSettings = {
+const cookieSettings = cookieType == "dev"? {
             httpOnly : true,
             maxAge: 24 * 60 * 60 * 1000,
-        }
-} else {
-    const cookieSettings = {
+        }:{
             httpOnly : true,
             maxAge: 24 * 60 * 60 * 1000,
             partitioned : true, 
             secure:true,
             sameSite: 'none'
         }
-}
 
 console.log(cookieSettings)
 
