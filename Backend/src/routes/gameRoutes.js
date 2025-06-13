@@ -17,6 +17,15 @@ router.get('/', async (req,res) =>{
     res.json(game)
 })
 
+router.get('/length', async (req,res) =>{
+    const length = await prisma.game.count({
+        where: {
+            userId: req.userId
+        }
+    })
+    res.json(length)
+})
+
 router.post('/next', async (req,res) => {
     const {id} = req.body
     const game = await prisma.game.findMany({
