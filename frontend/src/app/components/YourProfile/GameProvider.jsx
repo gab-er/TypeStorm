@@ -3,10 +3,10 @@ import { useEffect } from "react";
 import FetchGames from "./FetchGames";
 
 
-const GameProvider = ( {children, limit = 25, isHistory=false} ) => {
+const GameProvider = ( {children} ) => {
 
   useEffect( ()=> {
-    FetchGames(limit,isHistory);
+    FetchGames();
   },[]);
   return children
 };

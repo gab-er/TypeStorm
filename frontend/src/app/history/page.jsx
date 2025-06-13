@@ -1,31 +1,30 @@
 "use client";
 import HistoryDisplay from "../components/FullHistory/HistoryDisplay";
-import PageButton from "../components/FullHistory/PageButton";
 import Loading from "../loading";
 import NotLoggedIn from "../components/Error/NotLoggedIn";
 
 //Providers
-import GameProvider from "../components/YourProfile/GameProvider";
+import HistoryProvider from "../components/FullHistory/HistoryProvider";
 
 //Stores
 import useAuthStore from "../stores/useAuthStore";
-import useGameStore from "../stores/useGameStore";
+import useHistoryStore from "../stores/useHistoryStore";
 
 
 const History = () => {
     const isLoadingAuth = useAuthStore((state)=>state.isLoading)
     const isLoggedIn = useAuthStore((state)=>state.isLoggedIn)
-    const isLoadingGame = useGameStore((state)=>state.isLoading)
+    const isLoadingHistory = useHistoryStore((state)=>state.isLoading)
     return(
         <>
                 {isLoadingAuth? <Loading/>:
                 !isLoggedIn? <NotLoggedIn/>: 
-                    <GameProvider limit = {50} isHistory = {true}>
-                        {isLoadingGame? <Loading/>:
+                    <HistoryProvider>
+                        {isLoadingHistory? <Loading/>:
                         <>
                             <HistoryDisplay/>
                         </>}
-                    </GameProvider>
+                    </HistoryProvider>
                 }
             
         </>

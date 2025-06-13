@@ -1,9 +1,12 @@
 import url from "@/lib/apiUrl"
-import useGameStore from "@/app/stores/useGameStore"
+import useHistoryStore from "@/app/stores/useHistoryStore"
 
 const FetchHistory = async (cursorid, isprev=false) => {
-    const setHistory = useGameStore.getState().setHistory;
-    const setIsLoading = useGameStore.getState().setIsLoading;
+    const setHistory = useHistoryStore.getState().setHistory;
+    const setIsLoading = useHistoryStore.getState().setIsLoading;
+    const page = useHistoryStore.getState().page;
+    const setPage = useHistoryStore.getState().setPage;
+
     setIsLoading(true);
     try {
         const body = {
@@ -19,7 +22,8 @@ const FetchHistory = async (cursorid, isprev=false) => {
 
         });
         const data = await res.json();
-        setHistory(data)
+        setHistory(data);
+        (isprev? setPage(page-1):setPage(page+1));
         console.log(data);
     } catch(error) {
         console.log('No data');

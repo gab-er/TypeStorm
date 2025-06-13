@@ -2,9 +2,7 @@ import { create } from "zustand";
 
 const useGameStore = create((set) => ({
   games: [],
-  history:[],
   isLoading: true,
-  page: null,
 
 
   addGames: (games) =>
@@ -17,18 +15,6 @@ const useGameStore = create((set) => ({
     set(() => ({
       isLoading: bool
     })),
-
-    setHistory: (games) =>
-    set(() => ({
-      history: games,
-      isLoading:false
-    })),
-
-    setPage: (number) =>
-      set(() => ({
-        page:number
-      }))
-
 }));
 
 export default useGameStore;

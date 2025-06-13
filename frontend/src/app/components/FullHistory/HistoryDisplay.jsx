@@ -1,12 +1,11 @@
 "use client";
-import useGameStore from "@/app/stores/useGameStore"
+import useHistoryStore from "@/app/stores/useHistoryStore";
 import GameDisplay from "../YourProfile/GameDisplay"
 import PageButton from "./PageButton"
-import { useState, useEffect } from "react"
+
 
 const HistoryDisplay = () => {
-  const history = useGameStore((state)=>state.history)
-  const setPage = useGameStore((state) =>state.setPage)
+  const history = useHistoryStore((state)=>state.history)
   const firstEntry=history[0]
   const lastEntry = history[history.length-1]
   
