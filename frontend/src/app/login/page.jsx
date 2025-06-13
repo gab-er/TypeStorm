@@ -1,11 +1,10 @@
 "use client";
 import LoginBox from "../components/Login/LoginBox";
-import RegisterBox from "../components/Register/RegisterBox";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import useAuthStore from "../stores/useAuthStore";
-import Loading from "../loading";
 import url from "@/lib/apiUrl";
+import { cookieValidation } from "@/lib/cookieValidation";
 
 const Login = () => {
   const [usernameError, setUsernameError] = useState("");
@@ -86,7 +85,7 @@ const Login = () => {
         console.log("res not ok");
         setLoading(false);
       } else {
-        useAuthStore.getState().login(formData.username);
+        cookieValidation();
         router.push("/");
       }
     } catch (e) {

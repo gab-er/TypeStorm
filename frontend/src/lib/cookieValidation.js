@@ -3,7 +3,7 @@ import url from "./apiUrl";
 
 export const cookieValidation = async () => {
   const login = useAuthStore.getState().login;
-  const setIsLoading = useAuthStore.getState().setIsLoading
+  const setIsLoading = useAuthStore.getState().setIsLoading;
 
   try {
     const res = await fetch(`${url}/user`, {
@@ -13,14 +13,17 @@ export const cookieValidation = async () => {
     // If no valid cookie => not logged in
     if (res.status == 401 || !res.ok) {
       // do nothing
+      console.log("status code: ", res.status);
+      console.log("res: ", res);
+      console.log("message: ", res.message);
     } else {
       const data = await res.json();
       const username = data.username;
-      login(username); // Login => store the logged in state in the useAuthStore 
-    } 
+      login(username, data); // Login => store the logged in state in the useAuthStore
+    }
   } catch (error) {
     console.log(error);
   } finally {
-    setIsLoading(false); 
+    setIsLoading(false);
   }
 };

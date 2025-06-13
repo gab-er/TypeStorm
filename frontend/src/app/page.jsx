@@ -1,4 +1,4 @@
-import TypeBox from "./components/TypeBox";
+import TypeBox from "./components/TypeBox/TypeBox";
 
 export const metadata = {
   title: "TypeStorm",
@@ -7,7 +7,9 @@ export const metadata = {
 export default async function Home() {
   return (
     <>
-      <TypeBox />
+      <div className="flex mt-40 justify-center">
+        <TypeBox />
+      </div>
     </>
   );
 }
