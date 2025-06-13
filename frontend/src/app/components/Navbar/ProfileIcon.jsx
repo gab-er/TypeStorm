@@ -32,9 +32,9 @@ const ProfileIcon = () => {
         className="absolute right-0 z-10 mt-2 w-28 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
       >
         <MenuItem className="cursor-pointer block px-4 py-2">
-          <button className="w-full px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100 data-focus:outline-hidden">
+          <Link className="w-full px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100 data-focus:outline-hidden" href = "yourprofile">
             Your Profile
-          </button>
+          </Link>
         </MenuItem>
         <MenuItem className="cursor-pointer">
           <button className="block w-full px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100 data-focus:outline-hidden">
