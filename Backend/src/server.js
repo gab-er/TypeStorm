@@ -18,7 +18,9 @@ const PORT = process.env.PORT || 8000
 app.use(
     cors({
         origin : process.env.FRONTEND_URL,
-        credentials: true
+        credentials: true,
+        allowedHeaders: ['Content-Type', 'Authorization', 'Set-Cookie'],
+        exposedHeaders: ['Set-Cookie']
     })
 )
 
