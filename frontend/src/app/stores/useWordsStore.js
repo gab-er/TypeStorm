@@ -39,7 +39,7 @@ const useWordsStore = create((set, get) => ({
     const lettersCorrectlyTyped = get().lettersCorrectlyTyped;
     const errors = get().errors;
     const accuracy =
-      (lettersCorrectlyTyped / (lettersCorrectlyTyped + errors)).toFixed(2);
+      Number((lettersCorrectlyTyped / (lettersCorrectlyTyped + errors)).toFixed(2));
     return accuracy;
   },
 
