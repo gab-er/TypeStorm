@@ -16,6 +16,7 @@ export const cookieValidation = async () => {
     if (res.status == 401 || !res.ok) {
       // do nothing
       console.log("status code: ", res.status);
+      console.log("res: ", res);
       console.log("message: ", res.message);
     } else {
       const data = await res.json();
