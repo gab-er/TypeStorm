@@ -95,10 +95,12 @@ const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType }) => {
           };
           console.log("submitting data; ", stats);
           const response = await postStatsStandard.mutateAsync(stats);
-          setRes(response);
+          setRes(response); // Set the response to the received response (to check for achievements)
           setIsLoading(false);
+
         } catch (error) {
           console.log(error);
+          setIsLoading(false); // User is not logged in, show the stats obtained 
         }
       };
       postStatsData();
@@ -114,6 +116,7 @@ const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType }) => {
           const response = await postStatsStandardGame.mutateAsync(stats);
         } catch (error) {
           console.log(error);
+          setIsLoading(false); // User is not logged in, show the stats obtained 
         }
       };
       postGameData();
