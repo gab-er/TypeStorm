@@ -1,9 +1,6 @@
 "use client";
 
 import Caret from "./Caret";
-import useWordsStore from "@/app/stores/useWordsStore";
-
-let typed = false;
 
 const Letter = ({
   letter,

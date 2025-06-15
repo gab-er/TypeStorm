@@ -9,6 +9,7 @@ import StatInfo from "./StatInfo";
 import WordHistory from "./WordHistory";
 import ConfettiExplosion from "react-confetti-explosion";
 import DelayedLoadingDefault from "../Navbar/DelayedLoadingDefault";
+import StartNewGame from "./StartNewGame";
 
 const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType }) => {
   const [sentData, setSentData] = useState(false);
@@ -97,10 +98,9 @@ const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType }) => {
           const response = await postStatsStandard.mutateAsync(stats);
           setRes(response); // Set the response to the received response (to check for achievements)
           setIsLoading(false);
-
         } catch (error) {
           console.log(error);
-          setIsLoading(false); // User is not logged in, show the stats obtained 
+          setIsLoading(false); // User is not logged in, show the stats obtained
         }
       };
       postStatsData();
@@ -116,7 +116,7 @@ const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType }) => {
           const response = await postStatsStandardGame.mutateAsync(stats);
         } catch (error) {
           console.log(error);
-          setIsLoading(false); // User is not logged in, show the stats obtained 
+          setIsLoading(false); // User is not logged in, show the stats obtained
         }
       };
       postGameData();
@@ -174,12 +174,7 @@ const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType }) => {
           />
         </div>
         {/* Space to start game  */}
-        <p className="flex justify-center items-center text-gray-300 text-xl mt-6">
-          <kbd className="ml-2 mr-2 px-2 py-0.5 text-lg font-semibold text-gray-600 bg-gray-900 border-gray-200  dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500 rounded-xl">
-            space
-          </kbd>
-          - start new game
-        </p>
+        <StartNewGame />
       </div>
     )) || <DelayedLoadingDefault />
   );
