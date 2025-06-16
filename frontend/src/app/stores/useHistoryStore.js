@@ -11,16 +11,17 @@ const useHistoryStore = create((set) => ({
       isLoading: bool
     })),
 
+    // action to set history
     setHistory: (games) =>
     set(() => ({
       history: games,
     })),
-
+    //action to set pahe
     setPage: (number) =>
       set(() => ({
         page:number
       })),
-
+    // action to set last page
     setLastPage: (number) =>
       set(() => ({
         lastPage:number

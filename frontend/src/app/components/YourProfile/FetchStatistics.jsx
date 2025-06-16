@@ -2,9 +2,11 @@ import useStatStore from "../../stores/useStatStore";
 import url from "../../../lib/apiUrl";
 
 const FetchStatistics = async () => {
+    // Get addStats and setIsLoading from useStatStore
     const addStats = useStatStore.getState().addStats;
     const setIsLoading = useStatStore.getState().setIsLoading
     try {
+        // Try to fetch user statistics
         const res = await fetch(`${url}/statistic`, {
             method: "GET",
             headers: {
@@ -13,13 +15,15 @@ const FetchStatistics = async () => {
             credentials: "include",
 
         });
+        // Add stats to store
         const data = await res.json();
         addStats(data);
     
     } catch(error) {
-        console.log('No data');
+        // Catch and log any errors
         console.log(error);
     } finally {
+        // Set loading to false
         setIsLoading(false)
     }
 

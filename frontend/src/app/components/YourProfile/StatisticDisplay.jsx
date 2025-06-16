@@ -2,7 +2,10 @@ import useStatStore from "../../stores/useStatStore";
 
 
 const StatisticDisplay = () => {
+    // get displayed stats in statstore
     const display = useStatStore((state) => state.displayedStat);
+
+    //extract specific metrics from the displayed stats
     const {averageWpm, bestWpm, averageAccuracy, bestAccuracy, gamesPlayed, gamemode, averageScore, bestScore} = display[0]
     return (
         <div className="relative flex flex-col  h-full w-7/10 mx-auto overflow-scroll text-white-700 shadow-md rounded-xl bg-gray-800 justify-center justify-items-center columns-3">
