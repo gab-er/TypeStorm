@@ -123,7 +123,7 @@ const InputBox = ({
 
       if (charDeleted === " ") {
         setTypedWordsCount((prev) => prev - 1);
-        setAllTypedWords((prev) => prev.slice(0, -1)); // remove the previously typed word 
+        setAllTypedWords((prev) => prev.slice(0, -1)); // remove the previously typed word
       }
 
       setTypedText(newText);
@@ -232,7 +232,6 @@ const InputBox = ({
 
   return (
     <>
-      {/* previously had w-full h-screen */}
       <div className="flex justify-center relative">
         {!focus && (
           <div className="absolute">

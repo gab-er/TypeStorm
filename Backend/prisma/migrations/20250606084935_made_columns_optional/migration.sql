@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "Statistic" ALTER COLUMN "bestWpm" DROP NOT NULL,
+ALTER COLUMN "bestAccuracy" DROP NOT NULL,
+ALTER COLUMN "gamesPlayed" SET DEFAULT 0,
+ALTER COLUMN "averageAccuracy" DROP NOT NULL,
+ALTER COLUMN "averageWpm" DROP NOT NULL;
