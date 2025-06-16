@@ -5,6 +5,7 @@ import { wordsData, generateRandomWords } from "@/lib/words";
 import useWordsStore from "@/app/stores/useWordsStore";
 import StatsBox from "../StatsBox/StatsBox";
 import WordCounter from "./WordCounter";
+import ErrorCounter from "./ErrorCounter";
 
 // The InputBox contains two things: An invisible input box and a box to display the given words
 const TypeBox = () => {
@@ -22,6 +23,9 @@ const TypeBox = () => {
   const [allTypedWords, setAllTypedWords] = useState([]);
   const [startedTyping, setStartedTyping] = useState(false);
 
+  // Words Store states
+  const errors = useWordsStore((state) => state.errors);
+
   // Words Store Reset Functions
   const resetErrors = useWordsStore((state) => state.resetErrors);
   const resetLettersCorrectlyTyped = useWordsStore(
@@ -38,7 +42,7 @@ const TypeBox = () => {
 
     return () => {
       resetGame(); // Reset game on component unmount
-    }
+    };
   }, []);
 
   // Events that will start/stop the timer
@@ -109,12 +113,15 @@ const TypeBox = () => {
       </div>
     )) || (
       <div className="relative">
-        <div className="absolute translate-x-[-495px] translate-y-[-25px] w-[300px]">
+        <div className="absolute translate-x-[-495px] translate-y-[-50px] w-[300px]">
           {startedTyping && (
-            <WordCounter
-              allTypedWords={allTypedWords}
-              WORDS_TO_TYPE={WORDS_TO_TYPE}
-            />
+            <div className="flex flex-col">
+              <ErrorCounter errors={errors} />
+              <WordCounter
+                allTypedWords={allTypedWords}
+                WORDS_TO_TYPE={WORDS_TO_TYPE}
+              />
+            </div>
           )}
         </div>
         <InputBox
