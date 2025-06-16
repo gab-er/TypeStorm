@@ -4,7 +4,7 @@ import FetchStatistics from "./FetchStatistics";
 
 
 const StatisticsProvider = ( {children} ) => {
-  // This useEffect hook will run only once on the first mount of every component
+  // Fetches statistics on render
   useEffect( ()=> {
     FetchStatistics();
   }, []);

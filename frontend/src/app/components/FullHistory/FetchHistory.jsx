@@ -2,13 +2,16 @@ import url from "@/lib/apiUrl"
 import useHistoryStore from "@/app/stores/useHistoryStore"
 
 const FetchHistory = async (cursorid, isprev=false) => {
+    // get setHistory, setIsLoadin, page, setPage from historystore
     const setHistory = useHistoryStore.getState().setHistory;
     const setIsLoading = useHistoryStore.getState().setIsLoading;
     const page = useHistoryStore.getState().page;
     const setPage = useHistoryStore.getState().setPage;
 
+    // Set loading to true
     setIsLoading(true);
     try {
+        //try to fetch next or previous 50 games from cursor
         const body = {
             id: cursorid,
         }
@@ -21,14 +24,18 @@ const FetchHistory = async (cursorid, isprev=false) => {
             body: JSON.stringify(body)
 
         });
+        // Set history to fetched data
         const data = await res.json();
         setHistory(data);
+
+        // Increment of decrement page number
         (isprev? setPage(page-1):setPage(page+1));
         console.log(data);
     } catch(error) {
-        console.log('No data');
+        // Catch and log any error
         console.log(error);
     } finally {
+        // Set loading to false
         setIsLoading(false)
     }
 
