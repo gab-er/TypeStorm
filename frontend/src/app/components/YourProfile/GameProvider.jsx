@@ -4,7 +4,7 @@ import FetchGames from "./FetchGames";
 
 
 const GameProvider = ( {children} ) => {
-
+  // Fetches recent games on render
   useEffect( ()=> {
     FetchGames();
   },[]);
