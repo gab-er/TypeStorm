@@ -37,7 +37,7 @@ router.get('/:gamemode', async (req, res) => {
 //Update user statistics after game played
 router.post('/:gamemode', async (req, res) => {
    //Extract metrics of game played from request body
-   const {wpm,accuracy} = req.body
+   const {wpm,accuracy,score} = req.body
 
    //Extract gamemode from request params
    const {gamemode} = req.params
@@ -51,20 +51,25 @@ router.post('/:gamemode', async (req, res) => {
     })
    
    //Extract metrics of original user statistics
-   const {averageAccuracy,bestAccuracy ,averageWpm, bestWpm, gamesPlayed} = oldStatistic
+   const {averageAccuracy,bestAccuracy ,averageWpm, bestWpm, gamesPlayed, averageScore, bestScore} = oldStatistic
 
    //Check if the metrics are above average and personal bests
    const pbAccuracy = accuracy >= bestAccuracy
    const aaAccuracy = accuracy >= averageAccuracy
    const pbWpm = wpm >= bestWpm
    const aaWpm = wpm >= averageWpm
+   const pbScore = score >= bestScore
+   const aaScore = score >= averageScore
 
    //Put the results in a object to send back
    const result = {
     pbAccuracy:pbAccuracy,
     aaAccuracy:aaAccuracy,
     pbWpm:pbWpm, 
-    aaWpm:aaWpm
+    aaWpm:aaWpm,
+    pbScore:pbScore,
+    aaScore:aaScore
+
    }
 
    //Update statistics with stats of new gamemode
@@ -79,11 +84,13 @@ router.post('/:gamemode', async (req, res) => {
 
         //Update average metrics
         averageAccuracy: (averageAccuracy*gamesPlayed + accuracy)/(gamesPlayed+1),
-        bestAccuracy: accuracy > bestAccuracy? accuracy:bestAccuracy,
+        averageWpm: (averageWpm*gamesPlayed + wpm)/(gamesPlayed+1),
+        averageScore: (averageScore*gamesPlayed+score)/(gamesPlayed+1),
 
         //Replace personal best with new metrics if they are better
-        averageWpm: (averageWpm*gamesPlayed + wpm)/(gamesPlayed+1),
-        bestWpm: wpm > bestWpm? wpm:bestWpm
+        bestAccuracy: pbAccuracy? accuracy:bestAccuracy,
+        bestWpm: pbWpm? wpm:bestWpm,
+        bestScore: pbScore? score: bestScore
     },
 
    })
@@ -111,7 +118,9 @@ router.put('/:gamemode', async (req,res) =>{
         averageAccuracy: null,
         bestAccuracy: null,
         averageWpm: null,
-        bestWpm: null
+        bestWpm: null,
+        averageScore: null,
+        bestScore: null
     },
 
    })
