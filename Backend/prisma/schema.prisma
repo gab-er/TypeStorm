@@ -25,6 +25,7 @@ model User {
 
 model Game {
   id Int @id @default(autoincrement())
+  score Int @default(0)
   wpm Decimal @db.Decimal(5,2)
   accuracy Decimal @db.Decimal(5,4)
   errors Int @default(0)
@@ -37,6 +38,8 @@ model Game {
 model Statistic {
   id Int @id @default(autoincrement())
   gamesPlayed Int @default(0)
+  averageScore Int?
+  bestScore Int?
   averageWpm Decimal? @db.Decimal(5,2)
   bestWpm Decimal? @db.Decimal(5,2)
   averageAccuracy Decimal? @db.Decimal(5,4)
