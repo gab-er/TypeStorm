@@ -27,17 +27,21 @@ const YourProfile = () => {
            
                 {isLoadingAuth? <Loading/>:
                 !isLoggedIn? <NotLoggedIn/>: 
+                <>
                     <StatisticsProvider>
-                        <GameProvider>
-                            {isLoadingStat||isLoadingGame? <Loading/>:
+                        {isLoadingStat? <Loading/>:
                             <>
                                 <Profile/>
                                 <Statistics/>
+                            </>}
+                    </StatisticsProvider>
+                    <GameProvider>
+                        {isLoadingGame? <Loading/>:
+                            <>
                                 <RecentGames/>
                             </>}
-                        </GameProvider>
-                    </StatisticsProvider>
-                }
+                    </GameProvider>
+                </>}
             
         </>
     )
