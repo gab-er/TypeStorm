@@ -10,14 +10,24 @@ import { words } from "popular-english-words";
 // const top10000EnglishWords = fetchTextFile()
 // const mostCommonWords = top10000EnglishWords;
 
-// Words that should be excluded 
-const excludedWords = ["nbsp", "www", "bgcolor", "html", "etc", "mdash", "afded", "didn", "php", "rowspan"]
+// Words that should be excluded
+const excludedWords = [
+  "nbsp",
+  "www",
+  "bgcolor",
+  "html",
+  "etc",
+  "mdash",
+  "afded",
+  "didn",
+  "php",
+  "rowspan",
+];
 
 // Returns an array of words (note this is predetermined)
 const mostCommonWords = words.getMostPopularFilter(1000, (word) => {
   return word.length > 2 && word.length < 9 && !excludedWords.includes(word);
 });
-
 
 // Adding a space to the end of every word
 const wordsData = mostCommonWords.map((word) => word + " ");
@@ -65,6 +75,7 @@ const splitWordsWithSpaces = (typedText) => {
 };
 
 // Function to count the number of letters in a line of words
+// Line is an array of words
 const countLetters = (line) => {
   let count = 0;
   line.map((word) => {

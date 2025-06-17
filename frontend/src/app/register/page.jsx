@@ -2,18 +2,15 @@
 import RegisterBox from "../components/Register/RegisterBox";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import useAuthStore from "../stores/useAuthStore";
 import {
   validateConfirmPassword,
   validatePassword,
 } from "@/lib/registerValidation";
 import { validateUsername } from "@/lib/registerValidation";
-import Loading from "../loading";
 import url from "@/lib/apiUrl";
 import { cookieValidation } from "@/lib/cookieValidation";
 
 const MIN_PASSWORD_LENGTH = process.env.NEXT_PUBLIC_MIN_PASSWORD_LENGTH;
-const MIN_USERNAME_LENGTH = process.env.NEXT_PUBLIC_MIN_USERNAME_LENGTH;
 
 const Register = () => {
   const [usernameError, setUsernameError] = useState("");
@@ -24,9 +21,6 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
-
-  // Login
-  const login = useAuthStore((state) => state.login);
 
   // handleUsernameChange
   const handleUsernameChange = (e) => {

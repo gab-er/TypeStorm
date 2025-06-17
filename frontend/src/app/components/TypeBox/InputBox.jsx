@@ -1,9 +1,13 @@
 "use client";
 import { useState, useRef, useMemo } from "react";
 import DisplayBox from "./DisplayBox";
-import { splitWords, countLetters, splitWordsWithSpaces } from "@/lib/words";
+import {
+  splitWords,
+  countLetters,
+  splitWordsWithSpaces,
+} from "../../../lib/words";
 import BlurBox from "./BlurBox";
-import useWordsStore from "@/app/stores/useWordsStore";
+import useWordsStore from "../../stores/useWordsStore";
 
 const WORDS_PER_LINE = 10;
 const LINES_ON_SCREEN = 3;
@@ -25,9 +29,10 @@ const InputBox = ({
   setStartedTyping,
   startedTyping,
   setAllTypedWords,
+  focus,
+  setFocus,
+  inputRef
 }) => {
-  const [focus, setFocus] = useState(true); // State to keep track of whether the input box is clicked on or not
-
   // Functions to increase/decrease/reset letters (correctly) typed
   const increaseLettersCorrectlyTyped = useWordsStore(
     (state) => state.increaseLettersCorrectlyTyped
@@ -51,9 +56,6 @@ const InputBox = ({
 
   // Reference for what key was just pressed
   const currentKeyRef = useRef(null);
-
-  // Reference for the input box for focusing and blurring
-  const inputRef = useRef(null);
 
   // Current letter for caret to display on
   const currentLetter = typedText.length;
@@ -209,7 +211,7 @@ const InputBox = ({
   };
 
   // Function to handle focus of the input box
-  const handleFocus = () => {
+  const handleFocus = (e) => {
     setFocus(true);
     const input = inputRef.current;
 
@@ -221,7 +223,13 @@ const InputBox = ({
   };
 
   // Function to handle blur of the input box
-  const handleBlur = () => {
+  const handleBlur = (e) => {
+    const nextFocus = e.relatedTarget;
+
+    // Don't blur if pressing on a button
+    if (nextFocus && nextFocus.tagName === "BUTTON") {
+      return;
+    }
     setFocus(false);
 
     // Unfocus the input box so you cannot type in it after clicking out
@@ -232,9 +240,9 @@ const InputBox = ({
 
   return (
     <>
-      <div className="flex justify-center relative">
+      <div  className="flex justify-center relative">
         {!focus && (
-          <div className="absolute">
+          <div data-testid="blur-box" className="absolute">
             <BlurBox />
           </div>
         )}
@@ -250,6 +258,7 @@ const InputBox = ({
           />
         </div>
         <input
+          data-testid="typing-input"
           type="text"
           value={typedText}
           onChange={handleTextChange}
