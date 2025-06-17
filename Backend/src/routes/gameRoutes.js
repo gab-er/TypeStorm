@@ -87,7 +87,7 @@ router.post('/prev', async (req,res) => {
 // Add games to game table
 router.post('/:gamemode', async (req, res) =>{
     //Extract game stats from request body
-    const {wpm, accuracy, errors} = req.body
+    const {wpm, accuracy, errors, score} = req.body
 
     //Extract gamemode of game from request params
     const {gamemode} = req.params
@@ -99,7 +99,8 @@ router.post('/:gamemode', async (req, res) =>{
             accuracy:accuracy,
             errors: errors,
             gamemode:gamemode,
-            userId : req.userId
+            userId : req.userId,
+            score: score
 
         }
     })
