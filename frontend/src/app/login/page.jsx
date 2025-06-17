@@ -2,7 +2,6 @@
 import LoginBox from "../components/Login/LoginBox";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import useAuthStore from "../stores/useAuthStore";
 import url from "@/lib/apiUrl";
 import { cookieValidation } from "@/lib/cookieValidation";
 

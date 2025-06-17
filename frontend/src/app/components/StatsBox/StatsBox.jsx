@@ -4,14 +4,14 @@ import { useState, useEffect } from "react";
 import {
   usePostStatsStandard,
   usePostStatsStandardGame,
-} from "@/lib/postStats";
+} from "../../../lib/postStats";
 import StatInfo from "./StatInfo";
 import WordHistory from "./WordHistory";
 import ConfettiExplosion from "react-confetti-explosion";
 import DelayedLoadingDefault from "../Navbar/DelayedLoadingDefault";
 import StartNewGame from "./StartNewGame";
 
-const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType }) => {
+const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType, numWords }) => {
   const [sentData, setSentData] = useState(false);
   const [isNewPb, setIsNewPb] = useState(false);
   const [pbWpm, setPbWpm] = useState(false);
@@ -61,6 +61,7 @@ const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType }) => {
   );
   const grossWPM = useWordsStore((state) => state.getGrossWPM)();
   const netWPM = useWordsStore((state) => state.getNetWPM)();
+  const score = useWordsStore(state => state.getScore)();
 
   // Mutation to post stats to the STANDARD API
   const postStatsStandard = usePostStatsStandard();
@@ -73,7 +74,7 @@ const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType }) => {
       if (gameCompleted && event.key == " ") {
         event.preventDefault();
         event.stopPropagation(); // Prevents this from getting inputted into the next game
-        resetGame();
+        resetGame(numWords);
       }
     };
 
@@ -93,6 +94,7 @@ const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType }) => {
           const stats = {
             wpm: netWPM,
             accuracy: accuracy,
+            score: score,
           };
           console.log("submitting data; ", stats);
           const response = await postStatsStandard.mutateAsync(stats);
@@ -112,6 +114,7 @@ const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType }) => {
             wpm: netWPM,
             accuracy: accuracy,
             errors: errors,
+            score: score,
           };
           const response = await postStatsStandardGame.mutateAsync(stats);
         } catch (error) {
@@ -138,6 +141,11 @@ const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType }) => {
               pbWpm={pbWpm}
               aaWpm={aaWpm}
               headerDesc={headerDescriptions.netwpm}
+            />
+            <StatInfo
+              header={"Score"}
+              stat={score}
+              headerDesc={headerDescriptions.rawwpm}
             />
             <StatInfo
               header={"Raw WPM"}
