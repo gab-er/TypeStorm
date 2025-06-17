@@ -15,6 +15,7 @@ import authMiddleware from './middleware/authMiddleware.js'
 const app = express()
 const PORT = process.env.PORT || 8000
 
+//CORS settings
 app.use(
     cors({
         origin : process.env.FRONTEND_URL,
@@ -35,7 +36,7 @@ app.get('/', (req,res) => {
     res.send('<h1> Placeholder <h1/>')
 })
 
-//Routes
+//Routes 
 app.use('/auth', authRoutes)
 
 app.use('/user', authMiddleware, userRoutes)

@@ -3,8 +3,13 @@ import prisma from '../prismaClient.js'
 
 const router = express.Router()
 
+// Get data on n recent games, where n is the limit
 router.get('/', async (req,res) =>{
+
+    //Extract limit from query, defaulting to 25 if no limit is defined and maxing out at 100
     const limit = Math.min(Number(req.query.limit) || 25, 100)
+
+    //Find recent games from game table by user
     const game = await prisma.game.findMany({
         where: {
             userId: req.userId
@@ -14,9 +19,12 @@ router.get('/', async (req,res) =>{
             playedOn: 'desc'
         }
     })
+
+    //Return game data
     res.json(game)
 })
 
+// Get the total amount of games played by user
 router.get('/length', async (req,res) =>{
     const length = await prisma.game.count({
         where: {
@@ -27,8 +35,12 @@ router.get('/length', async (req,res) =>{
     res.json(length)
 })
 
+// Get next 50 games from cursor point
 router.post('/next', async (req,res) => {
+    //Extract cursor from request body
     const {id} = req.body
+
+    //Find next 50 games from cursor point in game table by user
     const game = await prisma.game.findMany({
         cursor:{
             id:id
@@ -42,11 +54,17 @@ router.post('/next', async (req,res) => {
             id: 'desc'
         }
     })
+
+    //Return game data
     res.json(game)
 })
 
+// Get previous 50 games from cursor point
 router.post('/prev', async (req,res) => {
+    //Extract cursor from request body
     const {id} = req.body
+
+    //Find previous 50 games from cursor point in game table by user
     const game = await prisma.game.findMany({
         cursor:{
             id:id
@@ -61,24 +79,20 @@ router.post('/prev', async (req,res) => {
         },
         take:-50
     })
+
+    //Return game data
     res.json(game)
 })
 
-router.get('/all', async (req,res) =>{
-    const game = await prisma.game.findMany({
-        where: {
-            userId: req.userId
-        },
-        orderBy: {
-            playedOn: 'desc'
-        }
-    })
-    res.json(game)
-})
-
+// Add games to game table
 router.post('/:gamemode', async (req, res) =>{
+    //Extract game stats from request body
     const {wpm, accuracy, errors} = req.body
+
+    //Extract gamemode of game from request params
     const {gamemode} = req.params
+
+    //Add new row to game table
     const game = await prisma.game.create({
         data: {
             wpm:wpm,
