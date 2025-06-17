@@ -1,7 +1,7 @@
-const WordCounter = ({ allTypedWords, WORDS_TO_TYPE }) => {
+const WordCounter = ({ allTypedWords, numWords }) => {
   return (
     <div className="text-2xl text-indigo-400">
-      {allTypedWords.length} / {WORDS_TO_TYPE}
+      {allTypedWords.length} / {numWords}
     </div>
   );
 };

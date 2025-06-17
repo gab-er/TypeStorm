@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import calculateScore from "@/lib/score";
 
 const useWordsStore = create((set, get) => ({
   lettersCorrectlyTyped: 0,
@@ -6,6 +7,22 @@ const useWordsStore = create((set, get) => ({
   errors: 0,
   startTime: null,
   endTime: null,
+  numWords: 50,
+
+  // Action to set numWords
+  setNumWords: (num) => {
+    set({ numWords: num });
+  },
+
+  // Action to calculate score
+  getScore: () => {
+    const wpm = get().getNetWPM();
+    const accuracy = get().getAccuracy();
+    const errors = get().errors;
+    const numWords = get().numWords
+    const score = calculateScore(wpm, accuracy, errors, numWords);
+    return score;
+  },
 
   // Action to set start time
   startTimer: () => {
@@ -38,8 +55,9 @@ const useWordsStore = create((set, get) => ({
   getAccuracy: () => {
     const lettersCorrectlyTyped = get().lettersCorrectlyTyped;
     const errors = get().errors;
-    const accuracy =
-      Number((lettersCorrectlyTyped / (lettersCorrectlyTyped + errors)).toFixed(2));
+    const accuracy = Number(
+      (lettersCorrectlyTyped / (lettersCorrectlyTyped + errors)).toFixed(2)
+    );
     return accuracy;
   },
 
