@@ -1,5 +1,6 @@
 import ModeButton from "./ModeButton";
 import useWordsStore from "@/app/stores/useWordsStore";
+import gameModes from "@/lib/gamemodes";
 
 const ModeBar = ({ inputRef }) => {
   const changeMode = (str) => {
@@ -13,19 +14,9 @@ const ModeBar = ({ inputRef }) => {
   return (
     <div className="gap-2 flex items-center rounded-xl text-xl bg-gray-700 pl-2">
       <p> Modes: </p>
-      <ModeButton
-        desc={"Standard"}
-        changeMode={() => changeMode("standard")}
-      />
-      <ModeButton
-        desc={"Timed"}
-        changeMode={() => changeMode("timed")}
-      />
-      <ModeButton
-        desc={"Practice"}
-        changeMode={() => changeMode("practice")}
-      />
-
+      <ModeButton desc={"Standard"} changeMode={() => changeMode(gameModes.STANDARD)} />
+      <ModeButton desc={"Timed"} changeMode={() => changeMode(gameModes.TIMED)} />
+      <ModeButton desc={"Practice"} changeMode={() => changeMode(gameModes.PRACTICE)} />
     </div>
   );
 };

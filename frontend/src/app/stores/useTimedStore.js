@@ -1,5 +1,5 @@
 import { create } from "zustand";
-const DEFAULT_TIME = 5;
+const DEFAULT_TIME = 30;
 
 const useTimedStore = create((set, get) => ({
   timeLimit: DEFAULT_TIME,

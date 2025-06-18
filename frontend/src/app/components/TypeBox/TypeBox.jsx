@@ -7,9 +7,11 @@ import useTimedStore from "@/app/stores/useTimedStore";
 import StatsBox from "../StatsBox/StatsBox";
 import WordCounter from "./WordCounter";
 import ErrorCounter from "./ErrorCounter";
-import SettingsBar from "./SettingsBar";
+import StandardSettingsBar from "./Settings/StandardSettingsBar";
 import Timer from "./Timer";
-import ModeBar from "./ModeBar";
+import ModeBar from "./Settings/ModeBar";
+import TimedSettingsBar from "./Settings/TimedSettingsBar";
+import gameModes from "@/lib/gamemodes";
 
 // The InputBox contains two things: An invisible input box and a box to display the given words
 const TypeBox = () => {
@@ -65,31 +67,56 @@ const TypeBox = () => {
   }, [numWords]);
 
   useEffect(() => {
-    resetGame(numWords); // Reset game anytime a mode or time limit is changed
-  }, [timeLimit, mode]);
+    if (mode == gameModes.STANDARD) {
+      useWordsStore.getState().setNumWords(numWords); // Randomize the words everytime the number of words changes
+      resetGame(numWords); // Reset game anytime a mode or time limit is changed
+    } else {
+      resetGame(200); // Reset game anytime a mode or time limit is changed
+    }
+  }, [numWords, timeLimit, mode]);
 
+  // Infinite words
   useEffect(() => {
     // If the number of words typed is changed, update it inside the store (For score calculation)
     useWordsStore.getState().setNumWordsTyped(numWordsTyped);
+
+    // Ignore standard mode from this point onwards
+    if (mode == gameModes.STANDARD) {
+      return;
+    }
+
+    // If the number of lines typed reaches a threshold, append more words to the array
+    if (numWordsTyped > numWords - 50) {
+      setWordsToType((prev) => [
+        ...prev,
+        ...generateRandomWords(wordsData, 200),
+      ]);
+    }
   }, [numWordsTyped]);
 
   // Events that will start/stop the timer (standard and timed mode)
   useEffect(() => {
     // Start timer to count elapsed time
-    if (mode === "standard" && startedTyping && !gameCompleted) {
+    if (
+      (mode == gameModes.STANDARD || mode == gameModes.PRACTICE) &&
+      startedTyping &&
+      !gameCompleted
+    ) {
       startTimer();
-      console.log("started standard timer");
+      console.log("started timer");
     }
 
-    if (mode === "timed" && startedTyping && !gameCompleted) {
+    if (mode === gameModes.TIMED && startedTyping && !gameCompleted) {
       setTimerActive(true);
-      console.log("started timed timer");
     }
   }, [startedTyping, gameCompleted]);
 
   useEffect(() => {
     // Stop timer
-    if (gameCompleted) {
+    if (
+      (mode == gameModes.STANDARD || mode == gameModes.PRACTICE) &&
+      gameCompleted
+    ) {
       endTimer();
 
       console.log("ended timer");
@@ -125,17 +152,10 @@ const TypeBox = () => {
     setStartedTyping(false);
     resetTimers();
 
-    if (mode === "timed") {
+    if (mode === gameModes.TIMED) {
       resetTimer(); // Timed mode timer
     }
   };
-
-  // If the number of lines typed reaches a threshold, append a shuffled word array to the wordsData to make it infinite
-  // useEffect(() => {
-  //   if (wordsTypedOffset > wordsData.length - 50) {
-  //     setShuffledWordsData((prev) => [...prev, ...shuffleWords(wordsData)]);
-  //   }
-  // }, [wordsTypedOffset]);
 
   return (
     // StatsBox //
@@ -149,14 +169,16 @@ const TypeBox = () => {
             allTypedWords={allTypedWords}
             wordsToType={wordsToType}
             numWords={numWords}
+            typedText={typedText}
           />
         </div>
       </div>
     )) || (
-      // Word and Error Counter //
       <div className="relative">
         <div className="absolute translate-x-[-495px] translate-y-[-75px] w-[300px]">
-          {mode === "timed" && <Timer setGameCompleted={setGameCompleted} />}
+          {/* Timer */}
+          {mode === gameModes.TIMED && <Timer />}
+          {/* Word & Error Counters */}
           {startedTyping && (
             <div className="flex flex-col">
               <ErrorCounter errors={errors} />
@@ -186,13 +208,16 @@ const TypeBox = () => {
           setFocus={setFocus}
           inputRef={inputRef}
         />
-        {/* SettingsBar */}
+        {/* SettingsBars */}
         <div className="absolute translate-y-[225px] translate-x-[-495px] flex flex-col gap-5">
-          <SettingsBar
-            setNumWords={setNumWords}
-            inputRef={inputRef}
-            numWords={numWords}
-          />
+          {mode == gameModes.STANDARD && (
+            <StandardSettingsBar
+              setNumWords={setNumWords}
+              inputRef={inputRef}
+              numWords={numWords}
+            />
+          )}
+          {mode == gameModes.TIMED && <TimedSettingsBar inputRef={inputRef} />}
           <ModeBar inputRef={inputRef} />
         </div>
       </div>

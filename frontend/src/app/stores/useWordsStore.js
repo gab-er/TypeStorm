@@ -1,9 +1,10 @@
 import { create } from "zustand";
 import calculateScore from "@/lib/score";
 import useTimedStore from "./useTimedStore";
+import gameModes from "@/lib/gamemodes";
 
 const useWordsStore = create((set, get) => ({
-  mode: "timed",
+  mode: gameModes.STANDARD,
   lettersCorrectlyTyped: 0,
   lettersTyped: 0,
   errors: 0,

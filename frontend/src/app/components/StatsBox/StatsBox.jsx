@@ -10,7 +10,6 @@ import WordHistory from "./WordHistory";
 import ConfettiExplosion from "react-confetti-explosion";
 import DelayedLoadingDefault from "../Navbar/DelayedLoadingDefault";
 import StartNewGame from "./StartNewGame";
-import useTimedStore from "@/app/stores/useTimedStore";
 
 const StatsBox = ({
   gameCompleted,
@@ -18,6 +17,7 @@ const StatsBox = ({
   allTypedWords,
   wordsToType,
   numWords,
+  typedText,
 }) => {
   const [sentData, setSentData] = useState(false);
   const [isNewPb, setIsNewPb] = useState(false);
@@ -148,6 +148,11 @@ const StatsBox = ({
         {isNewPb && <ConfettiExplosion particleCount={150} duration={3000} />}
         {/* Stats */}
         <div className="flex flex-col w-[600px] h-[300px] text-2xl">
+          {/* Mode */}
+          <div className="flex justify-center text-gray-400">
+            Mode:{" "}
+            <div className="text-yellow-400 ml-2"> {mode.toUpperCase()} </div>
+          </div>
           {/* Row 1 */}
           <div className="flex justify-between h-1/2">
             <StatInfo
@@ -198,7 +203,7 @@ const StatsBox = ({
             wordsToType={wordsToType}
           />
         </div>
-        {/* Space to start game  */}
+        {/* Enter to start game  */}
         <StartNewGame />
       </div>
     )) || <DelayedLoadingDefault />

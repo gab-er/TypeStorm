@@ -1,7 +1,8 @@
 import useTimedStore from "@/app/stores/useTimedStore";
 import { useEffect } from "react";
+import { Progress } from "@material-tailwind/react";
 
-const Timer = ({ setGameCompleted }) => {
+const Timer = () => {
   // Obtain the store functions and states
   const timeLeft = useTimedStore((state) => state.timeLeft);
   const setTimeLeft = useTimedStore((state) => state.setTimeLeft);
@@ -21,7 +22,6 @@ const Timer = ({ setGameCompleted }) => {
         setTimeLeft(timeLeft - 1);
         clearInterval(interval);
         setTimerActive(false);
-        // setGameCompleted(true);
       } else {
         setTimeLeft(timeLeft - 1);
       }

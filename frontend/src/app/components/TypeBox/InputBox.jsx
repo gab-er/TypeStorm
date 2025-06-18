@@ -9,6 +9,7 @@ import {
 import BlurBox from "./BlurBox";
 import useWordsStore from "../../stores/useWordsStore";
 import useTimedStore from "@/app/stores/useTimedStore";
+import gameModes from "@/lib/gamemodes";
 
 const WORDS_PER_LINE = 10;
 const LINES_ON_SCREEN = 3;
@@ -55,12 +56,12 @@ const InputBox = ({
   const resetErrors = useWordsStore((state) => state.resetErrors);
   const resetTimers = useWordsStore((state) => state.resetTimers);
 
+  // useWordsStore states
+  const mode = useWordsStore((state) => state.mode);
+  
   // useTimedStore states and functions
   const resetTimer = useTimedStore((state) => state.resetTimer);
   const timeLeft = useTimedStore((state) => state.timeLeft);
-
-  // useWordsStore states
-  const mode = useWordsStore((state) => state.mode);
 
   // Reference for what key was just pressed
   const currentKeyRef = useRef(null);
@@ -172,7 +173,7 @@ const InputBox = ({
 
     // Check if the game has ended (reached the last letter)
     if (
-      mode === "standard" &&
+      mode == gameModes.STANDARD &&
       numWordsTyped === numWords - 1 &&
       currentTypedWord.length === correctWord.length - 1
     ) {

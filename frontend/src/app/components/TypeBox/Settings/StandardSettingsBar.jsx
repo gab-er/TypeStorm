@@ -1,6 +1,8 @@
 import WordNumberButton from "./WordNumberButton";
+import useWordsStore from "@/app/stores/useWordsStore";
+import useTimedStore from "@/app/stores/useTimedStore";
 
-const SettingsBar = ({ setNumWords, inputRef, numWords }) => {
+const StandardSettingsBar = ({ setNumWords, inputRef, numWords }) => {
   const changeNumWords = (num) => {
     setNumWords(num);
     // Refocus the input box
@@ -41,4 +43,4 @@ const SettingsBar = ({ setNumWords, inputRef, numWords }) => {
   );
 };
 
-export default SettingsBar;
+export default StandardSettingsBar;

@@ -3,7 +3,7 @@ import useWordsStore from "@/app/stores/useWordsStore";
 
 const ModeButton = ({ desc, changeMode }) => {
   let selected = "";
-  const mode = useWordsStore.getState().mode;
+  const mode = useWordsStore((state) => state.mode);
 
   if (desc.toLowerCase() === mode.toLowerCase()) {
     // The current button chosen will become highlighted

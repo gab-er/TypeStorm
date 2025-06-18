@@ -118,10 +118,16 @@ const generateRandomWords = (wordsData, num) => {
   return randomWords;
 };
 
+// Function to capitalise a word
+function capitalizeFirstLetter(val) {
+  return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+}
+
 export {
   wordsData,
   splitWords,
   countLetters,
   splitWordsWithSpaces,
   generateRandomWords,
+  capitalizeFirstLetter,
 };
