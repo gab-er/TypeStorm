@@ -11,7 +11,13 @@ import ConfettiExplosion from "react-confetti-explosion";
 import DelayedLoadingDefault from "../Navbar/DelayedLoadingDefault";
 import StartNewGame from "./StartNewGame";
 
-const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType, numWords }) => {
+const StatsBox = ({
+  gameCompleted,
+  resetGame,
+  allTypedWords,
+  wordsToType,
+  numWords,
+}) => {
   const [sentData, setSentData] = useState(false);
   const [isNewPb, setIsNewPb] = useState(false);
   const [pbWpm, setPbWpm] = useState(false);
@@ -19,17 +25,22 @@ const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType, numWor
   const [pbAccuracy, setPbAccuracy] = useState(false);
   const [aaAccuracy, setAaAccuracy] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [pbScore, setPbScore] = useState(false);
+  const [aaScore, setAaScore] = useState(false);
 
   const [res, setRes] = useState({
     pbWpm: false,
     aaWpm: false,
     pbAccuracy: false,
     aaAccuracy: false,
+    pbScore: false,
+    aaScore: false,
   });
 
   const headerDescriptions = {
     netwpm:
       "Measure of accurate typing speed: total correct characters divided by 5 and normalised to 60s",
+    score: "Score calculated",
     rawwpm:
       "Measure of total typing speed: total characters typed divided by 5 and normalised to 60s",
     errors: "Total errors made while typing",
@@ -44,15 +55,17 @@ const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType, numWor
       setAaWpm(res.aaWpm);
       setPbAccuracy(res.pbAccuracy);
       setAaAccuracy(res.aaAccuracy);
+      setPbScore(res.pbScore);
+      setAaScore(res.aaScore);
     }
   }, [res]);
 
   // Update to show confetti if there were new PBs
   useEffect(() => {
-    if (pbWpm || pbAccuracy) {
+    if (pbWpm || pbAccuracy || pbScore) {
       setIsNewPb(true);
     }
-  }, [pbWpm, pbAccuracy]);
+  }, [pbWpm, pbAccuracy, pbScore]);
 
   const accuracy = useWordsStore((state) => state.getAccuracy());
   const errors = useWordsStore((state) => state.errors);
@@ -61,7 +74,7 @@ const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType, numWor
   );
   const grossWPM = useWordsStore((state) => state.getGrossWPM)();
   const netWPM = useWordsStore((state) => state.getNetWPM)();
-  const score = useWordsStore(state => state.getScore)();
+  const score = useWordsStore((state) => state.getScore)();
 
   // Mutation to post stats to the STANDARD API
   const postStatsStandard = usePostStatsStandard();
@@ -145,20 +158,9 @@ const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType, numWor
             <StatInfo
               header={"Score"}
               stat={score}
-              headerDesc={headerDescriptions.rawwpm}
-            />
-            <StatInfo
-              header={"Raw WPM"}
-              stat={grossWPM}
-              headerDesc={headerDescriptions.rawwpm}
-            />
-          </div>
-          {/* Row 2 */}
-          <div className="flex justify-center h-1/2">
-            <StatInfo
-              header={"Errors"}
-              stat={errors}
-              headerDesc={headerDescriptions.errors}
+              pbScore={pbScore}
+              aaScore={aaScore}
+              headerDesc={headerDescriptions.score}
             />
             <StatInfo
               header={"Accuracy"}
@@ -166,6 +168,19 @@ const StatsBox = ({ gameCompleted, resetGame, allTypedWords, wordsToType, numWor
               pbAccuracy={pbAccuracy}
               aaAccuracy={aaAccuracy}
               headerDesc={headerDescriptions.accuracy}
+            />
+          </div>
+          {/* Row 2 */}
+          <div className="flex justify-center h-1/2">
+          <StatInfo
+              header={"Raw WPM"}
+              stat={grossWPM}
+              headerDesc={headerDescriptions.rawwpm}
+            />
+            <StatInfo
+              header={"Errors"}
+              stat={errors}
+              headerDesc={headerDescriptions.errors}
             />
             <StatInfo
               header={"Time"}
