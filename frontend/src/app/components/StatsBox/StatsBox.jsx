@@ -10,6 +10,7 @@ import WordHistory from "./WordHistory";
 import ConfettiExplosion from "react-confetti-explosion";
 import DelayedLoadingDefault from "../Navbar/DelayedLoadingDefault";
 import StartNewGame from "./StartNewGame";
+import useTimedStore from "@/app/stores/useTimedStore";
 
 const StatsBox = ({
   gameCompleted,
@@ -69,9 +70,10 @@ const StatsBox = ({
 
   const accuracy = useWordsStore((state) => state.getAccuracy());
   const errors = useWordsStore((state) => state.errors);
-  const elapsedTime = useWordsStore((state) => state.getElapsedTime)().toFixed(
-    2
-  );
+  const mode = useWordsStore((state) => state.mode);
+
+  const elapsedTime = useWordsStore((state) => state.getElapsedTime)(); // Get time for standard mode
+
   const grossWPM = useWordsStore((state) => state.getGrossWPM)();
   const netWPM = useWordsStore((state) => state.getNetWPM)();
   const score = useWordsStore((state) => state.getScore)();
@@ -84,7 +86,7 @@ const StatsBox = ({
   useEffect(() => {
     // Reset game on space press
     const handleKeyDown = (event) => {
-      if (gameCompleted && event.key == " ") {
+      if (gameCompleted && event.key == "Enter") {
         event.preventDefault();
         event.stopPropagation(); // Prevents this from getting inputted into the next game
         resetGame(numWords);
@@ -172,7 +174,7 @@ const StatsBox = ({
           </div>
           {/* Row 2 */}
           <div className="flex justify-center h-1/2">
-          <StatInfo
+            <StatInfo
               header={"Raw WPM"}
               stat={grossWPM}
               headerDesc={headerDescriptions.rawwpm}
