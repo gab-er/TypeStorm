@@ -10,6 +10,8 @@ const StatInfo = ({
   aaAccuracy,
   headerDesc,
   statDesc,
+  pbScore,
+  aaScore
 }) => {
   // Checking if it is the error stat -> shows red if there are > 0 errors
   let textColor =
@@ -18,23 +20,23 @@ const StatInfo = ({
   let achievement = "";
 
   // Set displays for new PB
-  if (pbWpm) {
+  if (pbWpm || pbAccuracy || pbScore) {
     textColor = "text-yellow-400";
     emoji = "🎉";
     achievement = "(New Personal Best!)";
-  } else if (aaWpm) {
+  } else if (aaWpm || aaAccuracy || aaScore) {
     textColor = "text-green-400";
     achievement = "(Above Your Average!)";
   }
 
-  if (pbAccuracy) {
-    textColor = "text-yellow-400";
-    emoji = "🎉";
-    achievement = "(New Personal Best!)";
-  } else if (aaAccuracy) {
-    textColor = "text-green-400";
-    achievement = "(Above Your Average!)";
-  }
+  // if (pbAccuracy) {
+  //   textColor = "text-yellow-400";
+  //   emoji = "🎉";
+  //   achievement = "(New Personal Best!)";
+  // } else if (aaAccuracy) {
+  //   textColor = "text-green-400";
+  //   achievement = "(Above Your Average!)";
+  // }
 
   return (
     <div className="relative flex flex-col w-full h-full items-center justify-center">
