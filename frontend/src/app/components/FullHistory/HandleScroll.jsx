@@ -1,7 +1,7 @@
 import url from "@/lib/apiUrl"
 import useHistoryStore from "@/app/stores/useHistoryStore"
 
-const FetchHistory = async (cursorid, isprev=false) => {
+const HandleScroll = async (cursorid, isprev=false) => {
     // get setHistory, setIsLoadin, page, setPage from historystore
     const setHistory = useHistoryStore.getState().setHistory;
     const setIsLoading = useHistoryStore.getState().setIsLoading;
@@ -43,4 +43,4 @@ const FetchHistory = async (cursorid, isprev=false) => {
   
 
 
-export default FetchHistory
+export default HandleScroll
