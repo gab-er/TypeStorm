@@ -22,7 +22,7 @@ const GameDisplay = ({games}) => {
                                 <td className="text-center p-2">{game.gamemode}</td> 
 
                                 {/*Display Score achieved in game*/}
-                                <td className="text-center p-2">-</td> 
+                                <td className="text-center p-2">{game.score}</td> 
 
                                 {/*Display WPM achieved in game*/}
                                 <td className="text-center p-2">{game.wpm}</td> 
