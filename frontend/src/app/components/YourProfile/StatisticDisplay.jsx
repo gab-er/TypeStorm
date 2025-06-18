@@ -33,8 +33,8 @@ const StatisticDisplay = () => {
                 <tbody>
                     <tr>
                         <td className="text-center p-2">Score</td>
-                        <td className="text-center p-2">{averageScore? Math.round(averageScore*100) + "%": '-'}</td>
-                        <td className="text-center p-2">{bestScore? Math.round(bestScore*100) + "%": '-'}</td>
+                        <td className="text-center p-2">{averageScore? Math.round(averageScore): '-'}</td>
+                        <td className="text-center p-2">{bestScore? Math.round(bestScore): '-'}</td>
                     </tr>
                     <tr>
                         <td className="text-center p-2">WPM</td>
