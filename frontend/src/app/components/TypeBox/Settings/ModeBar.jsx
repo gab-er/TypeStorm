@@ -12,7 +12,7 @@ const ModeBar = ({ inputRef }) => {
   };
 
   return (
-    <div className="gap-2 flex items-center rounded-xl text-xl bg-gray-700 pl-2">
+    <div className="gap-2 flex items-center rounded-xl text-xl bg-gray-700 pl-2 justify-between">
       <p> Modes: </p>
       <ModeButton desc={"Standard"} changeMode={() => changeMode(gameModes.STANDARD)} />
       <ModeButton desc={"Timed"} changeMode={() => changeMode(gameModes.TIMED)} />

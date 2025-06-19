@@ -13,8 +13,8 @@ const TimedSettingsBar = ({ inputRef }) => {
   };
 
   return (
-    <div className="gap-2 flex items-center rounded-xl text-xl bg-gray-700 pl-2">
-      <p> Time: </p>
+    <div className="gap-2 flex items-center rounded-xl text-xl bg-gray-700 pl-2 justify-between">
+      <p> Times: </p>
       <TimeNumberButton num={10} changeTime={() => changeTime(10)} />
       <TimeNumberButton num={20} changeTime={() => changeTime(20)} />
       <TimeNumberButton num={30} changeTime={() => changeTime(30)} />

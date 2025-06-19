@@ -6,12 +6,14 @@ const WordCounter = ({ allTypedWords, numWords }) => {
 
   return (
     <div>
+      {/* Show the total words to type in STANDARD mode */}
       {mode == gameModes.STANDARD && (
         <div className="text-2xl text-indigo-400">
           {allTypedWords.length} / {numWords}
         </div>
       )}
-      {mode == gameModes.TIMED || mode == gameModes.PRACTICE && (
+      {/* Show only the words typed count in TIMED and PRACTICE mode */}
+      {(mode == gameModes.TIMED || mode == gameModes.PRACTICE) && (
         <div className="text-2xl text-indigo-400">{allTypedWords.length}</div>
       )}
     </div>

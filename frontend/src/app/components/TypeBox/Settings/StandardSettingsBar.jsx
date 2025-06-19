@@ -12,7 +12,7 @@ const StandardSettingsBar = ({ setNumWords, inputRef, numWords }) => {
   };
 
   return (
-    <div className="gap-2 flex items-center rounded-xl text-xl bg-gray-700 pl-2">
+    <div className="gap-2 flex items-center rounded-xl text-xl bg-gray-700 pl-2 justify-between">
       <p> Words: </p>
       <WordNumberButton
         num={10}

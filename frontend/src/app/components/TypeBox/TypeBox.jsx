@@ -1,6 +1,6 @@
 "use client";
 import InputBox from "./InputBox";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { wordsData, generateRandomWords } from "@/lib/words";
 import useWordsStore from "@/app/stores/useWordsStore";
 import useTimedStore from "@/app/stores/useTimedStore";
@@ -19,7 +19,7 @@ const TypeBox = () => {
   // Keep track of how many first lines have been typed, This offset is to keep track of the correct word position after the lines update
   const [wordsTypedOffset, setWordsTypedOffset] = useState(0);
   const [numWords, setNumWords] = useState(25); // Number of words in total to type for one game
-  const [wordsToType, setWordsToType] = useState([]);
+  const [wordsToType, setWordsToType] = useState([]); // Array of words that the user must type
   const [gameCompleted, setGameCompleted] = useState(false);
   const [currentLineIndex, setCurrentLineIndex] = useState(0); // State to keep track of what is the current line
   const [typedText, setTypedText] = useState(""); // State to keep track of what is being typed in the input box
@@ -27,6 +27,7 @@ const TypeBox = () => {
   const [startedTyping, setStartedTyping] = useState(false);
   const [focus, setFocus] = useState(true); // State to keep track of whether the input box is clicked on or not
   const [numWordsTyped, setNumWordsTyped] = useState(0);
+  const [showSettingsBar, setShowSettingsBar] = useState(true);
 
   // Reference for the input box for focusing and blurring
   const inputRef = useRef(null);
@@ -55,7 +56,7 @@ const TypeBox = () => {
     setWordsToType(generateRandomWords(wordsData, numWords));
 
     return () => {
-      resetGame(); // Reset game on component unmount
+      resetGame();
     };
   }, []);
 
@@ -103,11 +104,16 @@ const TypeBox = () => {
       !gameCompleted
     ) {
       startTimer();
-      console.log("started timer");
     }
 
     if (mode === gameModes.TIMED && startedTyping && !gameCompleted) {
       setTimerActive(true);
+    }
+
+    if (startedTyping) {
+      setShowSettingsBar(false);
+    } else if (!startedTyping) {
+      setShowSettingsBar(true);
     }
   }, [startedTyping, gameCompleted]);
 
@@ -118,8 +124,6 @@ const TypeBox = () => {
       gameCompleted
     ) {
       endTimer();
-
-      console.log("ended timer");
     }
   }, [gameCompleted]);
 
@@ -158,10 +162,16 @@ const TypeBox = () => {
   };
 
   return (
-    // StatsBox //
     (gameCompleted && (
       <div>
-        <div className="translate-y-[-75px]">
+        {/* StatsBox - uses transition to fade in and out */}
+        <div
+          className={`translate-y-[-75px] transition-opacity duration-2000 ${
+            gameCompleted
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
+          }`}
+        >
           <StatsBox
             gameCompleted={gameCompleted}
             setGameCompleted={setGameCompleted}
@@ -174,19 +184,37 @@ const TypeBox = () => {
         </div>
       </div>
     )) || (
-      <div className="relative">
-        <div className="absolute translate-x-[-495px] translate-y-[-75px] w-[300px]">
-          {/* Timer */}
-          {mode === gameModes.TIMED && <Timer />}
-          {/* Word & Error Counters */}
-          {startedTyping && (
-            <div className="flex flex-col">
-              <ErrorCounter errors={errors} />
-              <WordCounter allTypedWords={allTypedWords} numWords={numWords} />
-            </div>
-          )}
+      <div
+        className={`relative transition-opacity duration-250 ${
+          !gameCompleted
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
+      >
+        {/* Timer - uses transition to fade in and out*/}
+        <div
+          className={`absolute flex translate-x-[-100px] translate-y-[-140px] transition-opacity duration-250 ${
+            mode == gameModes.TIMED
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
+          }`}
+        >
+          {mode === gameModes.TIMED && <Timer startedTyping={startedTyping} />}
         </div>
-        {/* InputBox */}
+        <div
+          className={`absolute translate-x-[-495px] translate-y-[-60px] w-[300px] transition-opacity duration-250 ${
+            startedTyping
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
+          }`}
+        >
+          {/* Word & Error Counters - uses transition to fade in and out*/}
+          <div className="flex flex-col">
+            <ErrorCounter errors={errors} />
+            <WordCounter allTypedWords={allTypedWords} numWords={numWords} />
+          </div>
+        </div>
+        {/* InputBox*/}
         <InputBox
           wordsData={wordsToType}
           wordsTypedOffset={wordsTypedOffset}
@@ -208,8 +236,15 @@ const TypeBox = () => {
           setFocus={setFocus}
           inputRef={inputRef}
         />
-        {/* SettingsBars */}
-        <div className="absolute translate-y-[225px] translate-x-[-495px] flex flex-col gap-5">
+        {/* SettingsBars - uses transition to fade in and out */}
+        <div
+          className={`absolute translate-y-[225px] translate-x-[-495px] flex flex-col gap-5 transition-opacity duration-250 ${
+            showSettingsBar
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
+          }`}
+        >
+          <ModeBar inputRef={inputRef} />
           {mode == gameModes.STANDARD && (
             <StandardSettingsBar
               setNumWords={setNumWords}
@@ -218,7 +253,6 @@ const TypeBox = () => {
             />
           )}
           {mode == gameModes.TIMED && <TimedSettingsBar inputRef={inputRef} />}
-          <ModeBar inputRef={inputRef} />
         </div>
       </div>
     )

@@ -10,7 +10,7 @@ const useWordsStore = create((set, get) => ({
   errors: 0,
   startTime: null,
   endTime: null,
-  numWords: 50,
+  numWords: 25,
   numWordsTyped: 0,
 
   // Action to set numWordsTyped

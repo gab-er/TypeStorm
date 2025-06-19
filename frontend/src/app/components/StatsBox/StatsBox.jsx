@@ -111,7 +111,7 @@ const StatsBox = ({
             accuracy: accuracy,
             score: score,
           };
-          console.log("submitting data; ", stats);
+          // console.log("submitting data; ", stats);
           const response = await postStatsStandard.mutateAsync(stats);
           setRes(response); // Set the response to the received response (to check for achievements)
           setIsLoading(false);
@@ -147,10 +147,10 @@ const StatsBox = ({
       <div className="flex flex-col items-center">
         {isNewPb && <ConfettiExplosion particleCount={150} duration={3000} />}
         {/* Stats */}
-        <div className="flex flex-col w-[600px] h-[300px] text-2xl">
+        <div className="flex flex-col w-[600px] h-[325px] text-2xl">
           {/* Mode */}
           <div className="flex justify-center text-gray-400">
-            Mode:{" "}
+            Mode:
             <div className="text-yellow-400 ml-2"> {mode.toUpperCase()} </div>
           </div>
           {/* Row 1 */}
