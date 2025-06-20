@@ -8,7 +8,6 @@ const calculateScore = (wpm, accuracy, errors, numWords) => {
   // Perfect Accuracy Modifier: 1.3x
 
   const base = wpm * accuracy * numWords;
-
   const errorPenalty =
     Math.pow(errors, ERROR_PENALTY_MODIFIER) * ERROR_PENALTY_CONSTANT;
 

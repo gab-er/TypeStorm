@@ -7,12 +7,16 @@ const WordHistory = ({ allTypedWords, wordsToType }) => {
   // Compare this against the original correct words wordstoType
   // Note the correct words has an extra space at the end
   const allTypedLetters = allTypedWords.join("").split("").flat(); // Array of all letters typed
-  const allCorrectLetters = wordsToType.join("").split("").flat(); // Array of all correct letters to type
+  const allCorrectLetters = wordsToType
+    .slice(0, allTypedWords.length)
+    .join("")
+    .split("")
+    .flat(); // Array of all correct letters to type
 
   return (
     <div className="flex flex-col flex-wrap w-[1200px] items-center text-2xl text-gray-400">
       <Tooltip
-        title={<Typography> Words that were given </Typography>}
+        title={<Typography> Hover over the letters to see what you typed! </Typography>}
         placement="top"
         slotProps={{
           popper: {
@@ -27,7 +31,7 @@ const WordHistory = ({ allTypedWords, wordsToType }) => {
           },
         }}
       >
-        <strong>Word History</strong>
+        <strong>Word History - {allTypedWords.length} words </strong>
       </Tooltip>
       <div>
         {allCorrectLetters.map((letter, index) => {

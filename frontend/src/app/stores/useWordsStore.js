@@ -1,13 +1,27 @@
 import { create } from "zustand";
 import calculateScore from "@/lib/score";
+import useTimedStore from "./useTimedStore";
+import gameModes from "@/lib/gamemodes";
 
 const useWordsStore = create((set, get) => ({
+  mode: gameModes.STANDARD,
   lettersCorrectlyTyped: 0,
   lettersTyped: 0,
   errors: 0,
   startTime: null,
   endTime: null,
-  numWords: 50,
+  numWords: 25,
+  numWordsTyped: 0,
+
+  // Action to set numWordsTyped
+  setNumWordsTyped: (num) => {
+    set({ numWordsTyped: num });
+  },
+
+  // Action to set mode
+  setMode: (m) => {
+    set({ mode: m });
+  },
 
   // Action to set numWords
   setNumWords: (num) => {
@@ -19,8 +33,8 @@ const useWordsStore = create((set, get) => ({
     const wpm = get().getNetWPM();
     const accuracy = get().getAccuracy();
     const errors = get().errors;
-    const numWords = get().numWords
-    const score = calculateScore(wpm, accuracy, errors, numWords);
+    const numWordsTyped = get().numWordsTyped;
+    const score = calculateScore(wpm, accuracy, errors, numWordsTyped);
     return score;
   },
 
@@ -38,12 +52,19 @@ const useWordsStore = create((set, get) => ({
 
   // Action to get elapsed time
   getElapsedTime: () => {
-    const startTime = get().startTime;
-    const endTime = get().endTime;
-    const elapsedTime = startTime
-      ? ((endTime || Date.now()) - startTime) / 1000
-      : 0;
-    return elapsedTime;
+    const mode = get().mode;
+    if (mode === "standard") {
+      // If mode is standard, calculate the time
+      const startTime = get().startTime;
+      const endTime = get().endTime;
+      const elapsedTime = startTime
+        ? ((endTime || Date.now()) - startTime) / 1000
+        : 0;
+      return Number(elapsedTime.toFixed(2));
+    } else if (mode === "timed") {
+      // If mode is timed, obtain the time from useTimedStore
+      return useTimedStore.getState().timeLimit;
+    }
   },
 
   // Action to reset timers

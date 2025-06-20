@@ -9,7 +9,7 @@ import StatInfo from "./StatInfo";
 import WordHistory from "./WordHistory";
 import ConfettiExplosion from "react-confetti-explosion";
 import DelayedLoadingDefault from "../Navbar/DelayedLoadingDefault";
-import StartNewGame from "./StartNewGame";
+import Instruction from "../TypeBox/Instruction";
 
 const StatsBox = ({
   gameCompleted,
@@ -17,6 +17,7 @@ const StatsBox = ({
   allTypedWords,
   wordsToType,
   numWords,
+  typedText,
 }) => {
   const [sentData, setSentData] = useState(false);
   const [isNewPb, setIsNewPb] = useState(false);
@@ -69,9 +70,10 @@ const StatsBox = ({
 
   const accuracy = useWordsStore((state) => state.getAccuracy());
   const errors = useWordsStore((state) => state.errors);
-  const elapsedTime = useWordsStore((state) => state.getElapsedTime)().toFixed(
-    2
-  );
+  const mode = useWordsStore((state) => state.mode);
+
+  const elapsedTime = useWordsStore((state) => state.getElapsedTime)(); // Get time for standard mode
+
   const grossWPM = useWordsStore((state) => state.getGrossWPM)();
   const netWPM = useWordsStore((state) => state.getNetWPM)();
   const score = useWordsStore((state) => state.getScore)();
@@ -84,7 +86,7 @@ const StatsBox = ({
   useEffect(() => {
     // Reset game on space press
     const handleKeyDown = (event) => {
-      if (gameCompleted && event.key == " ") {
+      if (gameCompleted && event.key == "Enter") {
         event.preventDefault();
         event.stopPropagation(); // Prevents this from getting inputted into the next game
         resetGame(numWords);
@@ -109,7 +111,7 @@ const StatsBox = ({
             accuracy: accuracy,
             score: score,
           };
-          console.log("submitting data; ", stats);
+          // console.log("submitting data; ", stats);
           const response = await postStatsStandard.mutateAsync(stats);
           setRes(response); // Set the response to the received response (to check for achievements)
           setIsLoading(false);
@@ -141,11 +143,16 @@ const StatsBox = ({
   }, [gameCompleted]);
 
   return (
-    (!isLoading && (
+    // (!isLoading && (
       <div className="flex flex-col items-center">
         {isNewPb && <ConfettiExplosion particleCount={150} duration={3000} />}
         {/* Stats */}
-        <div className="flex flex-col w-[600px] h-[300px] text-2xl">
+        <div className="flex flex-col w-[600px] h-[325px] text-2xl">
+          {/* Mode */}
+          <div className="flex justify-center text-gray-400">
+            Mode:
+            <div className="text-yellow-400 ml-2"> {mode.toUpperCase()} </div>
+          </div>
           {/* Row 1 */}
           <div className="flex justify-between h-1/2">
             <StatInfo
@@ -172,7 +179,7 @@ const StatsBox = ({
           </div>
           {/* Row 2 */}
           <div className="flex justify-center h-1/2">
-          <StatInfo
+            <StatInfo
               header={"Raw WPM"}
               stat={grossWPM}
               headerDesc={headerDescriptions.rawwpm}
@@ -196,10 +203,12 @@ const StatsBox = ({
             wordsToType={wordsToType}
           />
         </div>
-        {/* Space to start game  */}
-        <StartNewGame />
+        {/* Enter to start game  */}
+        <div className="mt-6">
+          <Instruction button={"enter"} desc={"start new game"} />
+        </div>
       </div>
-    )) || <DelayedLoadingDefault />
+    // )) || <DelayedLoadingDefault />
   );
 };
 
