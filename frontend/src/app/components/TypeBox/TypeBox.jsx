@@ -14,6 +14,7 @@ import TimedSettingsBar from "./Settings/TimedSettingsBar";
 import gameModes from "@/lib/gamemodes";
 import Instruction from "./Instruction";
 import { motion, AnimatePresence } from "framer-motion";
+import Animation from "../Animation";
 
 // The InputBox contains two things: An invisible input box and a box to display the given words
 const TypeBox = () => {
@@ -165,15 +166,9 @@ const TypeBox = () => {
 
   return (
     (gameCompleted && (
-      <div>
-        {/* StatsBox - uses transition to fade in and out */}
-        <div
-          className={`translate-y-[-75px] transition-opacity duration-2000 ${
-            gameCompleted
-              ? "opacity-100 pointer-events-auto"
-              : "opacity-0 pointer-events-none"
-          }`}
-        >
+      <Animation id="stats" visible={gameCompleted}>
+        {/* StatsBox */}
+        <div className={`translate-y-[-75px]`}>
           <StatsBox
             gameCompleted={gameCompleted}
             setGameCompleted={setGameCompleted}
@@ -181,85 +176,79 @@ const TypeBox = () => {
             allTypedWords={allTypedWords}
             wordsToType={wordsToType}
             numWords={numWords}
-            typedText={typedText}
           />
         </div>
-      </div>
+      </Animation>
     )) || (
-      <div
-        className={`relative transition-opacity duration-250 ${
-          !gameCompleted
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
-        }`}
-      >
-        {/* Timer - uses transition to fade in and out*/}
-        <div
-          className={`absolute flex translate-x-[-100px] translate-y-[-140px] transition-opacity duration-250 ${
-            mode == gameModes.TIMED
-              ? "opacity-100 pointer-events-auto"
-              : "opacity-0 pointer-events-none"
-          }`}
-        >
-          {mode === gameModes.TIMED && <Timer startedTyping={startedTyping} />}
-        </div>
-        <div
-          className={`absolute translate-x-[-495px] translate-y-[-60px] w-[300px] transition-opacity duration-250 ${
-            startedTyping
-              ? "opacity-100 pointer-events-auto"
-              : "opacity-0 pointer-events-none"
-          }`}
-        >
-          {/* Word & Error Counters - uses transition to fade in and out*/}
-          <div className="flex flex-col">
-            <ErrorCounter errors={errors} />
-            <WordCounter allTypedWords={allTypedWords} numWords={numWords} />
-          </div>
-        </div>
-        {/* InputBox*/}
-        <InputBox
-          wordsData={wordsToType}
-          wordsTypedOffset={wordsTypedOffset}
-          setWordsTypedOffset={setWordsTypedOffset}
-          numWords={numWords}
-          gameCompleted={gameCompleted}
-          setGameCompleted={setGameCompleted}
-          currentLineIndex={currentLineIndex}
-          setCurrentLineIndex={setCurrentLineIndex}
-          numWordsTyped={numWordsTyped}
-          setNumWordsTyped={setNumWordsTyped}
-          typedText={typedText}
-          setTypedText={setTypedText}
-          setStartedTyping={setStartedTyping}
-          startedTyping={startedTyping}
-          allTypedWords={allTypedWords}
-          setAllTypedWords={setAllTypedWords}
-          focus={focus}
-          setFocus={setFocus}
-          inputRef={inputRef}
-        />
-        {/* SettingsBars/Instructions - uses transition to fade in and out */}
-        <div
-          className={`absolute translate-y-[225px] translate-x-[-495px] flex flex-col gap-5 transition-opacity duration-250 ${
-            showSettingsBar
-              ? "opacity-100 pointer-events-auto"
-              : "opacity-0 pointer-events-none"
-          }`}
-        >
-          <ModeBar inputRef={inputRef} />
-          {mode == gameModes.STANDARD && (
-            <StandardSettingsBar
-              setNumWords={setNumWords}
-              inputRef={inputRef}
-              numWords={numWords}
-            />
+      <Animation id="typebox" visible={!gameCompleted}>
+        <div className={`relative`}>
+          {/* Timer */}
+          {mode == gameModes.TIMED && (
+            <Animation id="timer">
+              <div
+                className={`absolute flex translate-x-[-100px] translate-y-[-140px]`}
+              >
+                <Timer startedTyping={startedTyping} />
+              </div>
+            </Animation>
           )}
-          {mode == gameModes.TIMED && <TimedSettingsBar inputRef={inputRef} />}
-          <div className="flex justify-left items-center">
-            <Instruction button={"esc"} desc={"restart game"} />
+          <div
+            className={`absolute translate-x-[-495px] translate-y-[-60px] w-[300px]`}
+          >
+            {/* Word & Error Counters */}
+            <Animation id="counters" visible={startedTyping}>
+              <div className="flex flex-col">
+                <ErrorCounter errors={errors} />
+                <WordCounter
+                  allTypedWords={allTypedWords}
+                  numWords={numWords}
+                />
+              </div>
+            </Animation>
           </div>
+          {/* InputBox*/}
+          <InputBox
+            wordsData={wordsToType}
+            wordsTypedOffset={wordsTypedOffset}
+            setWordsTypedOffset={setWordsTypedOffset}
+            numWords={numWords}
+            gameCompleted={gameCompleted}
+            setGameCompleted={setGameCompleted}
+            currentLineIndex={currentLineIndex}
+            setCurrentLineIndex={setCurrentLineIndex}
+            numWordsTyped={numWordsTyped}
+            setNumWordsTyped={setNumWordsTyped}
+            typedText={typedText}
+            setTypedText={setTypedText}
+            setStartedTyping={setStartedTyping}
+            startedTyping={startedTyping}
+            allTypedWords={allTypedWords}
+            setAllTypedWords={setAllTypedWords}
+            focus={focus}
+            setFocus={setFocus}
+            inputRef={inputRef}
+          />
+          {/* SettingsBars/Instructions */}
+          <Animation id="settings" visible={showSettingsBar}>
+            <div className="absolute translate-y-[225px] translate-x-[-495px] flex flex-col gap-5">
+              <ModeBar inputRef={inputRef} />
+              {mode == gameModes.STANDARD && (
+                <StandardSettingsBar
+                  setNumWords={setNumWords}
+                  inputRef={inputRef}
+                  numWords={numWords}
+                />
+              )}
+              {mode == gameModes.TIMED && (
+                <TimedSettingsBar inputRef={inputRef} />
+              )}
+              <div className="flex justify-left items-center">
+                <Instruction button={"esc"} desc={"restart game"} />
+              </div>
+            </div>
+          </Animation>
         </div>
-      </div>
+      </Animation>
     )
   );
 };

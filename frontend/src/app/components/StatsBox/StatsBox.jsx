@@ -19,7 +19,6 @@ const StatsBox = ({
   allTypedWords,
   wordsToType,
   numWords,
-  typedText,
 }) => {
   const [sentData, setSentData] = useState(false);
   const [isNewPb, setIsNewPb] = useState(false);
@@ -30,6 +29,15 @@ const StatsBox = ({
   const [isLoading, setIsLoading] = useState(true);
   const [pbScore, setPbScore] = useState(false);
   const [aaScore, setAaScore] = useState(false);
+  const [frozenStats, setFrozenStats] = useState({
+    netWPM: 0,
+    grossWPM: 0,
+    accuracy: 0,
+    score: 0,
+    errors: 0,
+    elapsedTime: 0,
+  });
+  const [obtainedStats, setObtainedStats] = useState(false);
 
   const [res, setRes] = useState({
     pbWpm: false,
@@ -51,6 +59,43 @@ const StatsBox = ({
     time: "Time taken to type all words",
   };
 
+  useEffect(() => {
+    // Obtain stats
+    const storeAccuracy = useWordsStore.getState().getAccuracy();
+    const storeErrors = useWordsStore.getState().errors;
+    const storeElapsedTime = useWordsStore.getState().getElapsedTime(); // Get time for standard mode
+    const storeGrossWPM = useWordsStore.getState().getGrossWPM();
+    const storeNetWPM = useWordsStore.getState().getNetWPM();
+    const storeScore = useWordsStore.getState().getScore();
+
+    if (!obtainedStats) {
+      setFrozenStats({
+        netWPM: storeNetWPM,
+        grossWPM: storeGrossWPM,
+        accuracy: storeAccuracy,
+        score: storeScore,
+        errors: storeErrors,
+        elapsedTime: storeElapsedTime,
+      });
+      setObtainedStats(true);
+    }
+
+    // Reset game on space press
+    const handleKeyDown = (event) => {
+      if (gameCompleted && event.key == "Enter") {
+        event.preventDefault();
+        event.stopPropagation(); // Prevents this from getting inputted into the next game
+        resetGame(numWords);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   // Update if there were any new PBs or Above Averages
   useEffect(() => {
     if (res) {
@@ -70,15 +115,7 @@ const StatsBox = ({
     }
   }, [pbWpm, pbAccuracy, pbScore]);
 
-  const accuracy = useWordsStore((state) => state.getAccuracy());
-  const errors = useWordsStore((state) => state.errors);
   const mode = useWordsStore((state) => state.mode);
-
-  const elapsedTime = useWordsStore((state) => state.getElapsedTime)(); // Get time for standard mode
-
-  const grossWPM = useWordsStore((state) => state.getGrossWPM)();
-  const netWPM = useWordsStore((state) => state.getNetWPM)();
-  const score = useWordsStore((state) => state.getScore)();
 
   // Mutation to post stats to the STANDARD API
   const postStatsStandard = usePostStatsStandard();
@@ -86,33 +123,16 @@ const StatsBox = ({
   const postStatsTimed = usePostStatsTimed();
   const postStatsTimedGame = usePostStatsTimedGame();
 
-  useEffect(() => {
-    // Reset game on space press
-    const handleKeyDown = (event) => {
-      if (gameCompleted && event.key == "Enter") {
-        event.preventDefault();
-        event.stopPropagation(); // Prevents this from getting inputted into the next game
-        resetGame(numWords);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
-
   // Send stats once a game is completed
   useEffect(() => {
-    if (gameCompleted && !sentData) {
+    if (obtainedStats && !sentData) {
       // Send stats to statistics route
       const postStatsData = async () => {
         try {
           const stats = {
-            wpm: netWPM,
-            accuracy: accuracy,
-            score: score,
+            wpm: frozenStats.netWPM,
+            accuracy: frozenStats.accuracy,
+            score: frozenStats.score,
           };
           // console.log("submitting standard data; ", stats);
           const response =
@@ -134,10 +154,10 @@ const StatsBox = ({
       const postGameData = async () => {
         try {
           const stats = {
-            wpm: netWPM,
-            accuracy: accuracy,
-            errors: errors,
-            score: score,
+            wpm: frozenStats.netWPM,
+            accuracy: frozenStats.accuracy,
+            errors: frozenStats.errors,
+            score: frozenStats.score,
           };
           const response =
             mode == gameModes.STANDARD // MODE : STANDARD
@@ -151,9 +171,9 @@ const StatsBox = ({
         }
       };
       postGameData();
+      setSentData(true);
     }
-    setSentData(true);
-  }, [gameCompleted]);
+  }, [obtainedStats]);
 
   return (
     // (!isLoading && (
@@ -170,21 +190,21 @@ const StatsBox = ({
         <div className="flex justify-between h-1/2">
           <StatInfo
             header={"Net WPM"}
-            stat={netWPM}
+            stat={frozenStats.netWPM}
             pbWpm={pbWpm}
             aaWpm={aaWpm}
             headerDesc={headerDescriptions.netwpm}
           />
           <StatInfo
             header={"Score"}
-            stat={score}
+            stat={frozenStats.score}
             pbScore={pbScore}
             aaScore={aaScore}
             headerDesc={headerDescriptions.score}
           />
           <StatInfo
             header={"Accuracy"}
-            stat={`${(accuracy * 100).toFixed(0)}%`}
+            stat={`${(frozenStats.accuracy * 100).toFixed(0)}%`}
             pbAccuracy={pbAccuracy}
             aaAccuracy={aaAccuracy}
             headerDesc={headerDescriptions.accuracy}
@@ -194,17 +214,17 @@ const StatsBox = ({
         <div className="flex justify-center h-1/2">
           <StatInfo
             header={"Raw WPM"}
-            stat={grossWPM}
+            stat={frozenStats.grossWPM}
             headerDesc={headerDescriptions.rawwpm}
           />
           <StatInfo
             header={"Errors"}
-            stat={errors}
+            stat={frozenStats.errors}
             headerDesc={headerDescriptions.errors}
           />
           <StatInfo
             header={"Time"}
-            stat={`${elapsedTime}s`}
+            stat={`${frozenStats.elapsedTime}s`}
             headerDesc={headerDescriptions.time}
           />
         </div>
