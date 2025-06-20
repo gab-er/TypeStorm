@@ -48,6 +48,7 @@ router.post('/register', async (req,res) => {
         //Send authentication token to user
         const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '24h'})
         res.cookie('jwt', token, cookieSettings)
+        res.status(201)
         res.send({message:`Successfully Authenticated ${username}`})
 
     } catch (err) {
