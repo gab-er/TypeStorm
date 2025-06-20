@@ -11,11 +11,11 @@ const StatInfo = ({
   headerDesc,
   statDesc,
   pbScore,
-  aaScore
+  aaScore,
 }) => {
   // Checking if it is the error stat -> shows red if there are > 0 errors
   let textColor =
-    header === "Errors" && stat > 0 ? "text-red-400" : "text-blue-400";
+    header === "Errors" && stat > 0 ? "text-red-400" : "text-white";
   let emoji = "";
   let achievement = "";
 
@@ -28,15 +28,6 @@ const StatInfo = ({
     textColor = "text-green-400";
     achievement = "(Above Your Average!)";
   }
-
-  // if (pbAccuracy) {
-  //   textColor = "text-yellow-400";
-  //   emoji = "🎉";
-  //   achievement = "(New Personal Best!)";
-  // } else if (aaAccuracy) {
-  //   textColor = "text-green-400";
-  //   achievement = "(Above Your Average!)";
-  // }
 
   return (
     <div className="relative flex flex-col w-full h-full items-center justify-center">
@@ -81,7 +72,7 @@ const StatInfo = ({
             },
           }}
         >
-          {stat}
+          {String(stat)}
         </Tooltip>
       </div>
     </div>

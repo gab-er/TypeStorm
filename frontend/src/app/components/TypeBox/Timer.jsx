@@ -42,7 +42,9 @@ const Timer = ({ startedTyping }) => {
         trailColor={"#1E1F25"} // Gray ring background color
         size={130}
       >
-        {({ remainingTime }) => <div className="text-3xl"> {remainingTime}s </div>}
+        {({ remainingTime }) => (
+          <div className="text-3xl"> {remainingTime}s </div>
+        )}
       </CountdownCircleTimer>
     </div>
   );
