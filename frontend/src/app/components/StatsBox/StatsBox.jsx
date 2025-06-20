@@ -9,7 +9,7 @@ import StatInfo from "./StatInfo";
 import WordHistory from "./WordHistory";
 import ConfettiExplosion from "react-confetti-explosion";
 import DelayedLoadingDefault from "../Navbar/DelayedLoadingDefault";
-import StartNewGame from "./StartNewGame";
+import Instruction from "../TypeBox/Instruction";
 
 const StatsBox = ({
   gameCompleted,
@@ -143,7 +143,7 @@ const StatsBox = ({
   }, [gameCompleted]);
 
   return (
-    (!isLoading && (
+    // (!isLoading && (
       <div className="flex flex-col items-center">
         {isNewPb && <ConfettiExplosion particleCount={150} duration={3000} />}
         {/* Stats */}
@@ -204,9 +204,11 @@ const StatsBox = ({
           />
         </div>
         {/* Enter to start game  */}
-        <StartNewGame />
+        <div className="mt-6">
+          <Instruction button={"enter"} desc={"start new game"} />
+        </div>
       </div>
-    )) || <DelayedLoadingDefault />
+    // )) || <DelayedLoadingDefault />
   );
 };
 

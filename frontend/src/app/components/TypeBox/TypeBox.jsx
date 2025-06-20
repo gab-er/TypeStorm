@@ -12,6 +12,7 @@ import Timer from "./Timer";
 import ModeBar from "./Settings/ModeBar";
 import TimedSettingsBar from "./Settings/TimedSettingsBar";
 import gameModes from "@/lib/gamemodes";
+import Instruction from "./Instruction";
 
 // The InputBox contains two things: An invisible input box and a box to display the given words
 const TypeBox = () => {
@@ -236,7 +237,7 @@ const TypeBox = () => {
           setFocus={setFocus}
           inputRef={inputRef}
         />
-        {/* SettingsBars - uses transition to fade in and out */}
+        {/* SettingsBars/Instructions - uses transition to fade in and out */}
         <div
           className={`absolute translate-y-[225px] translate-x-[-495px] flex flex-col gap-5 transition-opacity duration-250 ${
             showSettingsBar
@@ -253,6 +254,9 @@ const TypeBox = () => {
             />
           )}
           {mode == gameModes.TIMED && <TimedSettingsBar inputRef={inputRef} />}
+          <div className="flex justify-left items-center">
+            <Instruction button={"esc"} desc={"restart game"} />
+          </div>
         </div>
       </div>
     )

@@ -17,7 +17,6 @@ const Timer = ({ startedTyping }) => {
     if (!timerActive) {
       return;
     }
-    console.log("started the timed timer");
 
     const interval = setInterval(() => {
       const timeLeft = useTimedStore.getState().timeLeft;
@@ -36,15 +35,11 @@ const Timer = ({ startedTyping }) => {
   return (
     <div>
       <CountdownCircleTimer
-        key={startedTyping} // Resets whenever "startedTyping" changes
+        key={startedTyping} // Timer resets whenever "startedTyping" changes
         isPlaying={timerActive}
         duration={timeLimit}
         colors={["#99a1af"]}
-        trailColor={"#1E1F25"}
-        // colorsTime={[7, 5, 2, 0]}
-        onComplete={() => {
-          return { shouldRepeat: false, delay: 2 };
-        }}
+        trailColor={"#1E1F25"} // Gray ring background color
         size={130}
       >
         {({ remainingTime }) => <div className="text-3xl"> {remainingTime}s </div>}
