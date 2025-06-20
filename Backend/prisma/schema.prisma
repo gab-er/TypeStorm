@@ -51,7 +51,5 @@ model Statistic {
 
 enum Gamemode {
   STANDARD
-  TIMED30
-  TIMED60
-  TIMED120
+  TIMED
 }
