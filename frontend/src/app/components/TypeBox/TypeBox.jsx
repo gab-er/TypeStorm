@@ -13,6 +13,7 @@ import ModeBar from "./Settings/ModeBar";
 import TimedSettingsBar from "./Settings/TimedSettingsBar";
 import gameModes from "@/lib/gamemodes";
 import Instruction from "./Instruction";
+import { motion, AnimatePresence } from "framer-motion";
 
 // The InputBox contains two things: An invisible input box and a box to display the given words
 const TypeBox = () => {
