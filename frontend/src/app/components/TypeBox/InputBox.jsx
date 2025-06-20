@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useMemo } from "react";
+import { useRef, useMemo, useEffect } from "react";
 import DisplayBox from "./DisplayBox";
 import {
   splitWords,
@@ -8,6 +8,8 @@ import {
 } from "../../../lib/words";
 import BlurBox from "./BlurBox";
 import useWordsStore from "../../stores/useWordsStore";
+import useTimedStore from "@/app/stores/useTimedStore";
+import gameModes from "@/lib/gamemodes";
 
 const WORDS_PER_LINE = 10;
 const LINES_ON_SCREEN = 3;
@@ -22,8 +24,8 @@ const InputBox = ({
   setGameCompleted,
   currentLineIndex,
   setCurrentLineIndex,
-  typedWordsCount,
-  setTypedWordsCount,
+  numWordsTyped,
+  setNumWordsTyped,
   typedText,
   setTypedText,
   setStartedTyping,
@@ -31,7 +33,7 @@ const InputBox = ({
   setAllTypedWords,
   focus,
   setFocus,
-  inputRef
+  inputRef,
 }) => {
   // Functions to increase/decrease/reset letters (correctly) typed
   const increaseLettersCorrectlyTyped = useWordsStore(
@@ -54,6 +56,13 @@ const InputBox = ({
   const resetErrors = useWordsStore((state) => state.resetErrors);
   const resetTimers = useWordsStore((state) => state.resetTimers);
 
+  // useWordsStore states
+  const mode = useWordsStore((state) => state.mode);
+  
+  // useTimedStore states and functions
+  const resetTimer = useTimedStore((state) => state.resetTimer);
+  const timeLeft = useTimedStore((state) => state.timeLeft);
+
   // Reference for what key was just pressed
   const currentKeyRef = useRef(null);
 
@@ -71,6 +80,12 @@ const InputBox = ({
 
   // Obtain old typed words (prior to changing on new input)
   let typedWords = splitWordsWithSpaces(typedText);
+
+  useEffect(() => {
+    if (mode === "timed" && timeLeft === 0) {
+      setGameCompleted(true);
+    }
+  }, [timeLeft]);
 
   // Function to handle input box text changes
   const handleTextChange = (e) => {
@@ -124,7 +139,7 @@ const InputBox = ({
       }
 
       if (charDeleted === " ") {
-        setTypedWordsCount((prev) => prev - 1);
+        setNumWordsTyped((prev) => prev - 1);
         setAllTypedWords((prev) => prev.slice(0, -1)); // remove the previously typed word
       }
 
@@ -152,13 +167,14 @@ const InputBox = ({
 
     // Added one to the total words typed counter
     if (addedChar === " ") {
-      setTypedWordsCount((prev) => prev + 1);
+      setNumWordsTyped((prev) => prev + 1);
       setAllTypedWords((prev) => [...prev, currentTypedWord]);
     }
 
     // Check if the game has ended (reached the last letter)
     if (
-      typedWordsCount === numWords - 1 &&
+      mode == gameModes.STANDARD &&
+      numWordsTyped === numWords - 1 &&
       currentTypedWord.length === correctWord.length - 1
     ) {
       setAllTypedWords((prev) => [...prev, currentTypedWord]);
@@ -194,7 +210,7 @@ const InputBox = ({
       resetLettersCorrectlyTyped();
       resetLettersTyped();
       resetErrors();
-      setTypedWordsCount(0);
+      setNumWordsTyped(0);
       setAllTypedWords([]);
 
       // Reset the displayed words back to the start
@@ -207,6 +223,10 @@ const InputBox = ({
       // Reset timers
       setStartedTyping(false);
       resetTimers();
+
+      if (mode === "timed") {
+        resetTimer(); // Reset timed timer
+      }
     }
   };
 
@@ -240,7 +260,7 @@ const InputBox = ({
 
   return (
     <>
-      <div  className="flex justify-center relative">
+      <div className="flex justify-center relative">
         {!focus && (
           <div data-testid="blur-box" className="absolute">
             <BlurBox />

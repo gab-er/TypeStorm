@@ -13,7 +13,7 @@ const DelayedLoadingDefault = () => {
       <>
         {showSpinner && (
           <div className="select-none">
-            Loading...
+            Loading... 
           </div>
         )}
       </>

@@ -16,7 +16,6 @@ import DelayedLoadingDefault from "./DelayedLoadingDefault";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
-  { name: "Timed", href: "#", current: false },
   { name: "Challenge", href: "#", current: false },
 ];
 
