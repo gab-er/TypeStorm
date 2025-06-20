@@ -4,12 +4,14 @@ import { useState, useEffect } from "react";
 import {
   usePostStatsStandard,
   usePostStatsStandardGame,
+  usePostStatsTimed,
+  usePostStatsTimedGame,
 } from "../../../lib/postStats";
 import StatInfo from "./StatInfo";
 import WordHistory from "./WordHistory";
 import ConfettiExplosion from "react-confetti-explosion";
-import DelayedLoadingDefault from "../Navbar/DelayedLoadingDefault";
 import Instruction from "../TypeBox/Instruction";
+import gameModes from "@/lib/gamemodes";
 
 const StatsBox = ({
   gameCompleted,
@@ -17,7 +19,6 @@ const StatsBox = ({
   allTypedWords,
   wordsToType,
   numWords,
-  typedText,
 }) => {
   const [sentData, setSentData] = useState(false);
   const [isNewPb, setIsNewPb] = useState(false);
@@ -28,6 +29,15 @@ const StatsBox = ({
   const [isLoading, setIsLoading] = useState(true);
   const [pbScore, setPbScore] = useState(false);
   const [aaScore, setAaScore] = useState(false);
+  const [frozenStats, setFrozenStats] = useState({
+    netWPM: 0,
+    grossWPM: 0,
+    accuracy: 0,
+    score: 0,
+    errors: 0,
+    elapsedTime: 0,
+  });
+  const [obtainedStats, setObtainedStats] = useState(false);
 
   const [res, setRes] = useState({
     pbWpm: false,
@@ -49,6 +59,43 @@ const StatsBox = ({
     time: "Time taken to type all words",
   };
 
+  useEffect(() => {
+    // Obtain stats
+    const storeAccuracy = useWordsStore.getState().getAccuracy();
+    const storeErrors = useWordsStore.getState().errors;
+    const storeElapsedTime = useWordsStore.getState().getElapsedTime(); // Get time for standard mode
+    const storeGrossWPM = useWordsStore.getState().getGrossWPM();
+    const storeNetWPM = useWordsStore.getState().getNetWPM();
+    const storeScore = useWordsStore.getState().getScore();
+
+    if (!obtainedStats) {
+      setFrozenStats({
+        netWPM: storeNetWPM,
+        grossWPM: storeGrossWPM,
+        accuracy: storeAccuracy,
+        score: storeScore,
+        errors: storeErrors,
+        elapsedTime: storeElapsedTime,
+      });
+      setObtainedStats(true);
+    }
+
+    // Reset game on space press
+    const handleKeyDown = (event) => {
+      if (gameCompleted && event.key == "Enter") {
+        event.preventDefault();
+        event.stopPropagation(); // Prevents this from getting inputted into the next game
+        resetGame(numWords);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   // Update if there were any new PBs or Above Averages
   useEffect(() => {
     if (res) {
@@ -68,51 +115,32 @@ const StatsBox = ({
     }
   }, [pbWpm, pbAccuracy, pbScore]);
 
-  const accuracy = useWordsStore((state) => state.getAccuracy());
-  const errors = useWordsStore((state) => state.errors);
   const mode = useWordsStore((state) => state.mode);
-
-  const elapsedTime = useWordsStore((state) => state.getElapsedTime)(); // Get time for standard mode
-
-  const grossWPM = useWordsStore((state) => state.getGrossWPM)();
-  const netWPM = useWordsStore((state) => state.getNetWPM)();
-  const score = useWordsStore((state) => state.getScore)();
 
   // Mutation to post stats to the STANDARD API
   const postStatsStandard = usePostStatsStandard();
-
   const postStatsStandardGame = usePostStatsStandardGame();
-
-  useEffect(() => {
-    // Reset game on space press
-    const handleKeyDown = (event) => {
-      if (gameCompleted && event.key == "Enter") {
-        event.preventDefault();
-        event.stopPropagation(); // Prevents this from getting inputted into the next game
-        resetGame(numWords);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
+  const postStatsTimed = usePostStatsTimed();
+  const postStatsTimedGame = usePostStatsTimedGame();
 
   // Send stats once a game is completed
   useEffect(() => {
-    if (gameCompleted && !sentData) {
+    if (obtainedStats && !sentData) {
       // Send stats to statistics route
       const postStatsData = async () => {
         try {
           const stats = {
-            wpm: netWPM,
-            accuracy: accuracy,
-            score: score,
+            wpm: frozenStats.netWPM,
+            accuracy: frozenStats.accuracy,
+            score: frozenStats.score,
           };
-          // console.log("submitting data; ", stats);
-          const response = await postStatsStandard.mutateAsync(stats);
+          // console.log("submitting standard data; ", stats);
+          const response =
+            mode == gameModes.STANDARD // MODE : STANDARD
+              ? await postStatsStandard.mutateAsync(stats)
+              : mode == gameModes.TIMED // MODE : TIMED
+              ? await postStatsTimed.mutateAsync(stats)
+              : null;
           setRes(response); // Set the response to the received response (to check for achievements)
           setIsLoading(false);
         } catch (error) {
@@ -126,12 +154,17 @@ const StatsBox = ({
       const postGameData = async () => {
         try {
           const stats = {
-            wpm: netWPM,
-            accuracy: accuracy,
-            errors: errors,
-            score: score,
+            wpm: frozenStats.netWPM,
+            accuracy: frozenStats.accuracy,
+            errors: frozenStats.errors,
+            score: frozenStats.score,
           };
-          const response = await postStatsStandardGame.mutateAsync(stats);
+          const response =
+            mode == gameModes.STANDARD // MODE : STANDARD
+              ? await postStatsStandardGame.mutateAsync(stats)
+              : mode == gameModes.TIMED // MODE : TIMED
+              ? await postStatsTimedGame.mutateAsync(stats)
+              : null;
         } catch (error) {
           console.log(error);
           setIsLoading(false); // User is not logged in, show the stats obtained
@@ -140,74 +173,71 @@ const StatsBox = ({
       postGameData();
       setSentData(true);
     }
-  }, [gameCompleted]);
+  }, [obtainedStats]);
 
   return (
     // (!isLoading && (
-      <div className="flex flex-col items-center">
-        {isNewPb && <ConfettiExplosion particleCount={150} duration={3000} />}
-        {/* Stats */}
-        <div className="flex flex-col w-[600px] h-[325px] text-2xl">
-          {/* Mode */}
-          <div className="flex justify-center text-gray-400">
-            Mode:
-            <div className="text-yellow-400 ml-2"> {mode.toUpperCase()} </div>
-          </div>
-          {/* Row 1 */}
-          <div className="flex justify-between h-1/2">
-            <StatInfo
-              header={"Net WPM"}
-              stat={netWPM}
-              pbWpm={pbWpm}
-              aaWpm={aaWpm}
-              headerDesc={headerDescriptions.netwpm}
-            />
-            <StatInfo
-              header={"Score"}
-              stat={score}
-              pbScore={pbScore}
-              aaScore={aaScore}
-              headerDesc={headerDescriptions.score}
-            />
-            <StatInfo
-              header={"Accuracy"}
-              stat={`${(accuracy * 100).toFixed(0)}%`}
-              pbAccuracy={pbAccuracy}
-              aaAccuracy={aaAccuracy}
-              headerDesc={headerDescriptions.accuracy}
-            />
-          </div>
-          {/* Row 2 */}
-          <div className="flex justify-center h-1/2">
-            <StatInfo
-              header={"Raw WPM"}
-              stat={grossWPM}
-              headerDesc={headerDescriptions.rawwpm}
-            />
-            <StatInfo
-              header={"Errors"}
-              stat={errors}
-              headerDesc={headerDescriptions.errors}
-            />
-            <StatInfo
-              header={"Time"}
-              stat={`${elapsedTime}s`}
-              headerDesc={headerDescriptions.time}
-            />
-          </div>
+    <div className="flex flex-col items-center">
+      {isNewPb && <ConfettiExplosion particleCount={150} duration={3000} />}
+      {/* Stats */}
+      <div className="flex flex-col w-[600px] h-[325px] text-2xl">
+        {/* Mode */}
+        <div className="flex justify-center text-gray-400">
+          Mode:
+          <div className="text-yellow-400 ml-2"> {mode.toUpperCase()} </div>
         </div>
-        {/* Word History */}
-        <div className="mt-4">
-          <WordHistory
-            allTypedWords={allTypedWords}
-            wordsToType={wordsToType}
+        {/* Row 1 */}
+        <div className="flex justify-between h-1/2">
+          <StatInfo
+            header={"Net WPM"}
+            stat={frozenStats.netWPM}
+            pbWpm={pbWpm}
+            aaWpm={aaWpm}
+            headerDesc={headerDescriptions.netwpm}
+          />
+          <StatInfo
+            header={"Score"}
+            stat={frozenStats.score}
+            pbScore={pbScore}
+            aaScore={aaScore}
+            headerDesc={headerDescriptions.score}
+          />
+          <StatInfo
+            header={"Accuracy"}
+            stat={`${(frozenStats.accuracy * 100).toFixed(0)}%`}
+            pbAccuracy={pbAccuracy}
+            aaAccuracy={aaAccuracy}
+            headerDesc={headerDescriptions.accuracy}
           />
         </div>
-        {/* Enter to start game  */}
-        <div className="mt-6">
-          <Instruction button={"enter"} desc={"start new game"} />
+        {/* Row 2 */}
+        <div className="flex justify-center h-1/2">
+          <StatInfo
+            header={"Raw WPM"}
+            stat={frozenStats.grossWPM}
+            headerDesc={headerDescriptions.rawwpm}
+          />
+          <StatInfo
+            header={"Errors"}
+            stat={frozenStats.errors}
+            headerDesc={headerDescriptions.errors}
+          />
+          <StatInfo
+            header={"Time"}
+            stat={`${frozenStats.elapsedTime}s`}
+            headerDesc={headerDescriptions.time}
+          />
         </div>
       </div>
+      {/* Word History */}
+      <div className="mt-4">
+        <WordHistory allTypedWords={allTypedWords} wordsToType={wordsToType} />
+      </div>
+      {/* Enter to start game  */}
+      <div className="mt-6">
+        <Instruction button={"enter"} desc={"start new game"} />
+      </div>
+    </div>
     // )) || <DelayedLoadingDefault />
   );
 };
