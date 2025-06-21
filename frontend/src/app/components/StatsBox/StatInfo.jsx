@@ -14,6 +14,7 @@ const StatInfo = ({
   statDesc,
   pbScore,
   aaScore,
+  startedTyping
 }) => {
   const [textColor, setTextColor] = useState("text-white");
   const [emoji, setEmoji] = useState("");
@@ -104,7 +105,7 @@ const StatInfo = ({
             },
           }}
         >
-          {String(stat)}
+          {!startedTyping ? "-" : String(stat)}
         </Tooltip>
       </div>
     </div>

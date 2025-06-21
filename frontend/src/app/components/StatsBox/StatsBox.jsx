@@ -19,6 +19,7 @@ const StatsBox = ({
   allTypedWords,
   wordsToType,
   numWords,
+  startedTyping,
 }) => {
   const [sentData, setSentData] = useState(false);
   const [isNewPb, setIsNewPb] = useState(false);
@@ -60,41 +61,43 @@ const StatsBox = ({
   };
 
   useEffect(() => {
-    // Obtain stats
-    const storeAccuracy = useWordsStore.getState().getAccuracy();
-    const storeErrors = useWordsStore.getState().errors;
-    const storeElapsedTime = useWordsStore.getState().getElapsedTime(); // Get time for standard mode
-    const storeGrossWPM = useWordsStore.getState().getGrossWPM();
-    const storeNetWPM = useWordsStore.getState().getNetWPM();
-    const storeScore = useWordsStore.getState().getScore();
+    if (gameCompleted) {
+      // Obtain stats
+      const storeAccuracy = useWordsStore.getState().getAccuracy();
+      const storeErrors = useWordsStore.getState().errors;
+      const storeElapsedTime = useWordsStore.getState().getElapsedTime(); // Get time for standard mode
+      const storeGrossWPM = useWordsStore.getState().getGrossWPM();
+      const storeNetWPM = useWordsStore.getState().getNetWPM();
+      const storeScore = useWordsStore.getState().getScore();
 
-    if (!obtainedStats) {
-      setFrozenStats({
-        netWPM: storeNetWPM,
-        grossWPM: storeGrossWPM,
-        accuracy: storeAccuracy,
-        score: storeScore,
-        errors: storeErrors,
-        elapsedTime: storeElapsedTime,
-      });
-      setObtainedStats(true);
-    }
-
-    // Reset game on space press
-    const handleKeyDown = (event) => {
-      if (gameCompleted && event.key == "Enter") {
-        event.preventDefault();
-        event.stopPropagation(); // Prevents this from getting inputted into the next game
-        resetGame(numWords);
+      if (!obtainedStats) {
+        setFrozenStats({
+          netWPM: storeNetWPM,
+          grossWPM: storeGrossWPM,
+          accuracy: storeAccuracy,
+          score: storeScore,
+          errors: storeErrors,
+          elapsedTime: storeElapsedTime,
+        });
+        setObtainedStats(true);
       }
-    };
 
-    window.addEventListener("keydown", handleKeyDown);
+      // Reset game on space press
+      const handleKeyDown = (event) => {
+        if (gameCompleted && event.key == "Enter") {
+          event.preventDefault();
+          event.stopPropagation(); // Prevents this from getting inputted into the next game
+          resetGame(numWords);
+        }
+      };
 
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
+      window.addEventListener("keydown", handleKeyDown);
+
+      return () => {
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    }
+  }, [gameCompleted]);
 
   // Update if there were any new PBs or Above Averages
   useEffect(() => {
@@ -194,6 +197,7 @@ const StatsBox = ({
             pbWpm={pbWpm}
             aaWpm={aaWpm}
             headerDesc={headerDescriptions.netwpm}
+            startedTyping={startedTyping}
           />
           <StatInfo
             header={"Score"}
@@ -201,6 +205,7 @@ const StatsBox = ({
             pbScore={pbScore}
             aaScore={aaScore}
             headerDesc={headerDescriptions.score}
+            startedTyping={startedTyping}
           />
           <StatInfo
             header={"Accuracy"}
@@ -208,6 +213,7 @@ const StatsBox = ({
             pbAccuracy={pbAccuracy}
             aaAccuracy={aaAccuracy}
             headerDesc={headerDescriptions.accuracy}
+            startedTyping={startedTyping}
           />
         </div>
         {/* Row 2 */}
@@ -216,16 +222,19 @@ const StatsBox = ({
             header={"Raw WPM"}
             stat={frozenStats.grossWPM}
             headerDesc={headerDescriptions.rawwpm}
+            startedTyping={startedTyping}
           />
           <StatInfo
             header={"Errors"}
             stat={frozenStats.errors}
             headerDesc={headerDescriptions.errors}
+            startedTyping={startedTyping}
           />
           <StatInfo
             header={"Time"}
             stat={`${frozenStats.elapsedTime}s`}
             headerDesc={headerDescriptions.time}
+            startedTyping={startedTyping}
           />
         </div>
       </div>
