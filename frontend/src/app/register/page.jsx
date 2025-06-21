@@ -80,8 +80,9 @@ const Register = () => {
         body: JSON.stringify(formData),
       });
 
+      console.log(res);
       // Check if username is taken (501 Status Code)
-      if (res.status === 501) {
+      if (res.status === 422) {
         setUsernameError(`Username \"${formData.username}\" is taken`);
         setLoading(false);
         setInputUsername(formData.username);
