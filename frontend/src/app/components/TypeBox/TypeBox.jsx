@@ -75,9 +75,30 @@ const TypeBox = () => {
       useWordsStore.getState().setNumWords(numWords); // Randomize the words everytime the number of words changes
       resetGame(numWords); // Reset game anytime a mode or time limit is changed
     } else {
-      resetGame(200); // Reset game anytime a mode or time limit is changed
+      resetGame(1000); // Reset game anytime a mode or time limit is changed, with the full 1000 words data
     }
   }, [numWords, timeLimit, mode]);
+
+  // Event listener to end practice mode
+  useEffect(() => {
+    if (mode == gameModes.PRACTICE) {
+      // Reset game on space press
+      const handleKeyDown = (event) => {
+        if (!gameCompleted && event.key == "Enter") {
+          event.preventDefault();
+          event.stopPropagation(); // Prevents this from getting inputted into the next game
+          endTimer();
+          setGameCompleted(true);
+        }
+      };
+
+      window.addEventListener("keydown", handleKeyDown);
+
+      return () => {
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    }
+  }, [mode]);
 
   // Infinite words
   useEffect(() => {
@@ -152,8 +173,13 @@ const TypeBox = () => {
     // Reset game completion status
     setGameCompleted(false);
 
-    // Randomize words again
-    setWordsToType(generateRandomWords(wordsData, numWords));
+    // Randomize words again (number of words depends on the mode)
+    setWordsToType(
+      generateRandomWords(
+        wordsData,
+        mode == gameModes.STANDARD ? numWords : 1000
+      )
+    );
 
     // Reset timers
     setStartedTyping(false);
@@ -176,6 +202,7 @@ const TypeBox = () => {
             allTypedWords={allTypedWords}
             wordsToType={wordsToType}
             numWords={numWords}
+            startedTyping={startedTyping}
           />
         </div>
       </Animation>
@@ -245,6 +272,11 @@ const TypeBox = () => {
               <div className="flex justify-left items-center">
                 <Instruction button={"esc"} desc={"restart game"} />
               </div>
+              {mode == gameModes.PRACTICE && (
+                <div className="flex justify-left items-center">
+                  <Instruction button={"enter"} desc={"end game"} />
+                </div>
+              )}
             </div>
           </Animation>
         </div>
