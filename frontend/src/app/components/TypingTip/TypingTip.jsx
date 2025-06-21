@@ -1,27 +1,39 @@
 "use client";
-import useTipStore from "@/app/stores/useTipStore"
+import useTipStore from "@/app/stores/useTipStore";
 import { useEffect } from "react";
+import useWordsStore from "@/app/stores/useWordsStore";
+import gameModes from "@/lib/gamemodes";
+import Animation from "../Animation";
 
-const TypingTip = ({isCylcing}) => {
-    const displayTip = useTipStore((state) => state.displayTip)
-    const initialize = useTipStore((state) =>state.initialize)
-    const cycleTip = useTipStore((state) =>state.cycleTip)
-    useEffect(()=>{
-        initialize()
-    },[])
-    if (isCylcing) {
-        useEffect(()=>{
-            setInterval(()=>cycleTip(),30000)
-    },[])}
+const TypingTip = ({ isCycling }) => {
+  const displayTip = useTipStore((state) => state.displayTip);
+  const initialize = useTipStore((state) => state.initialize);
+  const cycleTip = useTipStore((state) => state.cycleTip);
+  const mode = useWordsStore((state) => state.mode);
 
-    return (
-        <div className="flex flex-col w-3/10 border text-center text-xl">
-            <div> Tip: </div>
-            <div> {displayTip}</div>
-        </div>
+  useEffect(() => {
+    initialize();
+  }, []);
 
-    )}
-    
+  if (isCycling) {
+    useEffect(() => {
+      const cycleInterval = setInterval(() => cycleTip(), 30000);
 
+      return () => {
+        clearInterval(cycleInterval);
+      };
+    }, []);
+  }
 
-export default TypingTip
+  return (
+    // Only show tips when the mode is on PRACTICE 
+    <Animation id="typingtips" visible={mode == gameModes.PRACTICE}>
+      <div className="flex flex-col w-full text-center text-xl opacity-95">
+        <div> Tip: </div>
+        <div> {displayTip}</div>
+      </div>
+    </Animation>
+  );
+};
+
+export default TypingTip;
