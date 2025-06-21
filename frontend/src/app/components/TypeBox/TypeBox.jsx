@@ -15,6 +15,7 @@ import gameModes from "@/lib/gamemodes";
 import Instruction from "./Instruction";
 import { motion, AnimatePresence } from "framer-motion";
 import Animation from "../Animation";
+import TypingTip from "../TypingTip/TypingTip";
 
 // The InputBox contains two things: An invisible input box and a box to display the given words
 const TypeBox = () => {
@@ -210,15 +211,14 @@ const TypeBox = () => {
       <Animation id="typebox" visible={!gameCompleted}>
         <div className={`relative`}>
           {/* Timer */}
-          {mode == gameModes.TIMED && (
-            <Animation id="timer">
-              <div
-                className={`absolute flex translate-x-[-100px] translate-y-[-140px]`}
-              >
-                <Timer startedTyping={startedTyping} />
-              </div>
-            </Animation>
-          )}
+          <Animation key="timer" id="timer" visible={mode == gameModes.TIMED}>
+            <div
+              className={`absolute flex translate-x-[-100px] translate-y-[-140px]`}
+            >
+              <Timer startedTyping={startedTyping} />
+            </div>
+          </Animation>
+
           <div
             className={`absolute translate-x-[-495px] translate-y-[-60px] w-[300px]`}
           >

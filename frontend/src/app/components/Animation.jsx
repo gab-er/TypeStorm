@@ -6,7 +6,7 @@ const Animation = ({
   id,
   visible = true,
   animationDuration = DEFAULT_DURATION,
-  positioning = "absolute"
+  positioning = "absolute",
 }) => {
   // To use this component,
   // 1. provide the prop ID with a unique identifier,
@@ -22,7 +22,10 @@ const Animation = ({
           initial={{ opacity: 0, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 0 }}
-          transition={{ duration: animationDuration, ease: "easeInOut" }}
+          transition={{
+            duration: animationDuration,
+            ease: "easeInOut",
+          }}
           className={`${positioning}`}
         >
           {children}
