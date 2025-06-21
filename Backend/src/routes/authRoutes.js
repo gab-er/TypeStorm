@@ -29,6 +29,16 @@ router.post('/register', async (req,res) => {
     // Hash password for storage
     const hashedPassword = bcrypt.hashSync(password,10)
     try {
+        //check if username is taken
+        const existingUser = await prisma.user.findUnique({
+            where: {
+                username:username
+            }
+        })
+        //return 422 if username is taken
+        if (existingUser) {
+            return res.status(422).send({message:`${username} already taken`})
+        }
         //Create row in user table
         const user = await prisma.user.create({
             data: {
@@ -48,13 +58,15 @@ router.post('/register', async (req,res) => {
         //Send authentication token to user
         const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '24h'})
         res.cookie('jwt', token, cookieSettings)
-        res.status(201)
-        res.send({message:`Successfully Authenticated ${username}`})
+        res.status(201).send({message:`Successfully Authenticated ${username}`})
 
     } catch (err) {
         //Catch and log any error
         console.log(err.message)
-        res.sendStatus(501)
+        res.status(500).send('Internal Server Error')
+
+        
+        
     }
 
 })
@@ -88,12 +100,12 @@ router.post('/login', async (req, res) => {
         //Send authentication token to user if no errors
         const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '24h'})
         res.cookie('jwt', token, cookieSettings)
-        res.send({message:`Successfully Authenticated ${username}`})
+        res.status(200).send({message:`Successfully Authenticated ${username}`})
 
     } catch(err) {
         //Catch and log any erros
         console.log(err.message)
-        res.sendStatus(503)
+        res.sendStatus(500)
 
     }
 })
