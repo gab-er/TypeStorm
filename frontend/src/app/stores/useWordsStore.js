@@ -79,7 +79,12 @@ const useWordsStore = create((set, get) => ({
     const accuracy = Number(
       (lettersCorrectlyTyped / (lettersCorrectlyTyped + errors)).toFixed(2)
     );
-    return accuracy;
+
+    if (isNaN(accuracy)) {
+      return 0;
+    } else {
+      return accuracy;
+    }
   },
 
   // Action to get gross WPM
