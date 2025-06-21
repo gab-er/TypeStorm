@@ -53,15 +53,15 @@ const useWordsStore = create((set, get) => ({
   // Action to get elapsed time
   getElapsedTime: () => {
     const mode = get().mode;
-    if (mode === "standard") {
-      // If mode is standard, calculate the time
+    if (mode != gameModes.TIMED) {
+      // If mode is standard or practice, calculate the time
       const startTime = get().startTime;
       const endTime = get().endTime;
       const elapsedTime = startTime
         ? ((endTime || Date.now()) - startTime) / 1000
         : 0;
       return Number(elapsedTime.toFixed(2));
-    } else if (mode === "timed") {
+    } else {
       // If mode is timed, obtain the time from useTimedStore
       return useTimedStore.getState().timeLimit;
     }
