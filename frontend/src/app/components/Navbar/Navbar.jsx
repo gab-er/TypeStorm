@@ -12,10 +12,10 @@ import Logo from "./Logo";
 import useAuthStore from "../../stores/useAuthStore";
 import WelcomeBack from "./WelcomeBack";
 import { useState, useEffect } from "react";
+import DelayedLoadingDefault from "./DelayedLoadingDefault";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
-  { name: "Timed", href: "#", current: false },
   { name: "Challenge", href: "#", current: false },
 ];
 
@@ -38,7 +38,7 @@ const Navbar = () => {
   }, [isLoggedIn]);
 
   return (
-    <Disclosure as="nav" className="bg-blue-600">
+    <Disclosure as="nav" className="bg-blue-600 select-none">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -84,9 +84,9 @@ const Navbar = () => {
           </div>
           {/* Sign in button */}
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 mx-10 gap-1">
-            {/* If loading, it shows nothing. Else, it shows one of the login displays*/}
+            {/* If loading, it shows the loading effect. Else, it shows one of the login displays*/}
             {(!isLoading && loginDisplay) || (
-              <p className="select-none"> Loading... </p>
+              <DelayedLoadingDefault/>
             )}
 
             {/* If logged in -> Profile dropdown is shown */}

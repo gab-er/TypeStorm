@@ -1,11 +1,9 @@
 "use client";
 import LoginBox from "../components/Login/LoginBox";
-import RegisterBox from "../components/Register/RegisterBox";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import useAuthStore from "../stores/useAuthStore";
-import Loading from "../loading";
 import url from "@/lib/apiUrl";
+import { cookieValidation } from "@/lib/cookieValidation";
 
 const Login = () => {
   const [usernameError, setUsernameError] = useState("");
@@ -22,9 +20,9 @@ const Login = () => {
     setInputUsername(newUsername);
 
     // If there is a username error, clear it
-    if (usernameError) {
-      setUsernameError("");
-    }
+    // if (usernameError) {
+    //   setUsernameError("");
+    // }
   };
 
   // handlePasswordChange
@@ -33,19 +31,19 @@ const Login = () => {
     setInputPassword(newPassword);
 
     // If there is a password error, clear it
-    if (passwordError) {
-      setPasswordError("");
-    }
+    // if (passwordError) {
+    //   setPasswordError("");
+    // }
   };
 
   // OnSubmit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // If there is an error with either the username or password
-    if (usernameError !== "" || passwordError !== "") {
-      return; // Do not allow the data to be submitted
-    }
+    // // If there is an error with either the username or password
+    // if (usernameError !== "" || passwordError !== "") {
+    //   return; // Do not allow the data to be submitted
+    // }
 
     // Submit data to backend
     try {
@@ -86,7 +84,7 @@ const Login = () => {
         console.log("res not ok");
         setLoading(false);
       } else {
-        useAuthStore.getState().login(formData.username);
+        cookieValidation();
         router.push("/");
       }
     } catch (e) {

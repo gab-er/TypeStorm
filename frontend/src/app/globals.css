@@ -25,3 +25,17 @@ body {
   color: var(--foreground);
   font-family: Inter, Helvetica, sans-serif;
 }
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+.blink-caret {
+  animation: blink 1s step-start infinite;
+}
