@@ -1,131 +1,157 @@
-import express from 'express'
-import prisma from '../prismaClient.js'
+import express from "express";
+import prisma from "../prismaClient.js";
 
-const router = express.Router()
+const router = express.Router();
 
 // Get user statistics
-router.get('/', async (req, res) => {
-
-    //Find user statistic from user table 
+router.get("/", async (req, res) => {
+  try {
+    //Find user statistic from user table
     const statistics = await prisma.statistic.findMany({
-        where:{
-            userId: req.userId
-        }
-    })
+      where: {
+        userId: req.userId,
+      },
+    });
 
     //return statistics
-    res.json(statistics)
-})
+    res.json(statistics);
+  } catch (err) {
+    //log and catch any error
+    console.log(err.message);
+    res.sendStatus(500);
+  }
+});
 
-// Get user statistic for specific gamemode 
-router.get('/:gamemode', async (req, res) => {
+// Get user statistic for specific gamemode
+router.get("/:gamemode", async (req, res) => {
+  try {
     //Extract gamemode from request params
-    const {gamemode} = req.params
+    const { gamemode } = req.params;
 
     //Find user statistics for gamemode from user table
     const statistic = await prisma.statistic.findFirst({
-        where: {
-            userId: req.userId,
-            gamemode:gamemode
-        }
-    })
+      where: {
+        userId: req.userId,
+        gamemode: gamemode,
+      },
+    });
 
     //Return statistic
-    res.json(statistic)
-})
+    res.status(200).json(statistic);
+  } catch (err) {
+    //log and catch any error
+    console.log(err.message);
+    res.sendStatus(500);
+  }
+});
 
 //Update user statistics after game played
-router.post('/:gamemode', async (req, res) => {
-   //Extract metrics of game played from request body
-   const {wpm,accuracy,score} = req.body
+router.post("/:gamemode", async (req, res) => {
+  try {
+    //Extract metrics of game played from request body
+    const { wpm, accuracy, score } = req.body;
 
-   //Extract gamemode from request params
-   const {gamemode} = req.params
+    //Extract gamemode from request params
+    const { gamemode } = req.params;
 
-   //Find original user statistics
-   const oldStatistic = await prisma.statistic.findFirst({
-        where: {
-            userId: req.userId,
-            gamemode:gamemode
-        }
-    })
-   
-   //Extract metrics of original user statistics
-   const {averageAccuracy,bestAccuracy ,averageWpm, bestWpm, gamesPlayed, averageScore, bestScore} = oldStatistic
-
-   //Check if the metrics are above average and personal bests
-   const pbAccuracy = accuracy >= bestAccuracy
-   const aaAccuracy = accuracy >= averageAccuracy
-   const pbWpm = wpm >= bestWpm
-   const aaWpm = wpm >= averageWpm
-   const pbScore = score >= bestScore
-   const aaScore = score >= averageScore
-
-   //Put the results in a object to send back
-   const result = {
-    pbAccuracy:pbAccuracy,
-    aaAccuracy:aaAccuracy,
-    pbWpm:pbWpm, 
-    aaWpm:aaWpm,
-    pbScore:pbScore,
-    aaScore:aaScore
-
-   }
-
-   //Update statistics with stats of new gamemode
-   const statistic = await prisma.statistic.updateMany({
-    where: {
+    //Find original user statistics
+    const oldStatistic = await prisma.statistic.findFirst({
+      where: {
         userId: req.userId,
-        gamemode:gamemode
-    },
-    data: {
+        gamemode: gamemode,
+      },
+    });
+
+    //Extract metrics of original user statistics
+    const {
+      averageAccuracy,
+      bestAccuracy,
+      averageWpm,
+      bestWpm,
+      gamesPlayed,
+      averageScore,
+      bestScore,
+    } = oldStatistic;
+
+    //Check if the metrics are above average and personal bests
+    const pbAccuracy = accuracy >= bestAccuracy;
+    const aaAccuracy = accuracy >= averageAccuracy;
+    const pbWpm = wpm >= bestWpm;
+    const aaWpm = wpm >= averageWpm;
+    const pbScore = score >= bestScore;
+    const aaScore = score >= averageScore;
+
+    //Put the results in a object to send back
+    const result = {
+      pbAccuracy: pbAccuracy,
+      aaAccuracy: aaAccuracy,
+      pbWpm: pbWpm,
+      aaWpm: aaWpm,
+      pbScore: pbScore,
+      aaScore: aaScore,
+    };
+
+    //Update statistics with stats of new gamemode
+    const statistic = await prisma.statistic.updateMany({
+      where: {
+        userId: req.userId,
+        gamemode: gamemode,
+      },
+      data: {
         //Increase games played by one
-        gamesPlayed: {increment:1},
+        gamesPlayed: { increment: 1 },
 
         //Update average metrics
-        averageAccuracy: (averageAccuracy*gamesPlayed + accuracy)/(gamesPlayed+1),
-        averageWpm: (averageWpm*gamesPlayed + wpm)/(gamesPlayed+1),
-        averageScore: (averageScore*gamesPlayed+score)/(gamesPlayed+1),
+        averageAccuracy:
+          (averageAccuracy * gamesPlayed + accuracy) / (gamesPlayed + 1),
+        averageWpm: (averageWpm * gamesPlayed + wpm) / (gamesPlayed + 1),
+        averageScore: (averageScore * gamesPlayed + score) / (gamesPlayed + 1),
 
         //Replace personal best with new metrics if they are better
-        bestAccuracy: pbAccuracy? accuracy:bestAccuracy,
-        bestWpm: pbWpm? wpm:bestWpm,
-        bestScore: pbScore? score: bestScore
-    },
+        bestAccuracy: pbAccuracy ? accuracy : bestAccuracy,
+        bestWpm: pbWpm ? wpm : bestWpm,
+        bestScore: pbScore ? score : bestScore,
+      },
+    });
 
-   })
-
-   //Return results
-   res.json(result)
-
-   
-
-})
+    //Return results
+    res.status(200).json(result);
+  } catch (err) {
+    //log and catch any error
+    console.log(err.message);
+    res.sendStatus(500);
+  }
+});
 
 //Reset user statistics for specific gamemode
-router.put('/:gamemode', async (req,res) =>{
-    //Extract gamemode for request params
-    const {gamemode} = req.params
+router.put("/:gamemode", async (req, res) => {
+  //Extract gamemode for request params
+  try {
+    const { gamemode } = req.params;
 
     //Reset user statistic for specific gamemode
     const statistic = await prisma.statistic.updateMany({
-    where: {
+      where: {
         userId: req.userId,
-        gamemode:gamemode
-    },
-    data: {
+        gamemode: gamemode,
+      },
+      data: {
         gamesPlayed: 0,
         averageAccuracy: null,
         bestAccuracy: null,
         averageWpm: null,
         bestWpm: null,
         averageScore: null,
-        bestScore: null
-    },
+        bestScore: null,
+      },
+    });
+    console.log("statistics reset");
+    res.json(statistic);
+  } catch (err) {
+    //log and catch any error
+    console.log(err.message);
+    res.sendStatus(500);
+  }
+});
 
-   })
-   console.log("statistics reset")
-   res.json(statistic)
-})
-
-export default router
+export default router;
