@@ -6,25 +6,25 @@ const useStatStore = create((set) => ({
   gamemode: "STANDARD",
   isLoading: true,
 
-
   // Action to add stats
   addStats: (stats) =>
     set(() => ({
       stats: stats,
-      displayedStat: stats.filter((stat) => stat.gamemode == 'STANDARD'),
-      isLoading: false
-    })),
-    
-  // Action to set gamemode
-  setGamemode: (gamemode) => 
-    set((state) => ({
-      displayedStat: state.stats.filter((stat) => stat.gamemode == gamemode),
-      gamemode:gamemode
+      displayedStat: stats.filter((stat) => stat.gamemode == "STANDARD"),
+      gamemode: "STANDARD",
+      isLoading: false,
     })),
 
-  setIsLoading: (bool) => 
+  // Action to set gamemode
+  setGamemode: (gamemode) =>
+    set((state) => ({
+      displayedStat: state.stats.filter((stat) => stat.gamemode == gamemode),
+      gamemode: gamemode,
+    })),
+
+  setIsLoading: (bool) =>
     set(() => ({
-      isLoading: bool
+      isLoading: bool,
     })),
 }));
 
