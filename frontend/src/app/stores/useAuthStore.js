@@ -3,12 +3,14 @@ import { create } from "zustand";
 const useAuthStore = create((set) => ({
   isLoggedIn: false,
   username: "",
+  userData: {},
   isLoading: true,
 
   // Action to log in
-  login: (username) =>
+  login: (username,userData) =>
     set(() => ({
       username: username,
+      userData:userData,
       isLoggedIn: true,
       isLoading: false
     })),
@@ -17,6 +19,7 @@ const useAuthStore = create((set) => ({
   logout: () =>
     set(() => ({
       username: "",
+      userData: {},
       isLoggedIn: false,
       isLoading: false
     })),
