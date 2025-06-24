@@ -185,7 +185,7 @@ describe("POST /auth/login", () => {
   });
 
   //testcase for wrong password
-  describe("Valid username and password", () => {
+  describe("Wrong password", () => {
     test("should return 401 status code and not send cookie", async () => {
       //Stimulate finding user
       const hashedPassword = await bcrypt.hash("password", 5);
