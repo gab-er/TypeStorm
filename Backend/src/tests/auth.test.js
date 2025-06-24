@@ -124,7 +124,7 @@ describe("POST /auth/register", () => {
 });
 
 //Test for login endpoint
-describe("POST /auth/register", () => {
+describe("POST /auth/login", () => {
   //testcase for valid username and password
   describe("Valid username and password", () => {
     test("should return 200 status code, and authentication cookie", async () => {
