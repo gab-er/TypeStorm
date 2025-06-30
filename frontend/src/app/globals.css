@@ -27,7 +27,8 @@ body {
 }
 
 @keyframes blink {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
 
@@ -38,4 +39,15 @@ body {
 
 .blink-caret {
   animation: blink 1s step-start infinite;
+}
+
+.custom-type-animation-cursor::after {
+  content: "|";
+  animation: cursor 0.8s infinite step-start;
+}
+
+@keyframes cursor {
+  50% {
+    opacity: 0;
+  }
 }

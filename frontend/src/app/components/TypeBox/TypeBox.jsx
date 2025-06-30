@@ -1,6 +1,6 @@
 "use client";
 import InputBox from "./InputBox";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import { wordsData, generateRandomWords } from "@/lib/words";
 import useWordsStore from "@/app/stores/useWordsStore";
 import useTimedStore from "@/app/stores/useTimedStore";
@@ -13,9 +13,7 @@ import ModeBar from "./Settings/ModeBar";
 import TimedSettingsBar from "./Settings/TimedSettingsBar";
 import gameModes from "@/lib/gamemodes";
 import Instruction from "./Instruction";
-import { motion, AnimatePresence } from "framer-motion";
 import Animation from "../Animation";
-import TypingTip from "../TypingTip/TypingTip";
 
 // The InputBox contains two things: An invisible input box and a box to display the given words
 const TypeBox = () => {

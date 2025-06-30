@@ -3,6 +3,7 @@ import TypingTip from "./components/TypingTip/TypingTip";
 
 export const metadata = {
   title: "TypeStorm",
+  description: "Improve your typing skills with our website!"
 };
 
 export default async function Home() {

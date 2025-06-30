@@ -1,6 +1,4 @@
 import React from "react";
-import Logo from "../Navbar/Logo";
-import Link from "next/link";
 import Head from "next/head";
 import PasswordStrengthBar from "react-password-strength-bar";
 import Loading from "@/app/loading";

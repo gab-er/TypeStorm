@@ -18,22 +18,12 @@ const Login = () => {
   const handleUsernameChange = (e) => {
     const newUsername = e.target.value;
     setInputUsername(newUsername);
-
-    // If there is a username error, clear it
-    // if (usernameError) {
-    //   setUsernameError("");
-    // }
   };
 
   // handlePasswordChange
   const handlePasswordChange = (e) => {
     const newPassword = e.target.value;
     setInputPassword(newPassword);
-
-    // If there is a password error, clear it
-    // if (passwordError) {
-    //   setPasswordError("");
-    // }
   };
 
   // OnSubmit
@@ -43,11 +33,6 @@ const Login = () => {
     // Reset previous attempt errors on submitting 
     setPasswordError("");
     setUsernameError("");
-
-    // // If there is an error with either the username or password
-    // if (usernameError !== "" || passwordError !== "") {
-    //   return; // Do not allow the data to be submitted
-    // }
 
     // Submit data to backend
     try {
@@ -71,7 +56,6 @@ const Login = () => {
       if (res.status === 404) {
         setUsernameError("Username not found");
         setLoading(false)
-        setUsernameError("Username not found");
         return;
       } else if (res.status === 401) {
         // Password is incorrect -> 401 Status code
@@ -81,11 +65,10 @@ const Login = () => {
       }
 
       const data = await res.json();
-      console.log("Submitted data");
 
       if (!res.ok) {
         setError(data.message || "Something went wrong");
-        console.log("res not ok");
+        console.log(error);
         setLoading(false);
       } else {
         cookieValidation();
