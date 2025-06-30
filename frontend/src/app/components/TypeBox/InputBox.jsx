@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useMemo, useEffect } from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
 import DisplayBox from "./DisplayBox";
 import {
   splitWords,
@@ -13,6 +13,7 @@ import gameModes from "@/lib/gamemodes";
 
 const WORDS_PER_LINE = 10;
 const LINES_ON_SCREEN = 3;
+const DEFAULT_CARET_POSITION = { x: 9, y: 20 };
 
 // The InputBox contains two things: An invisible input box and a box to display the given words
 const InputBox = ({
@@ -35,6 +36,20 @@ const InputBox = ({
   setFocus,
   inputRef,
 }) => {
+  // State to keep track of caret position
+  const [caretPos, setCaretPos] = useState(DEFAULT_CARET_POSITION);
+
+  // Function to update the caret position based on the ref
+  const updateCaretRef = (letterRef, displayBoxRef) => {
+    const letterRect = letterRef.current.getBoundingClientRect();
+    const displayBoxRect = displayBoxRef.current.getBoundingClientRect();
+
+    setCaretPos({
+      x: letterRect.left - displayBoxRect.left,
+      y: letterRect.top - displayBoxRect.top,
+    });
+  };
+
   // Functions to increase/decrease/reset letters (correctly) typed
   const increaseLettersCorrectlyTyped = useWordsStore(
     (state) => state.increaseLettersCorrectlyTyped
@@ -58,7 +73,7 @@ const InputBox = ({
 
   // useWordsStore states
   const mode = useWordsStore((state) => state.mode);
-  
+
   // useTimedStore states and functions
   const resetTimer = useTimedStore((state) => state.resetTimer);
   const timeLeft = useTimedStore((state) => state.timeLeft);
@@ -206,6 +221,7 @@ const InputBox = ({
     currentKeyRef.current = e.key;
     // Escape - reset the typed text
     if (e.key === "Escape") {
+
       // Reset letters typed counts
       resetLettersCorrectlyTyped();
       resetLettersTyped();
@@ -275,6 +291,9 @@ const InputBox = ({
             WORDS_PER_LINE={WORDS_PER_LINE}
             LINES_ON_SCREEN={LINES_ON_SCREEN}
             visibleLines={visibleLines}
+            updateCaretRef={updateCaretRef}
+            caretPos={caretPos}
+            startedTyping={startedTyping}
           />
         </div>
         <input
