@@ -33,18 +33,18 @@ const DisplayBox = ({
         {focus && (
           <motion.div
             className={`absolute translate-x-[-3px] ${blur}`}
-            // initial={false}
+            // initial={false} // Uncomment to remove the spring from the top left on render 
             animate={{
               x: caretPos.x,
               y: caretPos.y,
               opacity: startedTyping ? 1 : [1, 0, 1],
             }}
             transition={{
-              x: { type: "spring", stiffness: 400, damping: 30, mass: 1 },
-              y: { type: "spring", stiffness: 400, damping: 30, mass: 1 },
-              opacity: startedTyping
+              x: { type: "spring", stiffness: 600, damping: 50 },
+              y: { type: "spring", stiffness: 600, damping: 50 },
+              opacity: startedTyping // Blink if not started typing
                 ? { duration: 0 }
-                : { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
+                : { duration: 1.4, repeat: Infinity, ease: "easeInOut" },
             }}
           >
             <Caret startedTyping={startedTyping} />
