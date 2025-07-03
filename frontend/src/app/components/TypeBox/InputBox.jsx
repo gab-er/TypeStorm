@@ -96,6 +96,7 @@ const InputBox = ({
   // Obtain old typed words (prior to changing on new input)
   let typedWords = splitWordsWithSpaces(typedText);
 
+  // Determine if game should end in Timed mode
   useEffect(() => {
     if (mode === "timed" && timeLeft === 0) {
       setGameCompleted(true);
@@ -188,9 +189,9 @@ const InputBox = ({
 
     // Check if the game has ended (reached the last letter)
     if (
-      mode == gameModes.STANDARD &&
+      (mode == gameModes.STANDARD || mode == gameModes.CHALLENGE) &&
       numWordsTyped === numWords - 1 &&
-      currentTypedWord.length === correctWord.length - 1
+      currentTypedWord.length === correctWord.length - 1 // Need - 1 because all words (including the last word) ends with a space 
     ) {
       setAllTypedWords((prev) => [...prev, currentTypedWord]);
       setTypedText(newText);
@@ -216,33 +217,38 @@ const InputBox = ({
     }
   };
 
+  // Function to restart game
+  const restartGame = (mode) => {
+    // Reset letters typed counts
+    resetLettersCorrectlyTyped();
+    resetLettersTyped();
+    resetErrors();
+    setNumWordsTyped(0);
+    setAllTypedWords([]);
+
+    // Reset the displayed words back to the start
+    setCurrentLineIndex(0);
+    setWordsTypedOffset(0);
+
+    // Reset typed text
+    setTypedText("");
+
+    // Reset timers
+    setStartedTyping(false);
+    resetTimers();
+
+    if (mode === "timed") {
+      resetTimer(); // Reset timed timer
+    }
+  };
+
   // Function to handle key presses that do not change the input text
   const handleOtherChanges = (e) => {
     currentKeyRef.current = e.key;
     // Escape - reset the typed text
-    if (e.key === "Escape") {
-
-      // Reset letters typed counts
-      resetLettersCorrectlyTyped();
-      resetLettersTyped();
-      resetErrors();
-      setNumWordsTyped(0);
-      setAllTypedWords([]);
-
-      // Reset the displayed words back to the start
-      setCurrentLineIndex(0);
-      setWordsTypedOffset(0);
-
-      // Reset typed text
-      setTypedText("");
-
-      // Reset timers
-      setStartedTyping(false);
-      resetTimers();
-
-      if (mode === "timed") {
-        resetTimer(); // Reset timed timer
-      }
+    // Do not allow resets on Challenge Mode
+    if (e.key === "Escape" && mode != gameModes.CHALLENGE) {
+      restartGame(mode);
     }
   };
 
