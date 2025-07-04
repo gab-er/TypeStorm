@@ -9,8 +9,10 @@ export default function ChallengeWrapper({ words }) {
   const setMode = useWordsStore((state) => state.setMode);
 
   useEffect(() => {
+    // Sets mode to CHALLENGE on component mount 
     setMode(gameModes.CHALLENGE);
 
+    // Sets mode to STANDARD on component unmount 
     return () => {
       setMode(gameModes.STANDARD);
     };

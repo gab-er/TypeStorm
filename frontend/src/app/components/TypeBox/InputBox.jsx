@@ -215,6 +215,7 @@ const InputBox = ({
       setCurrentLineIndex((prev) => prev + 1);
       setWordsTypedOffset(wordsTypedOffset + WORDS_PER_LINE);
     }
+    console.log(numWords);
   };
 
   // Function to restart game

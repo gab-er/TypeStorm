@@ -4,7 +4,6 @@ import { useEffect, useState, useRef } from "react";
 import {
   wordsData,
   generateRandomWords,
-  splitWords,
   splitWordsWithSpaces,
 } from "@/lib/words";
 import useWordsStore from "@/app/stores/useWordsStore";
@@ -106,6 +105,17 @@ const TypeBox = ({ words = null }) => {
         window.removeEventListener("keydown", handleKeyDown);
       };
     }
+
+    // Hide Settings Bar if mode is Challenge
+    if (mode == gameModes.CHALLENGE && words) {
+      const challengeWords = splitWordsWithSpaces(words);
+      useWordsStore.getState().setNumWords(challengeWords.length);
+      setNumWords(challengeWords.length);
+      setWordsToType(challengeWords);
+      setShowSettingsBar(false);
+    } else {
+      setShowSettingsBar(true);
+    }
   }, [mode]);
 
   // Infinite words
@@ -125,6 +135,7 @@ const TypeBox = ({ words = null }) => {
         ...generateRandomWords(wordsData, 200),
       ]);
     }
+    console.log(numWords);
   }, [numWordsTyped]);
 
   // Events that will start/stop the timer (standard and timed mode)
@@ -145,19 +156,6 @@ const TypeBox = ({ words = null }) => {
       setShowSettingsBar(true);
     }
   }, [startedTyping, gameCompleted]);
-
-  useEffect(() => {
-    // Hide Settings Bar if mode is Challenge
-    if (mode == gameModes.CHALLENGE && words) {
-      const challengeWords = splitWordsWithSpaces(words);
-      useWordsStore.getState().setNumWords(challengeWords.length);
-      setNumWords(challengeWords.length);
-      setWordsToType(challengeWords);
-      setShowSettingsBar(false);
-    } else {
-      setShowSettingsBar(true);
-    }
-  }, [mode]);
 
   useEffect(() => {
     // Stop timer
