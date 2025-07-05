@@ -247,8 +247,7 @@ const InputBox = ({
   const handleOtherChanges = (e) => {
     currentKeyRef.current = e.key;
     // Escape - reset the typed text
-    // Do not allow resets on Challenge Mode
-    if (e.key === "Escape" && mode != gameModes.CHALLENGE) {
+    if (e.key === "Escape") {
       restartGame(mode);
     }
   };
@@ -314,7 +313,7 @@ const InputBox = ({
           onClick={handleFocus}
           onBlur={handleBlur}
           ref={inputRef}
-          className="text-start opacity-0 cursor-default w-[1000px] h-[200px] absolute bg-white text-black pb-40 pl-2.5 text-3xl border"
+          className="text-start opacity-0 cursor-default w-[1200px] h-[200px] absolute bg-white text-black pb-40 pl-2.5 text-3xl border"
         />
       </div>
     </>

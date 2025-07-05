@@ -71,6 +71,14 @@ const challenges = [
     text: "I will not say: do not weep; for not all tears are an evil. The story's end is but a grey rain-curtain turned all to silver glass, and then you see it: white shores, and beyond, a far green country.",
     description: "J.R.R. Tolkien - Gandalf's comfort (Return of the King)",
   },
+  {
+    text: "I am not in danger, Skyler. I am the danger. A guy opens his door and gets shot, and you think that of me? No. I am the one who knocks.",
+    description: "Walter White - Breaking Bad (Season 4, Episode 6)",
+  },
+  {
+    text: "I did it for me. I liked it. I was good at it. And I was really... I was alive. All the things that happened, you have to understand, I did it for me.",
+    description: "Walter White - Breaking Bad (Final Episode)",
+  },
 ].map((challenge) => ({
   text: challenge.text + " ", // Append a space to the end of every challenge text -> TypeBox takes this extra space into account in order to end a game
   description: challenge.description,
