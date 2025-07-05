@@ -26,7 +26,7 @@ const DisplayBox = ({
   return (
     <>
       <div
-        className="relative w-[1000px] h-[200px] flex flex-col"
+        className="relative w-[1200px] h-[200px] flex flex-col"
         ref={displayBoxRef}
       >
         {/* Caret - Blinks if the user has not started typing*/}

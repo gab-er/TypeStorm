@@ -11,6 +11,8 @@ const Timer = ({ startedTyping }) => {
   const timerActive = useTimedStore((state) => state.timerActive);
   const setTimerActive = useTimedStore((state) => state.setTimerActive);
   const timeLimit = useTimedStore((state) => state.timeLimit);
+  const gray = "#1E1F25";
+  const indigo = "#7c86ff";
 
   useEffect(() => {
     // If timer is not active, don't do anything
@@ -38,8 +40,8 @@ const Timer = ({ startedTyping }) => {
         key={startedTyping} // Timer resets whenever "startedTyping" changes
         isPlaying={timerActive}
         duration={timeLimit}
-        colors={["#99a1af"]}
-        trailColor={"#1E1F25"} // Gray ring background color
+        colors={[indigo]}
+        trailColor={"#161821"} // background color
         size={130}
       >
         {({ remainingTime }) => (

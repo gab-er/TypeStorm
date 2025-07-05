@@ -227,14 +227,14 @@ const TypeBox = ({ words = null }) => {
           {/* Timer */}
           <Animation key="timer" id="timer" visible={mode == gameModes.TIMED}>
             <div
-              className={`absolute flex translate-x-[-100px] translate-y-[-140px]`}
+              className={`absolute flex justify-center translate-y-[-140px] translate-x-[-100px]`}
             >
               <Timer startedTyping={startedTyping} />
             </div>
           </Animation>
 
           <div
-            className={`absolute translate-x-[-495px] translate-y-[-60px] w-[300px]`}
+            className={`absolute translate-x-[-595px] translate-y-[-60px] w-[300px]`}
           >
             {/* Word & Error Counters */}
             <Animation id="counters" visible={startedTyping}>
@@ -271,7 +271,7 @@ const TypeBox = ({ words = null }) => {
           />
           {/* SettingsBars/Instructions */}
           <Animation id="settings" visible={showSettingsBar}>
-            <div className="absolute translate-y-[225px] translate-x-[-495px] flex flex-col gap-5">
+            <div className="absolute translate-y-[225px] translate-x-[-595px] flex flex-col gap-5">
               <ModeBar inputRef={inputRef} />
               {mode == gameModes.STANDARD && (
                 <StandardSettingsBar

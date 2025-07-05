@@ -180,7 +180,7 @@ const StatsBox = ({
 
   return (
     // (!isLoading && (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center  ">
       {isNewPb && <ConfettiExplosion particleCount={150} duration={3000} />}
       {/* Stats */}
       <div className="flex flex-col w-[600px] h-[325px] text-2xl">

@@ -14,7 +14,8 @@ export default async function Home() {
           <TypingTip isCycling={true} />
         </div>
       </div>
-      <div className="flex mt-45 justify-center">
+      {/* ml-185 */}
+      <div className="mt-45 flex justify-center">
         <TypeBox />
       </div>
     </>
