@@ -9,6 +9,7 @@ const Logo = ({ width, height }) => {
       width={width}
       height={height}
       priority={true}
+      className="select-none"
     ></Image>
   );
 };

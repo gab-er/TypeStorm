@@ -1,214 +1,234 @@
-import supertest from 'supertest'
+import supertest from "supertest";
 import app from "../app.js";
-import { PrismaClient } from '@prisma/client';
-import { describe, vi, expect, test } from 'vitest';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
- 
+import { PrismaClient } from "@prisma/client";
+import { describe, vi, expect, test } from "vitest";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
-const request = supertest(app)
+const request = supertest(app);
 
-vi.mock('@prisma/client')
+vi.mock("@prisma/client");
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 //tests for register endpoint
 describe("POST /auth/register", () => {
-    //testcase for valid username and password
-    describe("Valid username and password", () => {
-        
-        test("should return 201 status code, create statistic rows, and authentication cookie", async () => {
-            //Stimulate not finding user with username
-            prisma.user.findUnique.mockResolvedValue(null)
-            //Stimulate creating row
-            prisma.user.create.mockResolvedValue({id:1,username:"username",password:"hashedpassword", createdOn: new Date()})
-            
-            const res = await request.post("/auth/register").send({
-                username: "username",
-                password: "password"
-            })
-            //Should return 201 status code
-            expect(res.statusCode).toBe(201)
+  //testcase for valid username and password
+  describe("Valid username and password", () => {
+    test("should return 201 status code, create statistic rows, and authentication cookie", async () => {
+      //Stimulate not finding user with username
+      prisma.user.findUnique.mockResolvedValue(null);
+      //Stimulate creating row
+      prisma.user.create.mockResolvedValue({
+        id: 1,
+        username: "username",
+        password: "hashedpassword",
+        createdOn: new Date(),
+      });
 
-            //Should call prisma.user.create with inputed username and hashed password
-            expect(prisma.user.create).toBeCalledWith({
-                data: {
-                    username:"username",
-                    password: expect.any(String)
-                }
-            })
+      const res = await request.post("/auth/register").send({
+        username: "username",
+        password: "password",
+      });
+      //Should return 201 status code
+      expect(res.statusCode).toBe(201);
 
-            //Should call prisma.statistic.createMany and create one row for each gamemode with userId 
-            expect(prisma.statistic.createMany).toBeCalledWith({
-                data: [
-                {userId: 1,gamemode: "STANDARD"},
-                {userId: 1,gamemode: "TIMED"},
-            ]})
+      //Should call prisma.user.create with inputed username and hashed password
+      expect(prisma.user.create).toBeCalledWith({
+        data: {
+          username: "username",
+          password: expect.any(String),
+        },
+      });
 
-            //Extract cookie
-            const cookies = res.headers['set-cookie'];
-            const jwtCookie = cookies.find(cookie => cookie.startsWith('jwt='));
+      //Should call prisma.statistic.createMany and create one row for each gamemode with userId
+      expect(prisma.statistic.createMany).toBeCalledWith({
+        data: [
+          { userId: 1, gamemode: "STANDARD" },
+          { userId: 1, gamemode: "TIMED" },
+        ],
+      });
 
-            //JWT cookie should be sent
-            expect(jwtCookie).toBeDefined();
+      //Extract cookie
+      const cookies = res.headers["set-cookie"];
+      const jwtCookie = cookies.find((cookie) => cookie.startsWith("jwt="));
 
-            //Extract JWT token from cookie
-            const token = jwtCookie.slice(jwtCookie.search('=')+1,jwtCookie.search(';'))
+      //JWT cookie should be sent
+      expect(jwtCookie).toBeDefined();
 
-            //Token should be valid
-            expect(()=>{jwt.verify(token, process.env.JWT_SECRET)}).not.toThrowError
-        })
-    })
+      //Extract JWT token from cookie
+      const token = jwtCookie.slice(
+        jwtCookie.search("=") + 1,
+        jwtCookie.search(";")
+      );
 
-    describe("Existing username", () => {
+      //Token should be valid
+      expect(() => {
+        jwt.verify(token, process.env.JWT_SECRET);
+      }).not.toThrowError;
+    });
+  });
 
-        test("should return 422 code, not create user or statistic rows and not send cookie", async () => {
-            //Stimulate finding another user with username
-            prisma.user.findUnique.mockResolvedValue({id:1,username:"existtingusername",password:"hashedpassword"})
-            
-            const res = await request.post("/auth/register").send({
-                username: "username",
-                password: "password"
-            })
-            // Should return 422 status code
-            expect(res.statusCode).toBe(422)
+  describe("Existing username", () => {
+    test("should return 422 code, not create user or statistic rows and not send cookie", async () => {
+      //Stimulate finding another user with username
+      prisma.user.findUnique.mockResolvedValue({
+        id: 1,
+        username: "existtingusername",
+        password: "hashedpassword",
+      });
 
-            //prisma.user.create should not be called
-            expect(prisma.user.create).not.toBeCalled
+      const res = await request.post("/auth/register").send({
+        username: "username",
+        password: "password",
+      });
+      // Should return 422 status code
+      expect(res.statusCode).toBe(422);
 
-            //prisma.statistic.createMany should not be called
-            expect(prisma.statistic.createMany).not.toBeCalled
+      //prisma.user.create should not be called
+      expect(prisma.user.create).not.toBeCalled;
 
-            const cookies = res.headers['set-cookie'];
-            console.log(cookies)
+      //prisma.statistic.createMany should not be called
+      expect(prisma.statistic.createMany).not.toBeCalled;
 
-            //cookie should not be sent
-            expect(cookies).not.toBeDefined()
-        })
-    })
+      const cookies = res.headers["set-cookie"];
+      console.log(cookies);
 
-    describe("Internal Server Error", () => {
-        test("should return 500 code, not create statistic rows and not send cookie", async () => {
-            prisma.user.findUnique.mockResolvedValue(null)
-            //Stimulate server error while trying to create data
-            prisma.user.create.mockRejectedValue(new Error('Internal Server Error'))
+      //cookie should not be sent
+      expect(cookies).not.toBeDefined();
+    });
+  });
 
-            const res = await request.post("/auth/register").send({
-                username: "username",
-                password: "password"
-            })
-            //Should return 500 status code 
-            expect(res.statusCode).toBe(500)
+  describe("Internal Server Error", () => {
+    test("should return 500 code, not create statistic rows and not send cookie", async () => {
+      prisma.user.findUnique.mockResolvedValue(null);
+      //Stimulate server error while trying to create data
+      prisma.user.create.mockRejectedValue(new Error("Internal Server Error"));
 
-            //prisma.statistic.createMany should not be called
-            expect(prisma.statistic.createMany).not.toBeCalled
+      const res = await request.post("/auth/register").send({
+        username: "username",
+        password: "password",
+      });
+      //Should return 500 status code
+      expect(res.statusCode).toBe(500);
 
-            const cookies = res.headers['set-cookie'];
-            console.log(cookies)
-            //Cookie should not be sent
-            expect(cookies).not.toBeDefined()
-        })
-    })
-})
+      //prisma.statistic.createMany should not be called
+      expect(prisma.statistic.createMany).not.toBeCalled;
+
+      const cookies = res.headers["set-cookie"];
+      console.log(cookies);
+      //Cookie should not be sent
+      expect(cookies).not.toBeDefined();
+    });
+  });
+});
 
 //Test for login endpoint
 describe("POST /auth/register", () => {
-    //testcase for valid username and password
-    describe("Valid username and password", () => {
-        
-        test("should return 200 status code, and authentication cookie", async () => {
-            //Stimulate finding user 
-            const hashedPassword = await bcrypt.hash("password",5)
-            prisma.user.findUnique.mockResolvedValue({id:1,username:"username",password:hashedPassword})
-            
-            
-            const res = await request.post("/auth/login").send({
-                username: "username",
-                password: "password"
-            })
-            //Should return 200 status code
-            expect(res.statusCode).toBe(200)
-            
-            //Extract cookie
-            const cookies = res.headers['set-cookie'];
-            const jwtCookie = cookies.find(cookie => cookie.startsWith('jwt='));
+  //testcase for valid username and password
+  describe("Valid username and password", () => {
+    test("should return 200 status code, and authentication cookie", async () => {
+      //Stimulate finding user
+      const hashedPassword = await bcrypt.hash("password", 5);
+      prisma.user.findUnique.mockResolvedValue({
+        id: 1,
+        username: "username",
+        password: hashedPassword,
+      });
 
-            //JWT cookie should be sent
-            expect(jwtCookie).toBeDefined();
+      const res = await request.post("/auth/login").send({
+        username: "username",
+        password: "password",
+      });
+      //Should return 200 status code
+      expect(res.statusCode).toBe(200);
 
-            //Extract JWT token from cookie
-            const token = jwtCookie.slice(jwtCookie.search('=')+1,jwtCookie.search(';'))
+      //Extract cookie
+      const cookies = res.headers["set-cookie"];
+      const jwtCookie = cookies.find((cookie) => cookie.startsWith("jwt="));
 
-            //Token should be valid
-            expect(()=>{jwt.verify(token, process.env.JWT_SECRET)}).not.toThrowError
-        })
-    })
+      //JWT cookie should be sent
+      expect(jwtCookie).toBeDefined();
 
-    //testcase for username that does not exist
-    describe("Username not found", () => {
+      //Extract JWT token from cookie
+      const token = jwtCookie.slice(
+        jwtCookie.search("=") + 1,
+        jwtCookie.search(";")
+      );
 
-        test("should return 404 code and not send cookie", async () => {
-            //Stimulate not finding user
-            prisma.user.findUnique.mockResolvedValue(null)
-            
-            const res = await request.post("/auth/login").send({
-                username: "username",
-                password: "password"
-            })
-            // Should return 404 status code
-            expect(res.statusCode).toBe(404)
+      //Token should be valid
+      expect(() => {
+        jwt.verify(token, process.env.JWT_SECRET);
+      }).not.toThrowError;
+    });
+  });
 
-            const cookies = res.headers['set-cookie'];
-            console.log(cookies)
+  //testcase for username that does not exist
+  describe("Username not found", () => {
+    test("should return 404 code and not send cookie", async () => {
+      //Stimulate not finding user
+      prisma.user.findUnique.mockResolvedValue(null);
 
-            //cookie should not be sent
-            expect(cookies).not.toBeDefined()
-        })
-    })
+      const res = await request.post("/auth/login").send({
+        username: "username",
+        password: "password",
+      });
+      // Should return 404 status code
+      expect(res.statusCode).toBe(404);
 
-    //testcase for wrong password
-    describe("Valid username and password", () => {
-        
-        test("should return 401 status code and not send cookie", async () => {
-            //Stimulate finding user 
-            const hashedPassword = await bcrypt.hash("password",5)
-            prisma.user.findUnique.mockResolvedValue({id:1,username:"username",password:hashedPassword})
-            
-            
-            const res = await request.post("/auth/login").send({
-                username: "username",
-                password: "wrongpassword"
-            })
-            //Should return 200 status code
-            expect(res.statusCode).toBe(401)
+      const cookies = res.headers["set-cookie"];
+      console.log(cookies);
 
-            const cookies = res.headers['set-cookie'];
-            console.log(cookies)
+      //cookie should not be sent
+      expect(cookies).not.toBeDefined();
+    });
+  });
 
-            //cookie should not be sent
-            expect(cookies).not.toBeDefined()
-        
-        })
-    })
+  //testcase for wrong password
+  describe("Valid username and password", () => {
+    test("should return 401 status code and not send cookie", async () => {
+      //Stimulate finding user
+      const hashedPassword = await bcrypt.hash("password", 5);
+      prisma.user.findUnique.mockResolvedValue({
+        id: 1,
+        username: "username",
+        password: hashedPassword,
+      });
 
-    //testcase for internal server error
-    describe("Internal Server Error", () => {
-        test("should return 500 code and not send cookie", async () => {
-            //Stimulate server error while trying to create data
-            prisma.user.findUnique.mockRejectedValue(new Error('Internal Server Error'))
+      const res = await request.post("/auth/login").send({
+        username: "username",
+        password: "wrongpassword",
+      });
+      //Should return 200 status code
+      expect(res.statusCode).toBe(401);
 
-            const res = await request.post("/auth/register").send({
-                username: "username",
-                password: "password"
-            })
-            //Should return 500 status code 
-            expect(res.statusCode).toBe(500)
+      const cookies = res.headers["set-cookie"];
+      console.log(cookies);
 
-            const cookies = res.headers['set-cookie'];
-            console.log(cookies)
-            //Cookie should not be sent
-            expect(cookies).not.toBeDefined()
-        })
-    })
-    
-})
+      //cookie should not be sent
+      expect(cookies).not.toBeDefined();
+    });
+  });
+
+  //testcase for internal server error
+  describe("Internal Server Error", () => {
+    test("should return 500 code and not send cookie", async () => {
+      //Stimulate server error while trying to create data
+      prisma.user.findUnique.mockRejectedValue(
+        new Error("Internal Server Error")
+      );
+
+      const res = await request.post("/auth/register").send({
+        username: "username",
+        password: "password",
+      });
+      //Should return 500 status code
+      expect(res.statusCode).toBe(500);
+
+      const cookies = res.headers["set-cookie"];
+      console.log(cookies);
+      //Cookie should not be sent
+      expect(cookies).not.toBeDefined();
+    });
+  });
+});

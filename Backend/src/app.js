@@ -1,47 +1,50 @@
 ///Packages
-import express from 'express'
-import cors from "cors"
-import cookieParser from 'cookie-parser'
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 
 ///Routes
-import authRoutes from './routes/authRoutes.js'
-import userRoutes from './routes/userRoutes.js'
-import gameRoutes from './routes/gameRoutes.js'
-import statisticRoutes from './routes/statisticRoutes.js'
+import authRoutes from "./routes/authRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import gameRoutes from "./routes/gameRoutes.js";
+import statisticRoutes from "./routes/statisticRoutes.js";
+import challengeRoutes from "./routes/challengeRoutes.js";
 
 ///Middleware
-import authMiddleware from './middleware/authMiddleware.js'
+import authMiddleware from "./middleware/authMiddleware.js";
 
-const app = express()
+const app = express();
 
 //CORS settings
 app.use(
-    cors({
-        origin : process.env.FRONTEND_URL,
-        credentials: true,
-        allowedHeaders: ['Content-Type', 'Authorization', 'Set-Cookie'],
-        exposedHeaders: ['Set-Cookie'],
-        methods: ['GET', 'POST', 'PUT', 'OPTIONS']
-    })
-)
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization", "Set-Cookie"],
+    exposedHeaders: ["Set-Cookie"],
+    methods: ["GET", "POST", "PUT", "OPTIONS"],
+  })
+);
 
-app.use(cookieParser())
+app.use(cookieParser());
 
-app.use(express.json())
+app.use(express.json());
 
 // Website Link
-app.get('/', (req,res) => {
-    console.log('User Connects to Website')
-    res.send('<h1> Placeholder <h1/>')
-})
+app.get("/", (req, res) => {
+  console.log("User Connects to Website");
+  res.send("<h1> Placeholder <h1/>");
+});
 
-//Routes 
-app.use('/auth', authRoutes)
+//Routes
+app.use("/auth", authRoutes);
 
-app.use('/user', authMiddleware, userRoutes)
+app.use("/user", authMiddleware, userRoutes);
 
-app.use('/game', authMiddleware, gameRoutes)
+app.use("/game", authMiddleware, gameRoutes);
 
-app.use('/statistic', authMiddleware, statisticRoutes)
+app.use("/statistic", authMiddleware, statisticRoutes);
 
-export default app
+app.use("/challenge", challengeRoutes);
+
+export default app;
