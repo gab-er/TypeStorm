@@ -191,7 +191,7 @@ const InputBox = ({
     if (
       (mode == gameModes.STANDARD || mode == gameModes.CHALLENGE) &&
       numWordsTyped === numWords - 1 &&
-      currentTypedWord.length === correctWord.length - 1 // Need - 1 because all words (including the last word) ends with a space 
+      currentTypedWord.length === correctWord.length - 1 // Need - 1 because all words (including the last word) ends with a space
     ) {
       setAllTypedWords((prev) => [...prev, currentTypedWord]);
       setTypedText(newText);
@@ -312,6 +312,10 @@ const InputBox = ({
           onFocus={handleFocus}
           onClick={handleFocus}
           onBlur={handleBlur}
+          onPaste={(e) => e.preventDefault()}
+          onCopy={(e) => e.preventDefault()}
+          onCut={(e) => e.preventDefault()}
+          onContextMenu={(e) => e.preventDefault()}
           ref={inputRef}
           className="text-start opacity-0 cursor-default w-[1200px] h-[200px] absolute bg-white text-black pb-40 pl-2.5 text-3xl border"
         />

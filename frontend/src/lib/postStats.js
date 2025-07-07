@@ -2,7 +2,7 @@ import axios from "axios";
 import url from "../lib/apiUrl";
 import { useMutation } from "@tanstack/react-query";
 
-// Post stats to the STANDARD STATISTICS backend API 
+// Post stats to the STANDARD STATISTICS backend API
 const postStatsStandard = async (stats) => {
   const res = await axios.post(`${url}/statistic/STANDARD`, stats, {
     withCredentials: true,
@@ -17,7 +17,7 @@ export const usePostStatsStandard = () => {
   return postStatsStandardMutation;
 };
 
-// Post stats to the STANDARD GAME backend API 
+// Post stats to the STANDARD GAME backend API
 const postStatsStandardGame = async (stats) => {
   const res = await axios.post(`${url}/game/STANDARD`, stats, {
     withCredentials: true,
@@ -32,7 +32,7 @@ export const usePostStatsStandardGame = () => {
   return postStatsStandardGameMutation;
 };
 
-// Post stats to the STANDARD STATISTICS backend API 
+// Post stats to the STANDARD STATISTICS backend API
 const postStatsTimed = async (stats) => {
   const res = await axios.post(`${url}/statistic/TIMED`, stats, {
     withCredentials: true,
@@ -47,7 +47,7 @@ export const usePostStatsTimed = () => {
   return postStatsTimedMutation;
 };
 
-// Post stats to the TIMED GAME backend API 
+// Post stats to the TIMED GAME backend API
 const postStatsTimedGame = async (stats) => {
   const res = await axios.post(`${url}/game/TIMED`, stats, {
     withCredentials: true,
@@ -62,3 +62,18 @@ export const usePostStatsTimedGame = () => {
   return postStatsTimedGameMutation;
 };
 
+// Post stats to the CHALLENGE backend API
+const postStatsChallenge = async (stats) => {
+  const { challengeId } = stats;
+  const res = await axios.post(`${url}/challenge/${challengeId}`, stats, {
+    withCredentials: true,
+  });
+  return res.data;
+};
+
+export const usePostStatsChallenge = () => {
+  const postStatsChallengeMutation = useMutation({
+    mutationFn: postStatsChallenge,
+  });
+  return postStatsChallengeMutation;
+};

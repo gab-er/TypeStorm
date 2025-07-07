@@ -5,7 +5,7 @@ import useWordsStore from "@/app/stores/useWordsStore";
 import gameModes from "@/lib/gamemodes";
 import TypeBox from "@/app/components/TypeBox/TypeBox";
 
-export default function ChallengeWrapper({ words }) {
+export default function ChallengeWrapper({ words, challengeId }) {
   const setMode = useWordsStore((state) => state.setMode);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function ChallengeWrapper({ words }) {
 
   return (
     <div className="flex mt-45 justify-center">
-      <TypeBox words={words} />
+      <TypeBox words={words} challengeId={challengeId} />
     </div>
   );
 }

@@ -8,7 +8,6 @@ export default async function ChallengeID({ params }) {
   const challengeText = challenges[id].text;
   const challengeDescription = challenges[id].description;
 
-  // This wrapper will set the mode of the game, and allows this page to continue being a server component
   return (
     <>
       <div className="relative flex justify-start items-center">
@@ -23,7 +22,8 @@ export default async function ChallengeID({ params }) {
           {challengeDescription}
         </div>
       </div>
-      <ChallengeWrapper words={challengeText} />
+      {/* // This wrapper will set the mode of the game, and allows this page to continue being a server component */}
+      <ChallengeWrapper words={challengeText} challengeId={id}/>
     </>
   );
 }

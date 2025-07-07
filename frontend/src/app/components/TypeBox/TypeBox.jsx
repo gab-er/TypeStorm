@@ -20,7 +20,7 @@ import Instruction from "./Instruction";
 import Animation from "../Animation";
 
 // The InputBox contains two things: An invisible input box and a box to display the given words
-const TypeBox = ({ words = null }) => {
+const TypeBox = ({ words = null, challengeId = null }) => {
   // States that need to be kept track of
   // Keep track of how many first lines have been typed, This offset is to keep track of the correct word position after the lines update
   const [wordsTypedOffset, setWordsTypedOffset] = useState(0);
@@ -135,7 +135,6 @@ const TypeBox = ({ words = null }) => {
         ...generateRandomWords(wordsData, 200),
       ]);
     }
-    console.log(numWords);
   }, [numWordsTyped]);
 
   // Events that will start/stop the timer (standard and timed mode)
@@ -218,6 +217,7 @@ const TypeBox = ({ words = null }) => {
             wordsToType={wordsToType}
             numWords={numWords}
             startedTyping={startedTyping}
+            challengeId={challengeId}
           />
         </div>
       </Animation>
