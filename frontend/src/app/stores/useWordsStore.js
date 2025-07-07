@@ -4,7 +4,7 @@ import useTimedStore from "./useTimedStore";
 import gameModes from "@/lib/gamemodes";
 
 const useWordsStore = create((set, get) => ({
-  mode: gameModes.STANDARD,
+  mode: gameModes.STANDARD, // gameModes.STANDARD
   lettersCorrectlyTyped: 0,
   lettersTyped: 0,
   errors: 0,

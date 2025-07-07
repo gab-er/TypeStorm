@@ -34,7 +34,7 @@ const ProfileIcon = () => {
         <MenuItem className="cursor-pointer block px-4 py-2">
           <Link
             className="w-full px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100 data-focus:outline-hidden"
-            href="yourprofile"
+            href="/yourprofile"
           >
             Your Profile
           </Link>

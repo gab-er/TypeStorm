@@ -7,7 +7,7 @@ const ModeButton = ({ desc, changeMode }) => {
 
   if (desc.toLowerCase() === mode.toLowerCase()) {
     // The current button chosen will become highlighted
-    selected = "bg-gray-800";
+    selected = "bg-gray-700";
   }
 
   return (

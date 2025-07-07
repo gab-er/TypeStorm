@@ -6,6 +6,7 @@ import {
   usePostStatsStandardGame,
   usePostStatsTimed,
   usePostStatsTimedGame,
+  usePostStatsChallenge,
 } from "../../../lib/postStats";
 import StatInfo from "./StatInfo";
 import WordHistory from "./WordHistory";
@@ -20,6 +21,7 @@ const StatsBox = ({
   wordsToType,
   numWords,
   startedTyping,
+  challengeId,
 }) => {
   const [sentData, setSentData] = useState(false);
   const [isNewPb, setIsNewPb] = useState(false);
@@ -39,6 +41,7 @@ const StatsBox = ({
     elapsedTime: 0,
   });
   const [obtainedStats, setObtainedStats] = useState(false);
+  const [ranking, setRanking] = useState(null); // Ranking for challenge mode
 
   const [res, setRes] = useState({
     pbWpm: false,
@@ -58,6 +61,7 @@ const StatsBox = ({
     errors: "Total errors made while typing",
     accuracy: "Percentage of correct characters typed",
     time: "Time taken to type all words",
+    ranking: "Your current ranking",
   };
 
   useEffect(() => {
@@ -125,11 +129,12 @@ const StatsBox = ({
   const postStatsStandardGame = usePostStatsStandardGame();
   const postStatsTimed = usePostStatsTimed();
   const postStatsTimedGame = usePostStatsTimedGame();
+  const postStatsChallenge = usePostStatsChallenge();
 
   // Send stats once a game is completed
   useEffect(() => {
     if (obtainedStats && !sentData) {
-      // Send stats to statistics route
+      // Send stats to statistics/challenge route
       const postStatsData = async () => {
         try {
           const stats = {
@@ -161,13 +166,17 @@ const StatsBox = ({
             accuracy: frozenStats.accuracy,
             errors: frozenStats.errors,
             score: frozenStats.score,
+            challengeId: challengeId,
           };
           const response =
             mode == gameModes.STANDARD // MODE : STANDARD
               ? await postStatsStandardGame.mutateAsync(stats)
               : mode == gameModes.TIMED // MODE : TIMED
               ? await postStatsTimedGame.mutateAsync(stats)
+              : mode == gameModes.CHALLENGE && challengeId // MODE : CHALLENGE
+              ? await postStatsChallenge.mutateAsync(stats)
               : null;
+          setRanking(response.ranking);
         } catch (error) {
           console.log(error);
           setIsLoading(false); // User is not logged in, show the stats obtained
@@ -238,12 +247,22 @@ const StatsBox = ({
           />
         </div>
       </div>
+      <div>
+        {ranking && (
+          <StatInfo
+            header={"Current Ranking"}
+            stat={`#${ranking}`}
+            headerDesc={headerDescriptions.ranking}
+            startedTyping={startedTyping}
+          />
+        )}
+      </div>
       {/* Word History */}
       <div className="mt-4">
         <WordHistory allTypedWords={allTypedWords} wordsToType={wordsToType} />
       </div>
       {/* Enter to start game  */}
-      <div className="mt-6">
+      <div className="mt-6 ">
         <Instruction button={"enter"} desc={"start new game"} />
       </div>
     </div>

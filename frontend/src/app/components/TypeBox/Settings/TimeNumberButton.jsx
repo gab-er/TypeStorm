@@ -8,7 +8,7 @@ const TimeNumberButton = ({ num, changeTime }) => {
 
   if (num === timeLimit) {
     // The current button chosen will become highlighted
-    selected = "bg-gray-800";
+    selected = "bg-gray-700";
   }
 
   return (

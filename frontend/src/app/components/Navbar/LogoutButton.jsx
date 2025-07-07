@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import logout from "@/lib/logout";
+import logout from "../../../lib/logout";
 
 const LogoutButton = () => {
   const router = useRouter();

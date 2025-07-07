@@ -5,7 +5,7 @@ const WordNumberButton = ({ num, changeNumWords, numWords }) => {
 
   if (num === numWords) {
     // The current button chosen will become highlighted
-    selected = "bg-gray-800";
+    selected = "bg-gray-700";
   }
 
   return (

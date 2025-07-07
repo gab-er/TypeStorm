@@ -14,7 +14,7 @@ const StatInfo = ({
   statDesc,
   pbScore,
   aaScore,
-  startedTyping
+  startedTyping,
 }) => {
   const [textColor, setTextColor] = useState("text-white");
   const [emoji, setEmoji] = useState("");
@@ -24,6 +24,14 @@ const StatInfo = ({
   useEffect(() => {
     if (header == "Errors" && stat > 0) {
       setTextColor("text-red-400");
+    }
+
+    if (header == "Current Ranking" && stat == "#1") {
+      setTextColor("text-yellow-400");
+    } else if (header == "Ranking" && stat == "#2") {
+      setTextColor("text-slate-400");
+    } else if (header == "Ranking" && stat == "#3") {
+      setTextColor("text-yellow-700");
     }
 
     // Set displays for new PB
@@ -66,7 +74,7 @@ const StatInfo = ({
             },
           }}
         >
-          <div className="flex justify-center items-top">
+          <div className="flex justify-center items-top text-2xl">
             <Animation
               id="emoji1"
               visible={hasNewPb}

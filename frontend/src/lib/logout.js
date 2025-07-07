@@ -1,8 +1,8 @@
-import { useRouter } from "next/navigation";
+
 import useAuthStore from "../app/stores/useAuthStore";
 import url from "./apiUrl";
 
-export const logout = async (router) => {
+const logout = async (router) => {
   const logout = useAuthStore.getState().logout;
 
   try {

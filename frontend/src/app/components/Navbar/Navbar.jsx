@@ -1,9 +1,5 @@
 "use client";
-import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-} from "@headlessui/react";
+import { Disclosure, DisclosureButton } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import LoginButton from "./LoginButton";
@@ -13,10 +9,11 @@ import useAuthStore from "../../stores/useAuthStore";
 import WelcomeBack from "./WelcomeBack";
 import { useState, useEffect } from "react";
 import DelayedLoadingDefault from "./DelayedLoadingDefault";
+import { usePathname } from "next/navigation";
 
 const navigation = [
-  { name: "Home", href: "/", current: true },
-  { name: "Challenge", href: "#", current: false },
+  { name: "Home", href: "/" },
+  { name: "Challenges", href: "/challenges" },
 ];
 
 function classNames(...classes) {
@@ -27,6 +24,7 @@ const Navbar = () => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const isLoading = useAuthStore((state) => state.isLoading);
   const [loginDisplay, setLoginDisplay] = useState(null);
+  const pathName = usePathname();
 
   // This hook will set the login display to the WelcomeBack component if logged in, or the login button if not logged in. It will react to changes in the isLoggedIn state.
   useEffect(() => {
@@ -38,6 +36,7 @@ const Navbar = () => {
   }, [isLoggedIn]);
 
   return (
+    // bg-blue-600
     <Disclosure as="nav" className="bg-blue-600 select-none">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
@@ -64,30 +63,35 @@ const Navbar = () => {
             <div className="flex shrink-0 items-center"></div>
             <div className="hidden sm:ml-6 sm:block">
               <div className="flex space-x-4">
-                {navigation.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    aria-current={item.current ? "page" : undefined}
-                    className={classNames(
-                      item.current
-                        ? "bg-gray-900 text-white"
-                        : "text-white hover:bg-gray-700 hover:text-white",
-                      "rounded-md px-3 py-2 text-medium font-medium"
-                    )}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
+                {navigation.map((item) => {
+                  // Check if the current path is the correct one
+                  const isActive =
+                    item.href == "/"
+                      ? pathName == "/" // Home page
+                      : pathName.includes(item.href); // Eg. /challenges/1 highlights the challenges button
+                  return (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      aria-current={item.current ? "page" : undefined}
+                      className={classNames(
+                        isActive
+                          ? "bg-gray-900 text-white"
+                          : "text-white hover:bg-gray-700 hover:text-white",
+                        "rounded-md px-3 py-2 text-medium font-medium"
+                      )}
+                    >
+                      {item.name}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           </div>
           {/* Sign in button */}
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 mx-10 gap-1">
             {/* If loading, it shows the loading effect. Else, it shows one of the login displays*/}
-            {(!isLoading && loginDisplay) || (
-              <DelayedLoadingDefault/>
-            )}
+            {(!isLoading && loginDisplay) || <DelayedLoadingDefault />}
 
             {/* If logged in -> Profile dropdown is shown */}
             {isLoggedIn && <ProfileIcon isLoggedIn={isLoggedIn} />}
