@@ -4,23 +4,18 @@ import useTimedStore from "@/app/stores/useTimedStore";
 const TimeNumberButton = ({ num, changeTime }) => {
   const timeLimit = useTimedStore((state) => state.timeLimit);
 
-  let selected = "";
+  let selected = "text-gray-500";
 
   if (num === timeLimit) {
     // The current button chosen will become highlighted
-    selected = "bg-gray-700";
+    selected = "text-white";
   }
 
   return (
-    <div className={` ${selected} rounded-xl`}>
-      <IconButton
-        variant="contained"
-        size="medium"
-        color="primary"
-        onClick={changeTime}
-      >
-        <div className="text-xl text-white"> {num} </div>
-      </IconButton>
+    <div className={`rounded-xl`}>
+      <button onClick={changeTime}>
+        <div className={`${selected} text-xl hover:text-white`}> {num} </div>
+      </button>
     </div>
   );
 };

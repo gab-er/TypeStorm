@@ -35,8 +35,9 @@ const Timer = ({ startedTyping }) => {
   }, [timerActive]);
 
   return (
-    <div>
-      <CountdownCircleTimer
+    // text-[#7c86ff]
+    <div className="text-3xl text-white select-none">
+      {/* <CountdownCircleTimer
         key={startedTyping} // Timer resets whenever "startedTyping" changes
         isPlaying={timerActive}
         duration={timeLimit}
@@ -45,9 +46,10 @@ const Timer = ({ startedTyping }) => {
         size={130}
       >
         {({ remainingTime }) => (
-          <div className="text-3xl"> {remainingTime}s </div>
+          <div className="text-3xl select-none"> {remainingTime}s </div>
         )}
-      </CountdownCircleTimer>
+      </CountdownCircleTimer> */}
+      {timeLeft} 
     </div>
   );
 };

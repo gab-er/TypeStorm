@@ -13,11 +13,11 @@ const ModeBar = ({ inputRef }) => {
 
   return (
     // bg-gray-800
-    <div className="gap-2 flex items-center rounded-xl text-xl pl-2 justify-between">
-      <p> Modes: </p>
-      <ModeButton desc={"Standard"} changeMode={() => changeMode(gameModes.STANDARD)} />
-      <ModeButton desc={"Timed"} changeMode={() => changeMode(gameModes.TIMED)} />
-      <ModeButton desc={"Practice"} changeMode={() => changeMode(gameModes.PRACTICE)} />
+    <div className="select-none gap-2 w-100 flex rounded-xl text-xl pl-2 text-gray-500">
+      <span> modes | </span>
+      <ModeButton desc={"standard"} changeMode={() => changeMode(gameModes.STANDARD)} />
+      <ModeButton desc={"timed"} changeMode={() => changeMode(gameModes.TIMED)} />
+      <ModeButton desc={"practice"} changeMode={() => changeMode(gameModes.PRACTICE)} />
     </div>
   );
 };

@@ -208,7 +208,7 @@ const TypeBox = ({ words = null, challengeId = null }) => {
     (gameCompleted && (
       <Animation id="stats" visible={gameCompleted}>
         {/* StatsBox */}
-        <div className={`translate-y-[-75px]`}>
+        <div className={`translate-y-[-75px] translate-x-[-50px]`}>
           <StatsBox
             gameCompleted={gameCompleted}
             setGameCompleted={setGameCompleted}
@@ -227,7 +227,7 @@ const TypeBox = ({ words = null, challengeId = null }) => {
           {/* Timer */}
           <Animation key="timer" id="timer" visible={mode == gameModes.TIMED}>
             <div
-              className={`absolute flex justify-center translate-y-[-140px] translate-x-[-100px]`}
+              className={`absolute flex justify-center translate-y-[-100px] translate-x-[-100px]`}
             >
               <Timer startedTyping={startedTyping} />
             </div>

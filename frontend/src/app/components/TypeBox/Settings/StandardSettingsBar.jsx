@@ -1,6 +1,4 @@
 import WordNumberButton from "./WordNumberButton";
-import useWordsStore from "@/app/stores/useWordsStore";
-import useTimedStore from "@/app/stores/useTimedStore";
 
 const StandardSettingsBar = ({ setNumWords, inputRef, numWords }) => {
   const changeNumWords = (num) => {
@@ -13,8 +11,8 @@ const StandardSettingsBar = ({ setNumWords, inputRef, numWords }) => {
 
   return (
     // bg-gray-800
-    <div className="gap-2 flex items-center rounded-xl text-xl pl-2 justify-between">
-      <p> Words: </p>
+    <div className="select-none gap-2 w-100 flex items-center rounded-xl text-xl pl-2 text-gray-500">
+      <p> words | </p>
       <WordNumberButton
         num={10}
         changeNumWords={() => changeNumWords(10)}

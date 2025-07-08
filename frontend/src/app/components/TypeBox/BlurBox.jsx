@@ -7,12 +7,12 @@ const BlurBox = () => {
       <Image
         src={`/cursor.svg`}
         alt="TypeStorm"
-        width={40}
-        height={40}
+        width={36}
+        height={36}
         priority={true}
         className="select-none"
       ></Image>
-      Click here to continue typing...
+      click here to continue typing...
     </div>
   );
 };

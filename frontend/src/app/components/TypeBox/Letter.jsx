@@ -53,7 +53,7 @@ const Letter = ({
   return (
     <span className={`relative ${blur}`} ref={currentLetterRef}>
       <span
-        className={`${color} text-4xl select-none opacity-85 ${
+        className={`${color} text-[33px] select-none opacity-85 ${
           letter === " " ? "w-[1ch]" : ""
         }`}
       >
