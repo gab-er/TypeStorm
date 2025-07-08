@@ -32,7 +32,7 @@ const DisplayBox = ({
         {/* Caret - Blinks if the user has not started typing*/}
         {focus && (
           <motion.div
-            className={`absolute translate-x-[-3px] ${blur}`}
+            className={`absolute translate-x-[-3px] translate-y-[5px] ${blur}`}
             // initial={false} // Uncomment to remove the spring from the top left on render 
             animate={{
               x: caretPos.x,

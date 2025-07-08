@@ -12,8 +12,8 @@ import DelayedLoadingDefault from "./DelayedLoadingDefault";
 import { usePathname } from "next/navigation";
 
 const navigation = [
-  { name: "Home", href: "/" },
-  { name: "Challenges", href: "/challenges" },
+  { name: "home", href: "/" },
+  { name: "challenges", href: "/challenges" },
 ];
 
 function classNames(...classes) {

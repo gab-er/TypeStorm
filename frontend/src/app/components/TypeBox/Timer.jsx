@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { Progress } from "@material-tailwind/react";
 import { CircularProgress } from "@mui/material";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import { faHourglassEnd } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Timer = ({ startedTyping }) => {
   // Obtain the store functions and states
@@ -35,8 +37,9 @@ const Timer = ({ startedTyping }) => {
   }, [timerActive]);
 
   return (
-    <div>
-      <CountdownCircleTimer
+    // text-[#7c86ff]
+    <div className="text-3xl select-none flex gap-2">
+      {/* <CountdownCircleTimer
         key={startedTyping} // Timer resets whenever "startedTyping" changes
         isPlaying={timerActive}
         duration={timeLimit}
@@ -45,9 +48,10 @@ const Timer = ({ startedTyping }) => {
         size={130}
       >
         {({ remainingTime }) => (
-          <div className="text-3xl"> {remainingTime}s </div>
+          <div className="text-3xl select-none"> {remainingTime}s </div>
         )}
-      </CountdownCircleTimer>
+      </CountdownCircleTimer> */}
+      <FontAwesomeIcon icon={faHourglassEnd} style={{color: "#FFD43B",}} /> {timeLeft}
     </div>
   );
 };

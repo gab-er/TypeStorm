@@ -13,7 +13,7 @@ const WelcomeBack = () => {
       <TypeAnimation
         sequence={[
           // Same substring at the start will only be typed out once, initially
-          `Welcome back, ${username}`,
+          `welcome back, ${username}`,
           (el) => el.classList.remove(CURSOR_CLASS_NAME), // A reference to the element gets passed as the first argument of a callback function
           1000,
         ]}

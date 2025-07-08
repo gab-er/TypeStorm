@@ -1,23 +1,24 @@
 import { Button, IconButton } from "@mui/material";
 
 const WordNumberButton = ({ num, changeNumWords, numWords }) => {
-  let selected = "";
+  let selected = "text-gray-500";
 
   if (num === numWords) {
     // The current button chosen will become highlighted
-    selected = "bg-gray-700";
+    selected = "text-white";
   }
 
   return (
-    <div className={` ${selected} rounded-xl`}>
-      <IconButton
+    <div className={`rounded-xl hover:text-white`}>
+      {/* Previously used <IconButton/> */}
+      <button
         variant="contained"
         size="medium"
         color="primary"
         onClick={changeNumWords}
       >
-        <div className="text-xl text-white"> {num} </div>
-      </IconButton>
+        <div className={`text-xl ${selected} hover:text-white`}> {num} </div>
+      </button>
     </div>
   );
 };

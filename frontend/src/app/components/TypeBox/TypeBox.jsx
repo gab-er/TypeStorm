@@ -18,6 +18,7 @@ import TimedSettingsBar from "./Settings/TimedSettingsBar";
 import gameModes from "@/lib/gamemodes";
 import Instruction from "./Instruction";
 import Animation from "../Animation";
+import CapsLockWarning from "./CapsLockWarning";
 
 // The InputBox contains two things: An invisible input box and a box to display the given words
 const TypeBox = ({ words = null, challengeId = null }) => {
@@ -208,7 +209,7 @@ const TypeBox = ({ words = null, challengeId = null }) => {
     (gameCompleted && (
       <Animation id="stats" visible={gameCompleted}>
         {/* StatsBox */}
-        <div className={`translate-y-[-75px]`}>
+        <div className={`translate-y-[-75px] translate-x-[-50px]`}>
           <StatsBox
             gameCompleted={gameCompleted}
             setGameCompleted={setGameCompleted}
@@ -227,7 +228,7 @@ const TypeBox = ({ words = null, challengeId = null }) => {
           {/* Timer */}
           <Animation key="timer" id="timer" visible={mode == gameModes.TIMED}>
             <div
-              className={`absolute flex justify-center translate-y-[-140px] translate-x-[-100px]`}
+              className={`absolute flex justify-center translate-y-[-100px] translate-x-[-100px]`}
             >
               <Timer startedTyping={startedTyping} />
             </div>
@@ -236,6 +237,9 @@ const TypeBox = ({ words = null, challengeId = null }) => {
           <div
             className={`absolute translate-x-[-595px] translate-y-[-60px] w-[300px]`}
           >
+            <div className="absolute w-50 translate-x-[-28px] translate-y-[-20px]">
+              <CapsLockWarning />
+            </div>
             {/* Word & Error Counters */}
             <Animation id="counters" visible={startedTyping}>
               <div className="flex flex-col">
@@ -278,10 +282,12 @@ const TypeBox = ({ words = null, challengeId = null }) => {
                   setNumWords={setNumWords}
                   inputRef={inputRef}
                   numWords={numWords}
+                  setFocus={setFocus}
+                  focus={focus}
                 />
               )}
               {mode == gameModes.TIMED && (
-                <TimedSettingsBar inputRef={inputRef} />
+                <TimedSettingsBar inputRef={inputRef} setFocus={setFocus} />
               )}
               <div className="flex justify-left items-center">
                 <Instruction button={"esc"} desc={"restart game"} />
