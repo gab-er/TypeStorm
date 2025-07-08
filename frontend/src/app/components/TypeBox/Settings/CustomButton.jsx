@@ -9,7 +9,7 @@ import { useState, useEffect, useRef } from "react";
 import Animation from "../../Animation";
 import { wordsData } from "@/lib/words";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGear } from "@fortawesome/free-solid-svg-icons";
+import { faGear, faHashtag, faPen } from "@fortawesome/free-solid-svg-icons";
 import useWordsStore from "@/app/stores/useWordsStore";
 import gameModes from "@/lib/gamemodes";
 import useTimedStore from "@/app/stores/useTimedStore";
@@ -25,6 +25,7 @@ const CustomButton = ({
   let [inputValue, setInputValue] = useState("");
   let [color, setColor] = useState("text-gray-500");
   const customInputRef = useRef(null);
+  const containerRef = useRef(null); // Ref for the container (button + input)
   const mode = useWordsStore((state) => state.mode);
   const timeLimit = useTimedStore((state) => state.timeLimit);
 
@@ -47,21 +48,19 @@ const CustomButton = ({
     }
   }, [timeLimit, mode]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (inputValue && !isNaN(inputValue) && mode == gameModes.STANDARD) {
-      setNumWords(Math.min(wordsData.length, Number(inputValue))); // Prevent it from exceeding the total words data count
-    }
-
-    if (inputValue && !isNaN(inputValue) && mode == gameModes.TIMED) {
-      changeTime(Number(inputValue)); // Must convert the value to a number as the input field submits a string
-    }
-    setIsOpen(false);
-  };
-
   useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
     // Auto focus the input field
     if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
       const timer = setTimeout(() => {
         if (customInputRef.current) {
           customInputRef.current.focus();
@@ -77,37 +76,59 @@ const CustomButton = ({
       }, 10); // Small delay to ensure Dialog is fully closed -> Headless UI messes with the focus without this delay
       return () => clearTimeout(timer);
     }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, [isOpen]);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (inputValue && !isNaN(inputValue) && mode == gameModes.STANDARD) {
+      setNumWords(Math.min(wordsData.length, Number(inputValue))); // Prevent it from exceeding the total words data count
+    }
+
+    if (inputValue && !isNaN(inputValue) && mode == gameModes.TIMED) {
+      changeTime(Number(inputValue)); // Must convert the value to a number as the input field submits a string
+    }
+    setIsOpen(false);
+  };
+
   return (
-    <div className="select-none">
+    <div className="flex select-none">
       <button
         className={`${color} hover:text-white select-none focus:outline-none focus:ring-0 focus:border-transparent`}
         onClick={() => setIsOpen(true)}
       >
-        <FontAwesomeIcon icon={faGear} />
+        {/* Custom Icon */}
+        <FontAwesomeIcon icon={faHashtag} />
       </button>
-      <Dialog
+      {/* <Dialog
         static
         open={isOpen}
         onClose={() => setIsOpen(false)}
-        className="flex justify-center focus:outline-none focus:ring-0 focus:border-transparent"
+        // mt-68 ml-121
+        className="fixed focus:outline-none focus:ring-0 focus:border-transparent border flex justify-center"
+      > */}
+      <div
+        ref={containerRef}
+        className="focus:outline-none focus:ring-0 focus:border-transparent ml-2"
       >
         <Animation visible={isOpen}>
-          <div className="flex justify-center mt-69 w-100 mr-120 select-none">
+          <div className="flex justify-center select-none">
             <form onSubmit={handleSubmit} className="flex justify-center">
               <input
                 ref={customInputRef}
                 value={inputValue}
-                className="bg-gray-500 focus:outline-none focus:ring-0 focus:border-transparent w-34 rounded-lg px-2"
+                className="bg-gray-500 focus:outline-none focus:ring-0 focus:border-transparent w-29 rounded-lg px-2 h-6 text-white text-[16px]"
                 onChange={(e) => setInputValue(e.target.value)}
-                placeholder="custom number"
+                placeholder="custom value"
               ></input>
               <button type="submit" hidden /> {/* Hidden submit button */}
             </form>
           </div>
         </Animation>
-      </Dialog>
+      </div>
     </div>
   );
 };

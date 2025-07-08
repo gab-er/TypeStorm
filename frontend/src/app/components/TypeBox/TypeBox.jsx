@@ -18,6 +18,7 @@ import TimedSettingsBar from "./Settings/TimedSettingsBar";
 import gameModes from "@/lib/gamemodes";
 import Instruction from "./Instruction";
 import Animation from "../Animation";
+import CapsLockWarning from "./CapsLockWarning";
 
 // The InputBox contains two things: An invisible input box and a box to display the given words
 const TypeBox = ({ words = null, challengeId = null }) => {
@@ -236,6 +237,9 @@ const TypeBox = ({ words = null, challengeId = null }) => {
           <div
             className={`absolute translate-x-[-595px] translate-y-[-60px] w-[300px]`}
           >
+            <div className="absolute w-50 translate-x-[-28px] translate-y-[-20px]">
+              <CapsLockWarning />
+            </div>
             {/* Word & Error Counters */}
             <Animation id="counters" visible={startedTyping}>
               <div className="flex flex-col">
