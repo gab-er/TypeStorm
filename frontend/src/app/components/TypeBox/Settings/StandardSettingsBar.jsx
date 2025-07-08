@@ -1,6 +1,13 @@
 import WordNumberButton from "./WordNumberButton";
+import CustomButton from "./CustomButton";
 
-const StandardSettingsBar = ({ setNumWords, inputRef, numWords }) => {
+const StandardSettingsBar = ({
+  setNumWords,
+  inputRef,
+  numWords,
+  setFocus,
+  focus,
+}) => {
   const changeNumWords = (num) => {
     setNumWords(num);
     // Refocus the input box
@@ -36,6 +43,12 @@ const StandardSettingsBar = ({ setNumWords, inputRef, numWords }) => {
       <WordNumberButton
         num={100}
         changeNumWords={() => changeNumWords(100)}
+        numWords={numWords}
+      />
+      <CustomButton
+        setNumWords={setNumWords}
+        setFocus={setFocus}
+        inputRef={inputRef}
         numWords={numWords}
       />
     </div>

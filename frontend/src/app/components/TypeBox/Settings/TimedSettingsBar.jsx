@@ -1,7 +1,8 @@
 import useTimedStore from "@/app/stores/useTimedStore";
 import TimeNumberButton from "./TimeNumberButton";
+import CustomButton from "./CustomButton";
 
-const TimedSettingsBar = ({ inputRef }) => {
+const TimedSettingsBar = ({ setFocus, inputRef }) => {
   const setTimeLimit = useTimedStore((state) => state.setTimeLimit);
 
   const changeTime = (num) => {
@@ -21,6 +22,11 @@ const TimedSettingsBar = ({ inputRef }) => {
       <TimeNumberButton num={30} changeTime={() => changeTime(30)} />
       <TimeNumberButton num={45} changeTime={() => changeTime(45)} />
       <TimeNumberButton num={60} changeTime={() => changeTime(60)} />
+      <CustomButton
+        setFocus={setFocus}
+        inputRef={inputRef}
+        changeTime={changeTime}
+      />
     </div>
   );
 };

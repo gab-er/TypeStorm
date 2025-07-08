@@ -278,10 +278,12 @@ const TypeBox = ({ words = null, challengeId = null }) => {
                   setNumWords={setNumWords}
                   inputRef={inputRef}
                   numWords={numWords}
+                  setFocus={setFocus}
+                  focus={focus}
                 />
               )}
               {mode == gameModes.TIMED && (
-                <TimedSettingsBar inputRef={inputRef} />
+                <TimedSettingsBar inputRef={inputRef} setFocus={setFocus} />
               )}
               <div className="flex justify-left items-center">
                 <Instruction button={"esc"} desc={"restart game"} />
