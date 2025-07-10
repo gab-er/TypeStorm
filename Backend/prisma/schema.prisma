@@ -65,5 +65,6 @@ model Challenge {
 enum Gamemode {
   STANDARD
   TIMED
+  CHALLENGE
 }
 
