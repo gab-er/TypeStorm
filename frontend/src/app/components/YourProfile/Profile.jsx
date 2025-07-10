@@ -32,7 +32,7 @@ const Profile = () => {
         <div className="flex sticky left-0 flex-col items-center w-1/4 justify-center gap-2 min-w-[300px] pr-4">
           {/*Display User icon, username and account creation date*/}
           <div className="flex items-center gap-4">
-            <UserIcon className="size-15 items-center" />
+            <UserIcon className="size-15 items-center rounded-full border border-3" />
             <div className="text-white-700 text-3xl p-2 text-center">
               {" "}
               {username}{" "}
