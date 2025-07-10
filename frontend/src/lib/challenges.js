@@ -1,15 +1,13 @@
 const challenges = [
   {
-    text: "It is not the critic who counts; not the man who points out how the strong man stumbles, or where the doer of deeds could have done them better. The credit belongs to the man who is actually in the arena.",
-    description:
-      "Theodore Roosevelt - From his 'Man in the Arena' speech (1910)",
-    title: "Man in the Arena",
+    text: "It's the hope of slaves sitting around a fire singing freedom songs; the hope of immigrants setting out for distant shores; the hope of a young naval lieutenant bravely patrolling the Mekong Delta; the hope of a millworker's son who dares to defy the odds; the hope of a skinny kid with a funny name who believes that America has a place for him, too. Hope - Hope in the face of difficulty. Hope in the face of uncertainty. The audacity of hope!",
+    description: "Barack Obama's Keynote Address (2004)",
+    title: "The Audacity of Hope",
   },
   {
-    text: "We choose to go to the moon in this decade and do the other things, not because they are easy, but because they are hard, because that goal will serve to organize and measure the best of our energies and skills.",
-    description:
-      "John F. Kennedy - From his 'Moon Speech' at Rice University (1962)",
-    title: "Moon Speech",
+    text: "And so, my fellow Americans: ask not what your country can do for you, ask what you can do for your country. My fellow citizens of the world: ask not what America will do for you, but what together we can do for the freedom of man...",
+    description: "John F. Kennedy's Inaugural Address (1961)",
+    title: "JFK's Inaugural Address",
   },
   {
     text: "I have a dream that my four little children will one day live in a nation where they will not be judged by the color of their skin but by the content of their character. I have a dream today!",
@@ -17,43 +15,35 @@ const challenges = [
     title: "I Have a Dream",
   },
   {
-    text: "It was times like these when I thought my father, who hated guns and had never been to any wars, was the bravest man who ever lived. He never retaliated, never armed himself, and never raised a hand in violence.",
-    description: "Harper Lee - From 'To Kill a Mockingbird' (1960)",
-    title: "True Bravery",
+    text: "I'm gonna make him an offer he can't refuse",
+    description: "The Godfather (1972)",
+    title: "An offer he can't refuse",
   },
   {
-    text: "The world is very different now. For man holds in his mortal hands the power to abolish all forms of human poverty and all forms of human life. And yet the same revolutionary beliefs for which our forebears fought are still at issue around the globe.",
-    description: "John F. Kennedy - From his Inaugural Address (1961)",
-    title: "Inaugural Wisdom",
+    text: "My mama always said, Life was like a box of chocolates; you never know what you're gonna get.",
+    description: "Forest Gump (1994)",
+    title: "Box of chocolates",
   },
   {
-    text: "You have brains in your head. You have feet in your shoes. You can steer yourself any direction you choose. You're on your own. And you know what you know. And YOU are the one who'll decide where to go.",
-    description: "Dr. Seuss - From 'Oh, The Places You'll Go!' (1990)",
-    title: "Oh, The Places You'll Go!",
+    text: "To be, or not to be, that is the question: Whether 'tis nobler in the mind to suffer, the slings and arrows of outrageous fortune, or to take arms against a sea of troubles, and by opposing end them. To die - to sleep, No more.",
+    description: "William Shakespeare - To be or not to be",
+    title: "To be or not to be",
   },
   {
-    text: "In the beginning the Universe was created. This has made a lot of people very angry and been widely regarded as a bad move. Many races believe that it was created by some sort of god, though the Jatravartid people believe it was sneezed out.",
-    description:
-      "Douglas Adams - Opening lines from 'The Hitchhiker's Guide to the Galaxy' (1979)",
-    title: "Hitchhiker's Opening",
+    text: "So, even though you have broken my heart yet again, I wanted to say, in another life, I would have really liked just doing laundry and taxes with you.",
+    description: "Everything Everywhere All At Once (2022)",
+    title: "Laundry and Taxes",
   },
   {
-    text: "We shall go on to the end, we shall fight in France, we shall fight on the seas and oceans, we shall fight with growing confidence and growing strength in the air, we shall defend our island, whatever the cost may be.",
-    description:
-      "Winston Churchill - From his 'We Shall Fight on the Beaches' speech (1940)",
-    title: "We Shall Fight",
-  },
-  {
-    text: "It is a far, far better thing that I do, than I have ever done; it is a far, far better rest that I go to than I have ever known. These words are spoken by Sydney Carton as he faces the guillotine.",
-    description:
-      "Charles Dickens - Closing lines of 'A Tale of Two Cities' (1859)",
-    title: "Tale of Two Cities",
+    text: "Out, damned spot, out, I say! One. Two. Why then, 'tis time to do 't. Hell is murky. Fie, my lord, fie, a soldier and afeard? What need we fear who knows it, when none can call our power to account? Yet who would have thought the old man to have had so much blood in him?",
+    description: "Lady Macbeth - Macbeth Act 5 Scene 1",
+    title: "Lady's Macbeth Guilt",
   },
   {
     text: "All that is gold does not glitter, not all those who wander are lost; the old that is strong does not wither, deep roots are not reached by the frost.",
     description:
       "J.R.R. Tolkien - The Riddle of Strider (Fellowship of the Ring)",
-    title: "Riddle of Strider",
+    title: "The Riddle of Strider",
   },
   {
     text: "It's a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there's no knowing where you might be swept off to.",
@@ -76,11 +66,10 @@ const challenges = [
     title: "Walter's Confession",
   },
   {
-    text: "hello there",
-    description: "test",
-    title: "Test Greeting",
+    text: "I know what it's like to lose. To feel so desperately that you're right, yet to fail nonetheless. It's frightening. Turns the legs to jelly. I ask you, to what end? Dread it, run from it, destiny arrives all the same.",
+    description: "Thanos - Avengers Infinity War (2018)",
+    title: "Destiny Arrives All the Same",
   },
-  
 ].map((challenge) => ({
   ...challenge,
   text: challenge.text + " ", // Append a space to the end of every challenge text -> TypeBox takes this extra space into account in order to end a game
