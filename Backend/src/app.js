@@ -8,6 +8,7 @@ import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import gameRoutes from "./routes/gameRoutes.js";
 import statisticRoutes from "./routes/statisticRoutes.js";
+import challengeRoutes from "./routes/challengeRoutes.js";
 
 ///Middleware
 import authMiddleware from "./middleware/authMiddleware.js";
@@ -43,5 +44,7 @@ app.use("/user", authMiddleware, userRoutes);
 app.use("/game", authMiddleware, gameRoutes);
 
 app.use("/statistic", authMiddleware, statisticRoutes);
+
+app.use("/challenge", challengeRoutes);
 
 export default app;

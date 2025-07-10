@@ -40,6 +40,10 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Reset previous attempt errors on submitting 
+    setPasswordError("");
+    setUsernameError("");
+
     // // If there is an error with either the username or password
     // if (usernameError !== "" || passwordError !== "") {
     //   return; // Do not allow the data to be submitted
