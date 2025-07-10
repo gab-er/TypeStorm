@@ -10,7 +10,7 @@ import {
 } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import FetchChallenge from "./FetchChallenge";
-import challenges from "@/lib/mockchallenge";
+import challenges from "@/lib/challenges";
 import useChallengeStore from "@/app/stores/useChallengeStore";
 
 const LeaderboardMenu = () => {
@@ -28,7 +28,7 @@ const LeaderboardMenu = () => {
       <MenuItems
         transition
         anchor="bottom"
-        className="z-10 mt-2 w-28 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+        className="z-10 mt-2 w-40 !max-h-64 !overflow-y-auto origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
       >
         {challenges.map((challenge) => (
           <MenuItem
