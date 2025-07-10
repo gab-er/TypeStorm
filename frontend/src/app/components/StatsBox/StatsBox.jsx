@@ -234,7 +234,7 @@ const StatsBox = ({
           />
           <StatInfo
             header={"Accuracy".toLowerCase()}
-            stat={`${(frozenStats.accuracy * 100).toFixed(0)}%`}
+            stat={`${Math.floor(frozenStats.accuracy * 100)}%`}
             pbAccuracy={pbAccuracy}
             aaAccuracy={aaAccuracy}
             headerDesc={headerDescriptions.accuracy}
