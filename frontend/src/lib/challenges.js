@@ -88,8 +88,6 @@ const challenges = [
 ].map((challenge) => ({
   ...challenge,
   text: challenge.text + " ", // Append a space to the end of every challenge text -> TypeBox takes this extra space into account in order to end a game
-  // text: challenge.text + " ", // Append a space to the end of every challenge text -> TypeBox takes this extra space into account in order to end a game
-  // description: challenge.description,
 }));
 
 export default challenges;
