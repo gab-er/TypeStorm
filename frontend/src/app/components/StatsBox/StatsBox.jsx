@@ -195,13 +195,12 @@ const StatsBox = ({
       <div className="flex flex-col w-[600px] h-[325px] text-2xl">
         {/* Mode */}
         <div className="flex justify-center text-gray-400">
-          Mode:
           <div className="text-yellow-400 ml-2"> {mode.toUpperCase()} </div>
         </div>
         {/* Row 1 */}
         <div className="flex justify-between h-1/2">
           <StatInfo
-            header={"Net WPM"}
+            header={"Net WPM".toLowerCase()}
             stat={frozenStats.netWPM}
             pbWpm={pbWpm}
             aaWpm={aaWpm}
@@ -209,7 +208,7 @@ const StatsBox = ({
             startedTyping={startedTyping}
           />
           <StatInfo
-            header={"Score"}
+            header={"Score".toLowerCase()}
             stat={frozenStats.score}
             pbScore={pbScore}
             aaScore={aaScore}
@@ -217,7 +216,7 @@ const StatsBox = ({
             startedTyping={startedTyping}
           />
           <StatInfo
-            header={"Accuracy"}
+            header={"Accuracy".toLowerCase()}
             stat={`${(frozenStats.accuracy * 100).toFixed(0)}%`}
             pbAccuracy={pbAccuracy}
             aaAccuracy={aaAccuracy}
@@ -228,19 +227,19 @@ const StatsBox = ({
         {/* Row 2 */}
         <div className="flex justify-center h-1/2">
           <StatInfo
-            header={"Raw WPM"}
+            header={"Raw WPM".toLowerCase()}
             stat={frozenStats.grossWPM}
             headerDesc={headerDescriptions.rawwpm}
             startedTyping={startedTyping}
           />
           <StatInfo
-            header={"Errors"}
+            header={"Errors".toLowerCase()}
             stat={frozenStats.errors}
             headerDesc={headerDescriptions.errors}
             startedTyping={startedTyping}
           />
           <StatInfo
-            header={"Time"}
+            header={"Time".toLowerCase()}
             stat={`${frozenStats.elapsedTime}s`}
             headerDesc={headerDescriptions.time}
             startedTyping={startedTyping}
@@ -250,7 +249,7 @@ const StatsBox = ({
       <div>
         {ranking && (
           <StatInfo
-            header={"Current Ranking"}
+            header={"Current Ranking".toLowerCase()}
             stat={`#${ranking}`}
             headerDesc={headerDescriptions.ranking}
             startedTyping={startedTyping}

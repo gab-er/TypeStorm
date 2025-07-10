@@ -60,7 +60,7 @@ const TypeBox = ({ words = null, challengeId = null }) => {
 
   useEffect(() => {
     // If mode is CHALLENGE, hide settings bar
-    if (mode == gameModes.CHALLENGE && words != null) {
+    if (mode == gameModes.CHALLENGE) {
       setShowSettingsBar(false);
     } else {
       // Randomize the wordsData on first component mount

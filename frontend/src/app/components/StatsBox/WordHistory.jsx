@@ -36,7 +36,7 @@ const WordHistory = ({ allTypedWords, wordsToType }) => {
           },
         }}
       >
-        <strong>Word History - {allTypedWords.length} words </strong>
+        <strong> {`Word History - ${allTypedWords.length} words`.toLowerCase()} </strong>
       </Tooltip>
       <div>
         {allCorrectLetters.map((letter, index) => {

@@ -22,11 +22,11 @@ const StatInfo = ({
   const [hasNewPb, setHasNewPb] = useState(false);
 
   useEffect(() => {
-    if (header == "Errors" && stat > 0) {
+    if (header.toLowerCase() == "errors" && stat > 0) {
       setTextColor("text-red-400");
     }
 
-    if (header == "Current Ranking" && stat == "#1") {
+    if (header.toLowerCase() == "current ranking" && stat == "#1") {
       setTextColor("text-yellow-400");
     } else if (header == "Ranking" && stat == "#2") {
       setTextColor("text-slate-400");
@@ -38,11 +38,11 @@ const StatInfo = ({
     if (pbWpm || pbAccuracy || pbScore) {
       setTextColor("text-yellow-400");
       setEmoji("🎉");
-      setAchievement("(New Personal Best!)");
+      setAchievement("(New Personal Best!)".toLowerCase());
       setHasNewPb(true);
     } else if (aaWpm || aaAccuracy || aaScore) {
       setTextColor("text-green-400");
-      setAchievement("(Above Your Average!)");
+      setAchievement("(Above Your Average!)".toLowerCase());
     }
   }, [stat, pbWpm, pbAccuracy, pbScore, aaWpm, aaAccuracy, aaScore]);
 
