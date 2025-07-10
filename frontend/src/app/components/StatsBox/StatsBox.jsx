@@ -6,7 +6,9 @@ import {
   usePostStatsStandardGame,
   usePostStatsTimed,
   usePostStatsTimedGame,
+  usePostStatsChallengeLeaderboard,
   usePostStatsChallenge,
+  usePostStatsChallengeGame,
 } from "../../../lib/postStats";
 import StatInfo from "./StatInfo";
 import WordHistory from "./WordHistory";
@@ -21,7 +23,7 @@ const StatsBox = ({
   wordsToType,
   numWords,
   startedTyping,
-  challengeId,
+  challengeId = null,
 }) => {
   const [sentData, setSentData] = useState(false);
   const [isNewPb, setIsNewPb] = useState(false);
@@ -129,7 +131,9 @@ const StatsBox = ({
   const postStatsStandardGame = usePostStatsStandardGame();
   const postStatsTimed = usePostStatsTimed();
   const postStatsTimedGame = usePostStatsTimedGame();
+  const postStatsChallengeLeaderboard = usePostStatsChallengeLeaderboard();
   const postStatsChallenge = usePostStatsChallenge();
+  const postStatsChallengeGame = usePostStatsChallengeGame();
 
   // Send stats once a game is completed
   useEffect(() => {
@@ -140,15 +144,20 @@ const StatsBox = ({
           const stats = {
             wpm: frozenStats.netWPM,
             accuracy: frozenStats.accuracy,
+            errors: frozenStats.errors,
             score: frozenStats.score,
+            challengeId: challengeId,
           };
-          // console.log("submitting standard data; ", stats);
+          // console.log("submitting data; ", stats);
           const response =
             mode == gameModes.STANDARD // MODE : STANDARD
               ? await postStatsStandard.mutateAsync(stats)
               : mode == gameModes.TIMED // MODE : TIMED
               ? await postStatsTimed.mutateAsync(stats)
+              : mode == gameModes.CHALLENGE // MODE : CHALLENGE
+              ? await postStatsChallenge.mutateAsync(stats)
               : null;
+          // console.log(response);
           setRes(response); // Set the response to the received response (to check for achievements)
           setIsLoading(false);
         } catch (error) {
@@ -156,7 +165,6 @@ const StatsBox = ({
           setIsLoading(false); // User is not logged in, show the stats obtained
         }
       };
-      postStatsData();
 
       // Send stats to game route
       const postGameData = async () => {
@@ -174,14 +182,23 @@ const StatsBox = ({
               : mode == gameModes.TIMED // MODE : TIMED
               ? await postStatsTimedGame.mutateAsync(stats)
               : mode == gameModes.CHALLENGE && challengeId // MODE : CHALLENGE
-              ? await postStatsChallenge.mutateAsync(stats)
+              ? await postStatsChallengeGame.mutateAsync(stats)
               : null;
-          setRanking(response.ranking);
+
+          const challengeResponse =
+            mode == gameModes.CHALLENGE
+              ? await postStatsChallengeLeaderboard.mutateAsync(stats)
+              : null;
+
+          if (challengeResponse) {
+            setRanking(challengeResponse.ranking);
+          }
         } catch (error) {
           console.log(error);
           setIsLoading(false); // User is not logged in, show the stats obtained
         }
       };
+      postStatsData();
       postGameData();
       setSentData(true);
     }

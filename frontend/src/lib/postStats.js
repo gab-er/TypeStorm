@@ -32,7 +32,7 @@ export const usePostStatsStandardGame = () => {
   return postStatsStandardGameMutation;
 };
 
-// Post stats to the STANDARD STATISTICS backend API
+// Post stats to the TIMED STATISTICS backend API
 const postStatsTimed = async (stats) => {
   const res = await axios.post(`${url}/statistic/TIMED`, stats, {
     withCredentials: true,
@@ -63,9 +63,24 @@ export const usePostStatsTimedGame = () => {
 };
 
 // Post stats to the CHALLENGE backend API
-const postStatsChallenge = async (stats) => {
+const postStatsChallengeLeaderboard = async (stats) => {
   const { challengeId } = stats;
   const res = await axios.post(`${url}/challenge/${challengeId}`, stats, {
+    withCredentials: true,
+  });
+  return res.data;
+};
+
+export const usePostStatsChallengeLeaderboard = () => {
+  const postStatsChallengeMutation = useMutation({
+    mutationFn: postStatsChallengeLeaderboard,
+  });
+  return postStatsChallengeMutation;
+};
+
+// Post stats to the CHALLENGE STATISTICS backend API
+const postStatsChallenge = async (stats) => {
+  const res = await axios.post(`${url}/statistic/CHALLENGE`, stats, {
     withCredentials: true,
   });
   return res.data;
@@ -76,4 +91,19 @@ export const usePostStatsChallenge = () => {
     mutationFn: postStatsChallenge,
   });
   return postStatsChallengeMutation;
+};
+
+// Post stats to the CHALLENGE GAME backend API
+const postStatsChallengeGame = async (stats) => {
+  const res = await axios.post(`${url}/game/CHALLENGE`, stats, {
+    withCredentials: true,
+  });
+  return res.data;
+};
+
+export const usePostStatsChallengeGame = () => {
+  const postStatsChallengeGameMutation = useMutation({
+    mutationFn: postStatsChallengeGame,
+  });
+  return postStatsChallengeGameMutation;
 };

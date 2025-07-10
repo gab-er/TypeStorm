@@ -18,7 +18,7 @@ export default async function ChallengeID({ params }) {
         </Link>
       </div>
       <div className="relative">
-        <div className="absolute w-full flex justify-center mt-10 text-xl">
+        <div className="absolute w-full flex justify-center mt-10 text-xl translate-x-[-70px]">
           {challengeDescription}
         </div>
       </div>
