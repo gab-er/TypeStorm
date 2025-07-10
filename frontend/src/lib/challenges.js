@@ -15,7 +15,7 @@ const challenges = [
     title: "I Have a Dream",
   },
   {
-    text: "I'm gonna make him an offer he can't refuse",
+    text: "I'm gonna make him an offer he can't refuse.",
     description: "The Godfather (1972)",
     title: "An offer he can't refuse",
   },
