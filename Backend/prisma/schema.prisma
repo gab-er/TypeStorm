@@ -21,6 +21,7 @@ model User {
   createdOn DateTime @default(now()) @db.Date
   games Game[]
   statistics Statistic[]
+  challenges Challenge[]
 }
 
 model Game {
@@ -49,7 +50,21 @@ model Statistic {
   user User @relation(fields: [userId], references: [id])
 }
 
+model Challenge {
+  id Int @id @default(autoincrement())
+  score Int @default(0)
+  wpm Decimal @db.Decimal(5,2)
+  accuracy Decimal @db.Decimal(5,4)
+  errors Int @default(0)
+  playedOn DateTime @default(now())
+  level Int
+  userId Int 
+  user User @relation(fields: [userId], references: [id]) 
+}
+
 enum Gamemode {
   STANDARD
   TIMED
+  CHALLENGE
 }
+

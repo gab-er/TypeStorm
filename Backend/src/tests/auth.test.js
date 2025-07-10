@@ -124,7 +124,7 @@ describe("POST /auth/register", () => {
 });
 
 //Test for login endpoint
-describe("POST /auth/register", () => {
+describe("POST /auth/login", () => {
   //testcase for valid username and password
   describe("Valid username and password", () => {
     test("should return 200 status code, and authentication cookie", async () => {
@@ -185,7 +185,7 @@ describe("POST /auth/register", () => {
   });
 
   //testcase for wrong password
-  describe("Valid username and password", () => {
+  describe("Wrong password", () => {
     test("should return 401 status code and not send cookie", async () => {
       //Stimulate finding user
       const hashedPassword = await bcrypt.hash("password", 5);

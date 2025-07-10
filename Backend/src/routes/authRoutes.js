@@ -55,6 +55,7 @@ router.post("/register", async (req, res) => {
       data: [
         { userId: user.id, gamemode: "STANDARD" },
         { userId: user.id, gamemode: "TIMED" },
+        { userId: user.id, gamemode: "CHALLENGE" },
       ],
     });
     console.log("Account Successfully Created");
