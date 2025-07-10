@@ -27,7 +27,7 @@ const ChallengeList = () => {
       next={fetchData} // This function wil be called once the end of the current scroll is reached. It should update the data
       hasMore={end < challenges.length} // Determines if the end of the infinite scroll has been reached
       loader={<div className="flex justify-center"> Loading... </div>}
-      endMessage={<div className="flex justify-center text-xl mt-1"> End </div>}
+      endMessage={<div className="flex justify-center text-xl mt-1 cursor-default"> </div>}
     >
       {currentChallenges.map((challenge, index) => {
         return (
