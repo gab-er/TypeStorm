@@ -15,12 +15,12 @@ export default async function Home() {
           <TypingTip isCycling={true} />
         </div>
       </div>
-      <div className="mt-45 flex justify-center">
+      <div className="mt-36 flex justify-center">
         <TypeBox />
       </div>
       <ToastContainer
         position="bottom-right"
-        autoClose={2000}
+        autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

@@ -15,19 +15,19 @@ const challenges = [
     title: "I Have a Dream",
   },
   {
-    text: "I'm gonna make him an offer he can't refuse.",
+    text: "I'm gonna make him an offer he can't refuse. Now you just go outside and enjoy yourself, and ah, forget about all this nonsense. I want you to leave it all to me.",
     description: "The Godfather (1972)",
-    title: "An offer he can't refuse",
+    title: "An Offer He Can't Refuse",
   },
   {
     text: "My mama always said, Life was like a box of chocolates; you never know what you're gonna get.",
     description: "Forest Gump (1994)",
-    title: "Box of chocolates",
+    title: "Box of Chocolates",
   },
   {
     text: "To be, or not to be, that is the question: Whether 'tis nobler in the mind to suffer, the slings and arrows of outrageous fortune, or to take arms against a sea of troubles, and by opposing end them. To die - to sleep, No more.",
     description: "William Shakespeare - To be or not to be",
-    title: "To be or not to be",
+    title: "To be or Not To Be",
   },
   {
     text: "So, even though you have broken my heart yet again, I wanted to say, in another life, I would have really liked just doing laundry and taxes with you.",

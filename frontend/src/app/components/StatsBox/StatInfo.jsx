@@ -47,7 +47,7 @@ const StatInfo = ({
   }, [stat, pbWpm, pbAccuracy, pbScore, aaWpm, aaAccuracy, aaScore]);
 
   return (
-    <div className="relative flex flex-col w-full h-full items-center justify-center">
+    <div className="relative flex flex-col w-full h-full items-center justify-center cursor-default">
       <div className="absolute top-0 text-sm text-gray-400 mt-[1.5em] w-full h-[20px] flex justify-center">
         <Animation
           id="achievement"
@@ -96,25 +96,8 @@ const StatInfo = ({
         </Tooltip>
       </div>
 
-      <div className={`text-4xl ${textColor} cursor-pointer`}>
-        <Tooltip
-          title={<Typography> {statDesc}</Typography>}
-          placement="bottom"
-          slotProps={{
-            popper: {
-              modifiers: [
-                {
-                  name: "offset",
-                  options: {
-                    offset: [0, -14],
-                  },
-                },
-              ],
-            },
-          }}
-        >
-          {!startedTyping ? "-" : String(stat)}
-        </Tooltip>
+      <div className={`text-4xl ${textColor} cursor-default`}>
+        {!startedTyping ? "-" : String(stat)}
       </div>
     </div>
   );
