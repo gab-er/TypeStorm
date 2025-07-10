@@ -38,9 +38,11 @@ const Navbar = () => {
 
   return (
     // bg-blue-600
-    <Disclosure as="nav" className="bg-blue-600 select-none">
+    // #161821
+    // bg-[#263a5ed9]
+    <Disclosure as="nav" className="bg-[#161821] select-none pt-4">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div className="relative flex h-16 items-center justify-between">
+        <div className="relative flex h-16 items-center justify-start">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             {/* Mobile menu button -> Creates a menu dropdown on small screens */}
             <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:outline-hidden focus:ring-inset">
@@ -57,9 +59,12 @@ const Navbar = () => {
             </DisclosureButton>
           </div>
           {/* Team Logo */}
-          <Link href="/">
-            <Logo width="120" height="120" />
-          </Link>
+          <div>
+            <Link href="/">
+              {/* 120 120 */}
+              <Logo width="180" height="120" />
+            </Link>
+          </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex shrink-0 items-center"></div>
             <div className="hidden sm:ml-6 sm:block">
