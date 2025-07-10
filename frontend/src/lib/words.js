@@ -97,10 +97,11 @@ const shuffleWords = (arr) => {
   return arr;
 };
 
-// Function to randomly select N words from the words array
+// Function to randomly select N words from the words array: returns an array
 const generateRandomWords = (wordsData, num) => {
   if (num > wordsData.length) {
-    throw new Error("length exceeded");
+    // Cap it at wordsData.length
+    num = wordsData.length;
   }
 
   // Create a set of random indexes (so they are all unique)

@@ -6,6 +6,9 @@ import {
   usePostStatsStandardGame,
   usePostStatsTimed,
   usePostStatsTimedGame,
+  usePostStatsChallengeLeaderboard,
+  usePostStatsChallenge,
+  usePostStatsChallengeGame,
 } from "../../../lib/postStats";
 import StatInfo from "./StatInfo";
 import WordHistory from "./WordHistory";
@@ -20,6 +23,7 @@ const StatsBox = ({
   wordsToType,
   numWords,
   startedTyping,
+  challengeId = null,
 }) => {
   const [sentData, setSentData] = useState(false);
   const [isNewPb, setIsNewPb] = useState(false);
@@ -39,6 +43,7 @@ const StatsBox = ({
     elapsedTime: 0,
   });
   const [obtainedStats, setObtainedStats] = useState(false);
+  const [ranking, setRanking] = useState(null); // Ranking for challenge mode
 
   const [res, setRes] = useState({
     pbWpm: false,
@@ -58,6 +63,7 @@ const StatsBox = ({
     errors: "Total errors made while typing",
     accuracy: "Percentage of correct characters typed",
     time: "Time taken to type all words",
+    ranking: "Your current ranking",
   };
 
   useEffect(() => {
@@ -125,25 +131,33 @@ const StatsBox = ({
   const postStatsStandardGame = usePostStatsStandardGame();
   const postStatsTimed = usePostStatsTimed();
   const postStatsTimedGame = usePostStatsTimedGame();
+  const postStatsChallengeLeaderboard = usePostStatsChallengeLeaderboard();
+  const postStatsChallenge = usePostStatsChallenge();
+  const postStatsChallengeGame = usePostStatsChallengeGame();
 
   // Send stats once a game is completed
   useEffect(() => {
     if (obtainedStats && !sentData) {
-      // Send stats to statistics route
+      // Send stats to statistics/challenge route
       const postStatsData = async () => {
         try {
           const stats = {
             wpm: frozenStats.netWPM,
             accuracy: frozenStats.accuracy,
+            errors: frozenStats.errors,
             score: frozenStats.score,
+            challengeId: challengeId,
           };
-          // console.log("submitting standard data; ", stats);
+          // console.log("submitting data; ", stats);
           const response =
             mode == gameModes.STANDARD // MODE : STANDARD
               ? await postStatsStandard.mutateAsync(stats)
               : mode == gameModes.TIMED // MODE : TIMED
               ? await postStatsTimed.mutateAsync(stats)
+              : mode == gameModes.CHALLENGE // MODE : CHALLENGE
+              ? await postStatsChallenge.mutateAsync(stats)
               : null;
+          // console.log(response);
           setRes(response); // Set the response to the received response (to check for achievements)
           setIsLoading(false);
         } catch (error) {
@@ -151,7 +165,6 @@ const StatsBox = ({
           setIsLoading(false); // User is not logged in, show the stats obtained
         }
       };
-      postStatsData();
 
       // Send stats to game route
       const postGameData = async () => {
@@ -161,18 +174,31 @@ const StatsBox = ({
             accuracy: frozenStats.accuracy,
             errors: frozenStats.errors,
             score: frozenStats.score,
+            challengeId: challengeId,
           };
           const response =
             mode == gameModes.STANDARD // MODE : STANDARD
               ? await postStatsStandardGame.mutateAsync(stats)
               : mode == gameModes.TIMED // MODE : TIMED
               ? await postStatsTimedGame.mutateAsync(stats)
+              : mode == gameModes.CHALLENGE && challengeId // MODE : CHALLENGE
+              ? await postStatsChallengeGame.mutateAsync(stats)
               : null;
+
+          const challengeResponse =
+            mode == gameModes.CHALLENGE
+              ? await postStatsChallengeLeaderboard.mutateAsync(stats)
+              : null;
+
+          if (challengeResponse) {
+            setRanking(challengeResponse.ranking);
+          }
         } catch (error) {
           console.log(error);
           setIsLoading(false); // User is not logged in, show the stats obtained
         }
       };
+      postStatsData();
       postGameData();
       setSentData(true);
     }
@@ -186,13 +212,12 @@ const StatsBox = ({
       <div className="flex flex-col w-[600px] h-[325px] text-2xl">
         {/* Mode */}
         <div className="flex justify-center text-gray-400">
-          Mode:
           <div className="text-yellow-400 ml-2"> {mode.toUpperCase()} </div>
         </div>
         {/* Row 1 */}
         <div className="flex justify-between h-1/2">
           <StatInfo
-            header={"Net WPM"}
+            header={"Net WPM".toLowerCase()}
             stat={frozenStats.netWPM}
             pbWpm={pbWpm}
             aaWpm={aaWpm}
@@ -200,7 +225,7 @@ const StatsBox = ({
             startedTyping={startedTyping}
           />
           <StatInfo
-            header={"Score"}
+            header={"Score".toLowerCase()}
             stat={frozenStats.score}
             pbScore={pbScore}
             aaScore={aaScore}
@@ -208,7 +233,7 @@ const StatsBox = ({
             startedTyping={startedTyping}
           />
           <StatInfo
-            header={"Accuracy"}
+            header={"Accuracy".toLowerCase()}
             stat={`${(frozenStats.accuracy * 100).toFixed(0)}%`}
             pbAccuracy={pbAccuracy}
             aaAccuracy={aaAccuracy}
@@ -219,31 +244,41 @@ const StatsBox = ({
         {/* Row 2 */}
         <div className="flex justify-center h-1/2">
           <StatInfo
-            header={"Raw WPM"}
+            header={"Raw WPM".toLowerCase()}
             stat={frozenStats.grossWPM}
             headerDesc={headerDescriptions.rawwpm}
             startedTyping={startedTyping}
           />
           <StatInfo
-            header={"Errors"}
+            header={"Errors".toLowerCase()}
             stat={frozenStats.errors}
             headerDesc={headerDescriptions.errors}
             startedTyping={startedTyping}
           />
           <StatInfo
-            header={"Time"}
+            header={"Time".toLowerCase()}
             stat={`${frozenStats.elapsedTime}s`}
             headerDesc={headerDescriptions.time}
             startedTyping={startedTyping}
           />
         </div>
       </div>
+      <div>
+        {ranking && (
+          <StatInfo
+            header={"Current Ranking".toLowerCase()}
+            stat={`#${ranking}`}
+            headerDesc={headerDescriptions.ranking}
+            startedTyping={startedTyping}
+          />
+        )}
+      </div>
       {/* Word History */}
       <div className="mt-4">
         <WordHistory allTypedWords={allTypedWords} wordsToType={wordsToType} />
       </div>
       {/* Enter to start game  */}
-      <div className="mt-6">
+      <div className="mt-6 ">
         <Instruction button={"enter"} desc={"start new game"} />
       </div>
     </div>

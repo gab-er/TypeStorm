@@ -5,7 +5,7 @@ const WordCounter = ({ allTypedWords, numWords }) => {
   const mode = useWordsStore((state) => state.mode);
 
   return (
-    <div>
+    <div className="select-none">
       {/* Show the total words to type in STANDARD mode */}
       {mode == gameModes.STANDARD && (
         <div className="text-2xl text-indigo-400">
@@ -13,7 +13,7 @@ const WordCounter = ({ allTypedWords, numWords }) => {
         </div>
       )}
       {/* Show only the words typed count in TIMED and PRACTICE mode */}
-      {(mode == gameModes.TIMED || mode == gameModes.PRACTICE) && (
+      {mode != gameModes.STANDARD && (
         <div className="text-2xl text-indigo-400">{allTypedWords.length}</div>
       )}
     </div>

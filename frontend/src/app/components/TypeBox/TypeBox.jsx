@@ -1,7 +1,11 @@
 "use client";
 import InputBox from "./InputBox";
-import { useEffect, useState, useRef, useCallback } from "react";
-import { wordsData, generateRandomWords } from "@/lib/words";
+import { useEffect, useState, useRef } from "react";
+import {
+  wordsData,
+  generateRandomWords,
+  splitWordsWithSpaces,
+} from "@/lib/words";
 import useWordsStore from "@/app/stores/useWordsStore";
 import useTimedStore from "@/app/stores/useTimedStore";
 import StatsBox from "../StatsBox/StatsBox";
@@ -13,12 +17,11 @@ import ModeBar from "./Settings/ModeBar";
 import TimedSettingsBar from "./Settings/TimedSettingsBar";
 import gameModes from "@/lib/gamemodes";
 import Instruction from "./Instruction";
-import { motion, AnimatePresence } from "framer-motion";
 import Animation from "../Animation";
-import TypingTip from "../TypingTip/TypingTip";
+import CapsLockWarning from "./CapsLockWarning";
 
 // The InputBox contains two things: An invisible input box and a box to display the given words
-const TypeBox = () => {
+const TypeBox = ({ words = null, challengeId = null }) => {
   // States that need to be kept track of
   // Keep track of how many first lines have been typed, This offset is to keep track of the correct word position after the lines update
   const [wordsTypedOffset, setWordsTypedOffset] = useState(0);
@@ -55,10 +58,14 @@ const TypeBox = () => {
   const endTimer = useWordsStore((state) => state.endTimer);
   const resetTimers = useWordsStore((state) => state.resetTimers);
 
-  // Randomize the wordsData on first component mount
   useEffect(() => {
-    setWordsToType(generateRandomWords(wordsData, numWords));
-
+    // If mode is CHALLENGE, hide settings bar
+    if (mode == gameModes.CHALLENGE) {
+      setShowSettingsBar(false);
+    } else {
+      // Randomize the wordsData on first component mount
+      setWordsToType(generateRandomWords(wordsData, numWords));
+    }
     return () => {
       resetGame();
     };
@@ -99,6 +106,17 @@ const TypeBox = () => {
         window.removeEventListener("keydown", handleKeyDown);
       };
     }
+
+    // Hide Settings Bar if mode is Challenge
+    if (mode == gameModes.CHALLENGE && words) {
+      const challengeWords = splitWordsWithSpaces(words);
+      useWordsStore.getState().setNumWords(challengeWords.length);
+      setNumWords(challengeWords.length);
+      setWordsToType(challengeWords);
+      setShowSettingsBar(false);
+    } else {
+      setShowSettingsBar(true);
+    }
   }, [mode]);
 
   // Infinite words
@@ -107,7 +125,7 @@ const TypeBox = () => {
     useWordsStore.getState().setNumWordsTyped(numWordsTyped);
 
     // Ignore standard mode from this point onwards
-    if (mode == gameModes.STANDARD) {
+    if (mode == gameModes.STANDARD || mode == gameModes.CHALLENGE) {
       return;
     }
 
@@ -122,12 +140,8 @@ const TypeBox = () => {
 
   // Events that will start/stop the timer (standard and timed mode)
   useEffect(() => {
-    // Start timer to count elapsed time
-    if (
-      (mode == gameModes.STANDARD || mode == gameModes.PRACTICE) &&
-      startedTyping &&
-      !gameCompleted
-    ) {
+    // Start standard and practice timer to count elapsed time
+    if (mode != gameModes.TIMED && startedTyping && !gameCompleted) {
       startTimer();
     }
 
@@ -137,17 +151,15 @@ const TypeBox = () => {
 
     if (startedTyping) {
       setShowSettingsBar(false);
-    } else if (!startedTyping) {
+    } else if (!startedTyping && mode != gameModes.CHALLENGE) {
+      // Dont show the settings bar on challenge mode (even if haven't started typing)
       setShowSettingsBar(true);
     }
   }, [startedTyping, gameCompleted]);
 
   useEffect(() => {
     // Stop timer
-    if (
-      (mode == gameModes.STANDARD || mode == gameModes.PRACTICE) &&
-      gameCompleted
-    ) {
+    if (mode != gameModes.TIMED && gameCompleted) {
       endTimer();
     }
   }, [gameCompleted]);
@@ -176,10 +188,12 @@ const TypeBox = () => {
 
     // Randomize words again (number of words depends on the mode)
     setWordsToType(
-      generateRandomWords(
-        wordsData,
-        mode == gameModes.STANDARD ? numWords : 1000
-      )
+      mode == gameModes.CHALLENGE && words
+        ? splitWordsWithSpaces(words)
+        : generateRandomWords(
+            wordsData,
+            mode == gameModes.STANDARD ? numWords : 1000
+          )
     );
 
     // Reset timers
@@ -195,7 +209,7 @@ const TypeBox = () => {
     (gameCompleted && (
       <Animation id="stats" visible={gameCompleted}>
         {/* StatsBox */}
-        <div className={`translate-y-[-75px]`}>
+        <div className={`translate-y-[-75px] translate-x-[-50px]`}>
           <StatsBox
             gameCompleted={gameCompleted}
             setGameCompleted={setGameCompleted}
@@ -204,6 +218,7 @@ const TypeBox = () => {
             wordsToType={wordsToType}
             numWords={numWords}
             startedTyping={startedTyping}
+            challengeId={challengeId}
           />
         </div>
       </Animation>
@@ -213,15 +228,18 @@ const TypeBox = () => {
           {/* Timer */}
           <Animation key="timer" id="timer" visible={mode == gameModes.TIMED}>
             <div
-              className={`absolute flex translate-x-[-100px] translate-y-[-140px]`}
+              className={`absolute flex justify-center translate-y-[-100px] translate-x-[-100px]`}
             >
               <Timer startedTyping={startedTyping} />
             </div>
           </Animation>
 
           <div
-            className={`absolute translate-x-[-495px] translate-y-[-60px] w-[300px]`}
+            className={`absolute translate-x-[-595px] translate-y-[-60px] w-[300px]`}
           >
+            <div className="absolute w-50 translate-x-[-28px] translate-y-[-20px]">
+              <CapsLockWarning />
+            </div>
             {/* Word & Error Counters */}
             <Animation id="counters" visible={startedTyping}>
               <div className="flex flex-col">
@@ -257,17 +275,19 @@ const TypeBox = () => {
           />
           {/* SettingsBars/Instructions */}
           <Animation id="settings" visible={showSettingsBar}>
-            <div className="absolute translate-y-[225px] translate-x-[-495px] flex flex-col gap-5">
+            <div className="absolute translate-y-[225px] translate-x-[-595px] flex flex-col gap-5">
               <ModeBar inputRef={inputRef} />
               {mode == gameModes.STANDARD && (
                 <StandardSettingsBar
                   setNumWords={setNumWords}
                   inputRef={inputRef}
                   numWords={numWords}
+                  setFocus={setFocus}
+                  focus={focus}
                 />
               )}
               {mode == gameModes.TIMED && (
-                <TimedSettingsBar inputRef={inputRef} />
+                <TimedSettingsBar inputRef={inputRef} setFocus={setFocus} />
               )}
               <div className="flex justify-left items-center">
                 <Instruction button={"esc"} desc={"restart game"} />

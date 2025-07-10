@@ -16,7 +16,12 @@ const WordHistory = ({ allTypedWords, wordsToType }) => {
   return (
     <div className="flex flex-col flex-wrap w-[1200px] items-center text-2xl text-gray-400">
       <Tooltip
-        title={<Typography> Hover over the letters to see what you typed! </Typography>}
+        title={
+          <Typography>
+            {" "}
+            Hover over the letters to see what you typed!{" "}
+          </Typography>
+        }
         placement="top"
         slotProps={{
           popper: {
@@ -31,7 +36,7 @@ const WordHistory = ({ allTypedWords, wordsToType }) => {
           },
         }}
       >
-        <strong>Word History - {allTypedWords.length} words </strong>
+        <strong> {`Word History - ${allTypedWords.length} words`.toLowerCase()} </strong>
       </Tooltip>
       <div>
         {allCorrectLetters.map((letter, index) => {

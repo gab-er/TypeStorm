@@ -1,21 +1,37 @@
 import TypeBox from "./components/TypeBox/TypeBox";
 import TypingTip from "./components/TypingTip/TypingTip";
+import { ToastContainer, Bounce } from "react-toastify";
 
 export const metadata = {
   title: "TypeStorm",
+  description: "Improve your typing skills with our website!",
 };
 
 export default async function Home() {
   return (
     <>
       <div className="relative">
-        <div className="absolute w-full flex justify-center mt-5">
+        <div className="absolute flex mt-5 translate-x-[-70px] justify-center w-full">
           <TypingTip isCycling={true} />
         </div>
       </div>
-      <div className="flex mt-45 justify-center">
+      <div className="mt-45 flex justify-center">
         <TypeBox />
       </div>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover={false}
+        theme="dark"
+        transition={Bounce}
+        toastStyle={{ backgroundColor: "#161821" }}
+      />
     </>
   );
 }

@@ -1,0 +1,14 @@
+import ChallengeList from "../components/Challenge/ChallengeList";
+
+const challenge = () => {
+  return (
+    <div className="">
+      <div className="flex justify-center mt-10 text-2xl"> Pick a challenge </div>
+      <div className="flex justify-center">
+        <ChallengeList />
+      </div>
+    </div>
+  );
+};
+
+export default challenge;

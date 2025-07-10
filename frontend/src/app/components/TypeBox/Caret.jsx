@@ -1,10 +1,10 @@
-const Caret = () => {
+const Caret = ({ startedTyping }) => {
   // use blink-caret to add blinking
-
   return (
-    <span className="select-none translate-x-[-5px] translate-y-[1px] absolute text-yellow-500 text-2xl w">
-      |
-    </span>
+    <span
+      className="flex select-none absolute 
+     text-2xl w-[3px] h-[1.6em] rounded-2xl bg-yellow-500"
+    ></span>
   );
 };
 

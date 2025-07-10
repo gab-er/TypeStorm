@@ -1,8 +1,8 @@
-import { useRouter } from "next/navigation";
 import useAuthStore from "../app/stores/useAuthStore";
 import url from "./apiUrl";
+import { toast } from "react-toastify";
 
-export const logout = async (router) => {
+const logout = async (router) => {
   const logout = useAuthStore.getState().logout;
 
   try {
@@ -16,8 +16,9 @@ export const logout = async (router) => {
     }
 
     logout();
-    console.log("logged out");
+
     router.push("/");
+    toast.info("Signed out");
   } catch (error) {
     console.log(error);
   }
