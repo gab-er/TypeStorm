@@ -18,11 +18,11 @@ const LeaderboardMenu = () => {
   return (
     <Menu as="div" className="relative ml-3 flex justify-center p-4">
       <div>
-        <MenuButton className="cursor-pointer relative flex bg-gray-800 text-l focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden p-2 rounded-md">
+        <MenuButton className="cursor-pointer relative flex bg-gray-800 text-l focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden p-3 rounded-md">
           <span className="absolute -inset-1.5" />
           <span className="sr-only">Open user menu</span>
           {challenges[level].title}
-          <ChevronDownIcon className="size-5 fill-white/60" />
+          <ChevronDownIcon className="size-6 fill-white/60 p-1" />
         </MenuButton>
       </div>
       <MenuItems

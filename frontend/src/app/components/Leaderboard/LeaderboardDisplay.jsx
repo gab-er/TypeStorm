@@ -7,8 +7,8 @@ const LeaderboardDisplay = () => {
     <div>
       {userData ? (
         <div>
-          <h1 className="text-white-700 text-3xl p-4  h-auto  text-center underline font-bold">
-            Personal Attempt
+          <h1 className="text-white-700 text-2xl relative flex mx-auto p-4  h-auto  w-7/10">
+            personal rank
           </h1>
           <div className="relative flex flex-col  h-full w-7/10 mx-auto overflow-scroll text-white-700 shadow-md rounded-xl bg-gray-800 justify-center justify-items-center">
             <table className="w-full border-separate border-spacing-4">
@@ -20,7 +20,7 @@ const LeaderboardDisplay = () => {
                   <th className="min-w-[100px]">WPM</th>
                   <th className="min-w-[100px]">Accuracy</th>
                   <th className="min-w-[100px]">Errors</th>
-                  <th className="min-w-[100px]">Played On</th>
+                  <th className="min-w-[100px]">Played on</th>
                 </tr>
               </thead>
               <tbody>
@@ -51,8 +51,8 @@ const LeaderboardDisplay = () => {
       ) : (
         <></>
       )}
-      <h1 className="text-white-700 text-3xl p-4  h-auto  text-center underline font-bold">
-        Leaderboard
+      <h1 className="text-white-700 text-2xl relative flex mx-auto p-4  h-auto  w-7/10">
+        leaderboard
       </h1>
       <div className="relative flex flex-col  h-full w-7/10 mx-auto overflow-scroll text-white-700 shadow-md rounded-xl bg-gray-800 justify-center justify-items-center p-4">
         <table className="w-full border-separate border-spacing-4">
