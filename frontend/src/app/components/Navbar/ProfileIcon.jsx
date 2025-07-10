@@ -37,13 +37,16 @@ const ProfileIcon = () => {
             className="flex justify-center w-full px-3 py-1.5 text-xl text-gray-600 data-focus:outline-hidden"
             href="/yourprofile"
           >
-            Profile
+            profile
           </Link>
         </MenuItem>
         <MenuItem className="cursor-default hover:text-white">
-          <button className="block w-full px-3 py-1.5 text-xl text-gray-600 hover:text-white data-focus:outline-hidden">
-            Settings
-          </button>
+          <Link
+            className="flex justify-center w-full px-3 py-1.5 text-xl text-gray-600 data-focus:outline-hidden"
+            href="/history"
+          >
+            history
+          </Link>
         </MenuItem>
         <MenuItem>
           <LogoutButton />
