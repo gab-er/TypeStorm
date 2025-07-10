@@ -30,15 +30,13 @@ const ChallengeList = () => {
       endMessage={<div className="flex justify-center text-xl mt-1"> End </div>}
     >
       {currentChallenges.map((challenge, index) => {
-        if (index > 0) { // Ignore the index 0 item -> start from 1.
-          return (
-            <div className="flex flex-col justify-center mt-2 " key={index}>
-              <Link href={`/challenges/${index}`}>
-                <ChallengeBox index={index} challenge={challenge} />
-              </Link>
-            </div>
-          );
-        }
+        return (
+          <div className="flex flex-col justify-center mt-2 " key={index}>
+            <Link href={`/challenges/${index}`}>
+              <ChallengeBox index={index} challenge={challenge} />
+            </Link>
+          </div>
+        );
       })}
     </InfiniteScroll>
   );
