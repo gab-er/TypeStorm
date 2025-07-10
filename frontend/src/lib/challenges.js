@@ -1,10 +1,5 @@
 const challenges = [
   {
-    text: "Test",
-    description: "Test",
-    title: "Test Title",
-  },
-  {
     text: "It is not the critic who counts; not the man who points out how the strong man stumbles, or where the doer of deeds could have done them better. The credit belongs to the man who is actually in the arena.",
     description:
       "Theodore Roosevelt - From his 'Man in the Arena' speech (1910)",
@@ -76,7 +71,7 @@ const challenges = [
     title: "I Am The Danger",
   },
   {
-    text: "I did it for me. I liked it. I was good at it. And I was really... I was alive. All the things that happened, you have to understand, I did it for me.",
+    text: "I did it for me. I liked it. I was good at it. And I was really... I was alive.",
     description: "Walter White - Breaking Bad (Final Episode)",
     title: "Walter's Confession",
   },
@@ -85,6 +80,7 @@ const challenges = [
     description: "test",
     title: "Test Greeting",
   },
+  
 ].map((challenge) => ({
   ...challenge,
   text: challenge.text + " ", // Append a space to the end of every challenge text -> TypeBox takes this extra space into account in order to end a game
