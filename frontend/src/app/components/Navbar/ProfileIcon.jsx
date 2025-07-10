@@ -37,6 +37,9 @@ const ProfileIcon = () => {
             className="flex justify-center w-full px-3 py-1.5 text-xl text-gray-600 data-focus:outline-hidden"
             href="/yourprofile"
           >
+
+         
+=======
             Profile
           </Link>
         </MenuItem>
@@ -44,6 +47,7 @@ const ProfileIcon = () => {
           <button className="block w-full px-3 py-1.5 text-xl text-gray-600 hover:text-white data-focus:outline-hidden">
             Settings
           </button>
+
         </MenuItem>
         <MenuItem>
           <LogoutButton />
