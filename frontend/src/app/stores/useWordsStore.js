@@ -77,7 +77,7 @@ const useWordsStore = create((set, get) => ({
     const lettersCorrectlyTyped = get().lettersCorrectlyTyped;
     const errors = get().errors;
     const accuracy = Number(
-      (lettersCorrectlyTyped / (lettersCorrectlyTyped + errors)).toFixed(2)
+      (lettersCorrectlyTyped / (lettersCorrectlyTyped + errors))
     );
 
     if (isNaN(accuracy)) {
