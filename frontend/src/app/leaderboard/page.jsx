@@ -14,7 +14,7 @@ const Leaderboard = () => {
       {isLoading ? (
         <DelayedLoading />
       ) : (
-        <div>
+        <div className="">
           <LeaderboardMenu />
           <LeaderboardDisplay />
         </div>
