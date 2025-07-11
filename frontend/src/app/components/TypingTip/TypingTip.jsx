@@ -10,6 +10,7 @@ const TypingTip = ({ isCycling }) => {
   const initialize = useTipStore((state) => state.initialize);
   const cycleTip = useTipStore((state) => state.cycleTip);
   const mode = useWordsStore((state) => state.mode);
+  console.log(displayTip);
 
   useEffect(() => {
     initialize();

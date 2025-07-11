@@ -17,7 +17,7 @@ const Tips = [
   "Alternate between drills and free-typing for variety.",
   "Memorize tricky keys (like brackets or backslash) separately.",
   "Compete with friends for motivation.",
-  "Stretch your fingers and wrists every 20 minutes.",,
+  "Stretch your fingers and wrists every 20 minutes.",
   "Focus on weak spots (e.g., pinky keys) with targeted drills.",
 ];
 
