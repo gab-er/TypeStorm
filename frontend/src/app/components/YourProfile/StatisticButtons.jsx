@@ -21,6 +21,7 @@ const StatisticButtons = () => {
           onClick={() => {
             setGamemode("STANDARD");
           }}
+          disabled={gamemode == "STANDARD"}
         >
           {" "}
           standard{" "}
@@ -30,6 +31,7 @@ const StatisticButtons = () => {
           onClick={() => {
             setGamemode("TIMED");
           }}
+          disabled={gamemode == "TIMED"}
         >
           {" "}
           timed{" "}
@@ -39,6 +41,7 @@ const StatisticButtons = () => {
           onClick={() => {
             setGamemode("CHALLENGE");
           }}
+          disabled={gamemode == "CHALLENGE"}
         >
           {" "}
           challenge{" "}
