@@ -9,10 +9,10 @@ const useTipStore = create((set, get) => ({
   displayTip: "",
 
   initialize: () => {
-    const displayed = get().tips[random.integer(0, Tips.length - 1)];
+    const displayed = Tips[random.integer(0, Tips.length - 1)];
     set((state) => ({
       displayTip: displayed,
-      tips: state.tips.filter((tip) => tip != displayed),
+      tips: Tips.filter((tip) => tip != displayed),
     }));
   },
 
