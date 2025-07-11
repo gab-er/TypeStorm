@@ -21,4 +21,4 @@ const Tips = [
   "Focus on weak spots (e.g., pinky keys) with targeted drills.",
 ];
 
-export default Tips
+export default Tips;

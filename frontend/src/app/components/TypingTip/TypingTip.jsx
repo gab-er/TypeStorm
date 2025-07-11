@@ -10,7 +10,7 @@ const TypingTip = ({ isCycling }) => {
   const initialize = useTipStore((state) => state.initialize);
   const cycleTip = useTipStore((state) => state.cycleTip);
   const mode = useWordsStore((state) => state.mode);
-  console.log(displayTip);
+  const tips = useTipStore((state) => state.tips);
 
   useEffect(() => {
     initialize();
@@ -19,7 +19,6 @@ const TypingTip = ({ isCycling }) => {
   if (isCycling) {
     useEffect(() => {
       const cycleInterval = setInterval(() => cycleTip(), 30000);
-
       return () => {
         clearInterval(cycleInterval);
       };
