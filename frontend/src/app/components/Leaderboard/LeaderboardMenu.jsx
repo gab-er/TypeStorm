@@ -17,11 +17,11 @@ import useChallengeStore from "@/app/stores/useChallengeStore";
 const LeaderboardMenu = () => {
   const level = useChallengeStore((state) => state.level);
   const selectedStyle =
-    "w-full px-3 py-1.5 text-l text-white data-focus:outline-hidden";
+    "w-full px-3 py-1.5 text-m text-white data-focus:outline-hidden";
   const unselectedStyle =
-    "w-full px-3 py-1.5 text-l text-gray-500 hover:text-white data-focus:outline-hidden";
+    "w-full px-3 py-1.5 text-m text-gray-500 hover:text-white data-focus:outline-hidden";
   return (
-    <Menu as="div" className="relative ml-3 flex justify-center m-10">
+    <Menu as="div" className="relative ml-3 flex justify-center m-15">
       <div>
         <MenuButton className="cursor-pointer relative flex bg-#161821 text-l hover:ring-2  rounded-md w-70 justify-evenly">
           <span className="absolute -inset-1.5" />
@@ -35,7 +35,7 @@ const LeaderboardMenu = () => {
       <MenuItems
         transition
         anchor="bottom"
-        className="z-10 mt-2 w-70 !max-h-10 !overflow-y-auto origin-top-right rounded-md bg-(#161821) py-1  ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
+        className="z-10 mt-2 w-70 !max-h-18 !overflow-y-auto origin-top-right rounded-md bg-(#161821) py-1  ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
       >
         {challenges.map((challenge) => (
           <MenuItem
