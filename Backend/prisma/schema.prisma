@@ -19,6 +19,7 @@ model User {
   username String @unique
   password String
   createdOn DateTime @default(now()) @db.Date
+  profilePic String?
   games Game[]
   statistics Statistic[]
   challenges Challenge[]
