@@ -14,10 +14,12 @@ import {
   UserIcon,
 } from "@heroicons/react/24/outline";
 import LogoutButton from "./LogoutButton";
+import useAuthStore from "@/app/stores/useAuthStore";
+import ProfilePic from "./ProfilePic";
 import Link from "next/link";
 
-
 const ProfileIcon = () => {
+  const userData = useAuthStore((state) => state.userData);
   return (
     <Menu as="div" className="relative ml-3">
       <div>
@@ -25,7 +27,10 @@ const ProfileIcon = () => {
           <span className="absolute -inset-1.5" />
           <span className="sr-only">Open user menu</span>
           {/* User Icon */}
-          <UserIcon className="size-6" />
+          <ProfilePic
+            profilePic={userData.profilePic}
+            className="size-6 rounded-full"
+          />
         </MenuButton>
       </div>
       <MenuItems

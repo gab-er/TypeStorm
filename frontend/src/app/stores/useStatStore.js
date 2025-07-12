@@ -24,6 +24,10 @@ const useStatStore = create((set) => ({
     set(() => ({
       isLoading: bool,
     })),
+    setIsLoading: (bool) => 
+    set(() => ({
+      isLoading: bool
+    })),
 }));
 
 export default useStatStore;
