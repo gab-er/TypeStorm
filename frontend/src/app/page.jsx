@@ -11,7 +11,7 @@ export default async function Home() {
   return (
     <>
       <div className="relative">
-        <div className="absolute flex mt-5 translate-x-[-70px] justify-center w-full">
+        <div className="absolute flex mt-5 translate-x-[-55px] justify-center w-full">
           <TypingTip isCycling={true} />
         </div>
       </div>
