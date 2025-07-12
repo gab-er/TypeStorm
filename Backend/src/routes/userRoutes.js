@@ -31,6 +31,7 @@ router.get("/", async (req, res) => {
       id: user.id,
       username: user.username,
       createdOn: user.createdOn,
+      profilePic: user.profilePic,
     };
 
     //Return data
