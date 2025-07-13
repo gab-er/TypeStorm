@@ -1,4 +1,5 @@
 import useChallengeStore from "@/app/stores/useChallengeStore";
+import ProfilePic from "../Navbar/ProfilePic";
 
 const LeaderboardDisplay = () => {
   const userData = useChallengeStore((state) => state.userData);
@@ -77,7 +78,15 @@ const LeaderboardDisplay = () => {
                   {leaderboard.indexOf(game) + 1}
                 </td>
                 {/*Display User of attempt*/}
-                <td className="text-center p-2">{game.user.username}</td>
+                <td className="text-center p-2">
+                  <div className="flex justify-center gap-3">
+                    <ProfilePic
+                      className="size-6 rounded-full"
+                      profilePic={game.user.profilePic}
+                    />
+                    {game.user.username}
+                  </div>
+                </td>
                 {/*Display Score achieved in game*/}
                 <td className="text-center p-2">{game.score}</td>
 
