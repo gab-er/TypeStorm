@@ -2,11 +2,6 @@ import TypeBox from "./components/TypeBox/TypeBox";
 import TypingTip from "./components/TypingTip/TypingTip";
 import { ToastContainer, Bounce } from "react-toastify";
 
-export const metadata = {
-  title: "TypeStorm",
-  description: "Improve your typing skills with our website!",
-};
-
 export default async function Home() {
   return (
     <>

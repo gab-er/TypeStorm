@@ -15,8 +15,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "TypeStorm",
-  description: "TypeStorm",
+  title: { default: "TypeStorm", template: "TypeStorm - %s" },
+  description: "Improve your typing skills with TypeStorm!",
+  keywords: [
+    "typing",
+    "type",
+    "typing test",
+    "typing practice",
+    "typing game",
+    "typing challenge",
+    "speed typing",
+    "improve typing speed",
+    "wpm calculator",
+    "free typing test",
+    "free typing speed test online",
+  ],
 };
 
 export default function RootLayout({ children }) {
