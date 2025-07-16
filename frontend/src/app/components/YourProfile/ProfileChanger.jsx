@@ -49,7 +49,8 @@ const ProfileChanger = () => {
       .catch(
         (err) =>
           console.log(err) &
-          alert("Failed to upload profile picture. Please try again")
+          alert("Failed to upload profile picture. Please try again") &
+          setIsUploading(false)
       );
   };
 
