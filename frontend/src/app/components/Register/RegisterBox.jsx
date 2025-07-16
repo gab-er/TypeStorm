@@ -26,7 +26,7 @@ const RegisterBox = ({
       </Head>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-white-900">
+          <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-selected">
             Register for a new account
           </h2>
         </div>
@@ -36,7 +36,7 @@ const RegisterBox = ({
             <div>
               <label
                 htmlFor="email"
-                className="block text-xl font-medium text-white-900"
+                className="block text-xl font-medium text-selected"
               >
                 Username
               </label>
@@ -54,7 +54,7 @@ const RegisterBox = ({
               </div>
               {/* Error message pops up if there is an error */}
               {usernameError && (
-                <p className="text-red-400"> Error: {usernameError} </p>
+                <p className="text-wrong"> Error: {usernameError} </p>
               )}
             </div>
 
@@ -62,7 +62,7 @@ const RegisterBox = ({
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="password"
-                  className="block text-xl font-medium text-white-900"
+                  className="block text-xl font-medium text-selected"
                 >
                   Password
                 </label>
@@ -86,7 +86,7 @@ const RegisterBox = ({
                 />
                 {/* Error message pops up if there is an error */}
                 {passwordError && (
-                  <p className="text-red-400"> Error: {passwordError} </p>
+                  <p className="text-wrong"> Error: {passwordError} </p>
                 )}
               </div>
             </div>
@@ -95,7 +95,7 @@ const RegisterBox = ({
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="password"
-                  className="block text-xl font-medium text-white-900"
+                  className="block text-xl font-medium text-selected"
                 >
                   Confirm Password
                 </label>

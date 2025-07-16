@@ -17,7 +17,7 @@ const LoginBox = ({
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-white">
+          <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-selected">
             Sign in to your account
           </h2>
         </div>
@@ -25,7 +25,7 @@ const LoginBox = ({
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="username" className="text-xl text-white">
+              <label htmlFor="username" className="text-xl text-selected">
                 Username
               </label>
               <div className="mt-2">
@@ -43,13 +43,13 @@ const LoginBox = ({
               </div>
               {/* Error message pops up if there is an error */}
               {usernameError && (
-                <p className="text-red-400"> Error: {usernameError} </p>
+                <p className="text-wrong"> Error: {usernameError} </p>
               )}
             </div>
 
             <div>
               <div className="flex items-center justify-between">
-                <label htmlFor="password" className="text-xl text-white">
+                <label htmlFor="password" className="text-xl text-selected">
                   Password
                 </label>
                 <div className="text-sm">
@@ -72,7 +72,7 @@ const LoginBox = ({
               </div>
               {/* Error message pops up if there is an error */}
               {passwordError && (
-                <p className="text-red-400"> Error: {passwordError} </p>
+                <p className="text-wrong"> Error: {passwordError} </p>
               )}
             </div>
 
@@ -87,7 +87,7 @@ const LoginBox = ({
             </div>
           </form>
 
-          <p className="mt-10 text-center text-lg text-white-500">
+          <p className="mt-10 text-center text-lg text-selected">
             Not a member?{" "}
             <Link
               href="/register"

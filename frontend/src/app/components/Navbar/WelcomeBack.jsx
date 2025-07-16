@@ -9,7 +9,7 @@ const WelcomeBack = () => {
   const CURSOR_CLASS_NAME = "custom-type-animation-cursor";
 
   return (
-    <div className="text-xl">
+    <div className="text-xl text-selected">
       <TypeAnimation
         sequence={[
           // Same substring at the start will only be typed out once, initially

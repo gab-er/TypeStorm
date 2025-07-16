@@ -16,7 +16,7 @@ const StatInfo = ({
   aaScore,
   startedTyping,
 }) => {
-  const [textColor, setTextColor] = useState("text-white");
+  const [textColor, setTextColor] = useState("text-selected");
   const [emoji, setEmoji] = useState("");
   const [achievement, setAchievement] = useState(null);
   const [hasNewPb, setHasNewPb] = useState(false);
@@ -48,7 +48,7 @@ const StatInfo = ({
 
   return (
     <div className="relative flex flex-col w-full h-full items-center justify-center cursor-default">
-      <div className="absolute top-0 text-sm text-gray-400 mt-[1.5em] w-full h-[20px] flex justify-center">
+      <div className="absolute top-0 text-sm text-secondary mt-[1.5em] w-full h-[20px] flex justify-center">
         <Animation
           id="achievement"
           visible={achievement}
@@ -57,7 +57,7 @@ const StatInfo = ({
           {achievement}
         </Animation>
       </div>
-      <div className="text-gray-400 w-full flex justify-center">
+      <div className="text-secondary w-full flex justify-center">
         <Tooltip
           title={<Typography fontSize="1rem"> {headerDesc} </Typography>}
           placement="top"

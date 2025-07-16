@@ -17,19 +17,19 @@ import useChallengeStore from "@/app/stores/useChallengeStore";
 const LeaderboardMenu = () => {
   const level = useChallengeStore((state) => state.level);
   const selectedStyle =
-    "w-full px-3 py-1.5 text-m text-white data-focus:outline-hidden";
+    "w-full px-3 py-1.5 text-m text-selected data-focus:outline-hidden";
   const unselectedStyle =
-    "w-full px-3 py-1.5 text-m text-gray-500 hover:text-white data-focus:outline-hidden";
+    "w-full px-3 py-1.5 text-m text-primary hover:text-hover data-focus:outline-hidden";
   return (
     <div className="flex justify-center">
       <Menu as="div" className="relative ml-3 flex justify-center m-15">
         <div>
-          <MenuButton className="cursor-pointer relative flex bg-#161821 text-l hover:ring-2  rounded-md w-70 justify-evenly">
+          <MenuButton className="cursor-pointer relative flex background-primary text-l hover:ring-2 hover:text-hover  rounded-md w-70 justify-evenly">
             <span className="absolute -inset-1.5" />
             <span className="sr-only">Open user menu</span>
             <div className="flex flex-col justify-center items-center">
-              <div className="text-white p-1">{challenges[level].title}</div>
-              <ChevronDownIcon className="size-5 fill-white/60 p-1" />
+              <div className="text-selected p-1">{challenges[level].title}</div>
+              <ChevronDownIcon className="size-5 fill-white/60 p-1 text-selected" />
             </div>
           </MenuButton>
         </div>
