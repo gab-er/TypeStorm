@@ -34,6 +34,7 @@ input:-webkit-autofill:active {
   --textselected: #ffffff;
   --textindigo: #5c6bc0;
   --caretcolor: #eab308;
+  --aboveaverage: #44ba23;
 }
 
 [data-theme="light"] {
@@ -48,6 +49,7 @@ input:-webkit-autofill:active {
   --textselected: #000000;
   --textindigo: #1d21c8;
   --caretcolor: #222287;
+  --aboveaverage: #228805;
 }
 
 .background-primary {
@@ -87,7 +89,12 @@ input:-webkit-autofill:active {
 }
 
 .caret-color {
+  color: var(--caretcolor);
   background: var(--caretcolor);
+}
+
+.text-above-average {
+  color: var(--aboveaverage);
 }
 
 @theme inline {

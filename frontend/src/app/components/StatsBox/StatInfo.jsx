@@ -27,7 +27,7 @@ const StatInfo = ({
     }
 
     if (header.toLowerCase() == "current ranking" && stat == "#1") {
-      setTextColor("text-yellow-400");
+      setTextColor("text-[var(--caretcolor)]");
     } else if (header == "Ranking" && stat == "#2") {
       setTextColor("text-slate-400");
     } else if (header == "Ranking" && stat == "#3") {
@@ -36,12 +36,12 @@ const StatInfo = ({
 
     // Set displays for new PB
     if (pbWpm || pbAccuracy || pbScore) {
-      setTextColor("text-yellow-400");
+      setTextColor("text-[var(--caretcolor)]");
       setEmoji("🎉");
       setAchievement("(New Personal Best!)".toLowerCase());
       setHasNewPb(true);
     } else if (aaWpm || aaAccuracy || aaScore) {
-      setTextColor("text-green-400");
+      setTextColor("text-above-average");
       setAchievement("(Above Your Average!)".toLowerCase());
     }
   }, [stat, pbWpm, pbAccuracy, pbScore, aaWpm, aaAccuracy, aaScore]);

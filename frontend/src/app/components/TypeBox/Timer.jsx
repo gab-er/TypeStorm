@@ -33,7 +33,7 @@ const Timer = ({ startedTyping }) => {
   return (
     // text-[#7c86ff]
     <div className="text-3xl select-none flex gap-2 text-selected">
-      <FontAwesomeIcon icon={faHourglassEnd} style={{color: "#FFD43B",}} /> {timeLeft}
+      <FontAwesomeIcon icon={faHourglassEnd} className="text-[var(--caretcolor)] " /> {timeLeft}
     </div>
   );
 };

@@ -10,7 +10,7 @@ import WelcomeBack from "./WelcomeBack";
 import { useState, useEffect } from "react";
 import DelayedLoadingDefault from "./DelayedLoadingDefault";
 import { usePathname } from "next/navigation";
-import ColorModeToggle from "../ColorModeToggle";
+import ColorModeToggle from "../ColorModeToggle/ColorModeToggle";
 
 const navigation = [
   { name: "home", href: "/" },
@@ -93,14 +93,16 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-          <ColorModeToggle />
           {/* Sign in button / Profile Icon*/}
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 mx-10">
+          <div className="absolute inset-y-0 right-0 flex items-center sm:static sm:inset-auto sm:ml-6 sm:pr-0 mx-6">
             {/* If loading, it shows the loading effect. Else, it shows one of the login displays*/}
             {(!isLoading && loginDisplay) || <DelayedLoadingDefault />}
 
             {/* If logged in -> Profile dropdown is shown */}
             {isLoggedIn && <ProfileIcon isLoggedIn={isLoggedIn} />}
+          </div>
+          <div className="">
+            <ColorModeToggle />
           </div>
         </div>
       </div>

@@ -57,6 +57,12 @@ const TypeBox = ({ words = null, challengeId = null }) => {
   const startTimer = useWordsStore((state) => state.startTimer);
   const endTimer = useWordsStore((state) => state.endTimer);
   const resetTimers = useWordsStore((state) => state.resetTimers);
+  const setInputRef = useWordsStore((state) => state.setInputRef);
+
+  // Store inputRef inside the useWordsStore so it can be accessed in other parts of the app
+  useEffect(() => {
+    setInputRef(inputRef);
+  }, [inputRef]);
 
   useEffect(() => {
     // If mode is CHALLENGE, hide settings bar

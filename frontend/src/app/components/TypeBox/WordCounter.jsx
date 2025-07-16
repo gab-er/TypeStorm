@@ -8,13 +8,13 @@ const WordCounter = ({ allTypedWords, numWords }) => {
     <div className="select-none">
       {/* Show the total words to type in STANDARD mode */}
       {mode == gameModes.STANDARD && (
-        <div className="text-2xl text-counter">
+        <div className="text-2xl text-[var(--caretcolor)]">
           {allTypedWords.length} / {numWords}
         </div>
       )}
       {/* Show only the words typed count in TIMED and PRACTICE mode */}
       {mode != gameModes.STANDARD && (
-        <div className="text-2xl text-counter">{allTypedWords.length}</div>
+        <div className="text-2xl text-[var(--caretcolor)]">{allTypedWords.length}</div>
       )}
     </div>
   );
