@@ -7,9 +7,8 @@ export const metadata = {
 const challenge = () => {
   return (
     <div className="">
-      <div className="flex justify-center mt-10 text-2xl cursor-default">
-        {" "}
-        Pick a challenge{" "}
+      <div className="flex justify-center mt-10 text-2xl cursor-default text-selected">
+        Pick a challenge
       </div>
       <div className="flex justify-center">
         <ChallengeList />

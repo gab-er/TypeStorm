@@ -11,7 +11,7 @@ const RecentGames = () => {
   const [display, setDisplay] = useState(5);
   return (
     <>
-      <h1 className="text-white-700 text-2xl relative flex mx-auto p-4  h-auto  w-7/10 ">
+      <h1 className="text-selected text-2xl relative flex mx-auto p-4  h-auto  w-7/10 ">
         recent games
       </h1>
       {/*Display games up to display amount*/}

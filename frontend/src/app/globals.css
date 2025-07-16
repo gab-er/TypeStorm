@@ -12,10 +12,89 @@ input:-webkit-autofill:active {
 }
 
 :root {
-  /* #161821 */
-  /* #1e1f25 original */
+  /* #161821 dark-blue background*/
+  /* #4b5563 bg-gray-600 */
+
   --background: #161821;
   --foreground: #ededed;
+  --textprimary: #4b5563;
+  --textcorrect: #ffffff;
+  --textwrong: #f87171;
+}
+
+[data-theme="dark"] {
+  --background: #161821;
+  --backgroundsecondary: #6b7280;
+  --foreground: #ededed;
+  --textprimary: #4b5563;
+  --textsecondary: #6b7280;
+  --textcorrect: #ffffff;
+  --textwrong: #f87171;
+  --texthover: #ffffff;
+  --textselected: #ffffff;
+  --textindigo: #5c6bc0;
+  --caretcolor: #eab308;
+  --aboveaverage: #44ba23;
+}
+
+[data-theme="light"] {
+  --background: #e9e9f1;
+  --backgroundsecondary: #6b7280;
+  --foreground: #ededed;
+  --textprimary: #9e9a9a;
+  --textsecondary: #6b7280;
+  --textcorrect: #000000;
+  --textwrong: #cb2424;
+  --texthover: #000000;
+  --textselected: #000000;
+  --textindigo: #1d21c8;
+  --caretcolor: #222287;
+  --aboveaverage: #228805;
+}
+
+.background-primary {
+  background: var(--background);
+}
+
+.background-secondary {
+  background: var(--backgroundsecondary);
+}
+
+.text-primary {
+  color: var(--textprimary);
+}
+
+.text-secondary {
+  color: var(--textsecondary);
+}
+
+.text-correct {
+  color: var(--textcorrect);
+}
+
+.text-wrong {
+  color: var(--textwrong);
+}
+
+.hover\:text-hover:hover {
+  color: var(--texthover);
+}
+
+.text-selected {
+  color: var(--textselected);
+}
+
+.text-counter {
+  color: var(--textindigo);
+}
+
+.caret-color {
+  color: var(--caretcolor);
+  background: var(--caretcolor);
+}
+
+.text-above-average {
+  color: var(--aboveaverage);
 }
 
 @theme inline {
@@ -25,12 +104,12 @@ input:-webkit-autofill:active {
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #161821;
     --foreground: #ededed;
   }
-}
+} */
 
 body {
   background: var(--background);
@@ -49,10 +128,6 @@ body {
   50% {
     opacity: 0;
   }
-}
-
-.blink-caret {
-  animation: blink 1s step-start infinite;
 }
 
 .custom-type-animation-cursor::after {

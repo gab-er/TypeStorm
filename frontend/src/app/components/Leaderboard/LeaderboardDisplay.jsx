@@ -8,7 +8,7 @@ const LeaderboardDisplay = () => {
     <div>
       {userData ? (
         <div>
-          <h1 className="text-white-700 text-2xl relative flex mx-auto p-4  h-auto  w-7/10">
+          <h1 className="text-selected text-2xl relative flex mx-auto p-4  h-auto  w-7/10">
             personal rank
           </h1>
           <div className="relative flex flex-col  h-full w-7/10 mx-auto overflow-scroll text-white-700 shadow-md rounded-xl bg-gray-800 justify-center justify-items-center">
@@ -52,7 +52,7 @@ const LeaderboardDisplay = () => {
       ) : (
         <></>
       )}
-      <h1 className="text-white-700 text-2xl relative flex mx-auto p-4  h-auto  w-7/10">
+      <h1 className="text-selected text-2xl relative flex mx-auto p-4  h-auto  w-7/10">
         leaderboard
       </h1>
       <div className="relative flex flex-col  h-full w-7/10 mx-auto overflow-scroll text-white-700 shadow-md rounded-xl bg-gray-800 justify-center justify-items-center p-4">

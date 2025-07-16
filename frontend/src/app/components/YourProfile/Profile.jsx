@@ -25,7 +25,7 @@ const Profile = () => {
   const Accuracy = (totalAccuracy / totalGames).toFixed(2);
   return (
     <>
-      <h1 className="text-white-700 text-2xl relative flex mx-auto p-4  h-auto  w-7/10 ">
+      <h1 className="text-selected text-2xl relative flex mx-auto p-4  h-auto  w-7/10 ">
         profile
       </h1>
       <div className="relative flex mx-auto p-4 justify-center h-100px  w-7/10 bg-gray-800 rounded-xl overflow-x-auto justify-items-center items-baseline">

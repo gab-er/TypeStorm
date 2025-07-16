@@ -27,7 +27,7 @@ const TypingTip = ({ isCycling }) => {
   return (
     // Only show tips when the mode is on PRACTICE
     <Animation id="typingtips" visible={mode == gameModes.PRACTICE}>
-      <div className="flex flex-col text-center text-xl opacity-95 w-200 cursor-default">
+      <div className="flex flex-col text-center text-xl opacity-95 w-200 cursor-default text-selected">
         <div> Tip: {displayTip}</div>
       </div>
     </Animation>

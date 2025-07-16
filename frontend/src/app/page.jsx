@@ -1,3 +1,4 @@
+import ColorModeToggle from "./components/ColorModeToggle/ColorModeToggle";
 import TypeBox from "./components/TypeBox/TypeBox";
 import TypingTip from "./components/TypingTip/TypingTip";
 import { ToastContainer, Bounce } from "react-toastify";

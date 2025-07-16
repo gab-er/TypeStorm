@@ -38,13 +38,15 @@ export default async function ChallengeID({ params }) {
       <>
         <div className="relative flex justify-start items-center">
           <Link href="/challenges">
-            <div className="absolute flex mt-2 text-gray-600 hover:text-white cursor-default ml-55 items-center gap-2 text-xl">
-              <FontAwesomeIcon icon={faArrowLeft} size="xl" />
+            <div className="absolute flex mt-2 text-primary cursor-default items-center gap-2 text-xl justify-center w-full translate-x-[-40px]">
+              <div className="hover:text-hover ">
+                <FontAwesomeIcon icon={faArrowLeft} size="xl" />
+              </div>
             </div>
           </Link>
         </div>
         <div className="relative">
-          <div className="cursor-default absolute w-full flex justify-center mt-10 text-xl translate-x-[-40px]">
+          <div className="cursor-default absolute w-full flex justify-center mt-10 text-xl translate-x-[-40px] text-selected">
             {challengeDescription}
           </div>
         </div>

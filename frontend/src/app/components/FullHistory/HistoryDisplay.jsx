@@ -12,7 +12,7 @@ const HistoryDisplay = () => {
 
   return (
     <div className="flex flex-col gap-4 p-4 justify-center">
-      <h1 className="text-white-700 text-2xl relative flex mx-auto p-4  h-auto  w-7/10 ">
+      <h1 className="text-selected text-2xl relative flex mx-auto p-4  h-auto  w-7/10 ">
         history
       </h1>
       <GameDisplay games={history} />

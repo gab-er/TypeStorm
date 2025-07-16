@@ -10,6 +10,7 @@ import WelcomeBack from "./WelcomeBack";
 import { useState, useEffect } from "react";
 import DelayedLoadingDefault from "./DelayedLoadingDefault";
 import { usePathname } from "next/navigation";
+import ColorModeToggle from "../ColorModeToggle/ColorModeToggle";
 
 const navigation = [
   { name: "home", href: "/" },
@@ -40,12 +41,12 @@ const Navbar = () => {
     // bg-blue-600
     // bg-[#263a5ed9]
     // bg-[#161821]
-    <Disclosure as="nav" className="bg-[#161821] select-none pt-4 flex">
+    <Disclosure as="nav" className="background-primary select-none pt-4 flex">
       <div className="mx-auto w-full max-w-420 px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             {/* Mobile menu button -> Creates a menu dropdown on small screens */}
-            <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:outline-hidden focus:ring-inset">
+            <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-hover focus:ring-2 focus:ring-white focus:outline-hidden focus:ring-inset">
               <span className="absolute -inset-0.5" />
               <span className="sr-only">Open main menu</span>
               <Bars3Icon
@@ -59,10 +60,10 @@ const Navbar = () => {
             </DisclosureButton>
           </div>
           {/* Team Logo */}
-            <Link href="/" className="">
-              {/* 120 120 */}
-              <Logo width="180" height="120" />
-            </Link>
+          <Link href="/" className="">
+            {/* 120 120 */}
+            <Logo width="180" height="120" />
+          </Link>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex shrink-0 items-center"></div>
             <div className="hidden sm:ml-6 sm:block">
@@ -80,8 +81,8 @@ const Navbar = () => {
                       aria-current={item.current ? "page" : undefined}
                       className={classNames(
                         isActive
-                          ? "text-white"
-                          : "text-gray-600 hover:text-white",
+                          ? "text-selected"
+                          : "text-primary hover:text-hover",
                         "rounded-md px-2 text-xl cursor-default"
                       )}
                     >
@@ -93,12 +94,15 @@ const Navbar = () => {
             </div>
           </div>
           {/* Sign in button / Profile Icon*/}
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 mx-10">
+          <div className="absolute inset-y-0 right-0 flex items-center sm:static sm:inset-auto sm:ml-6 sm:pr-0 mx-6">
             {/* If loading, it shows the loading effect. Else, it shows one of the login displays*/}
             {(!isLoading && loginDisplay) || <DelayedLoadingDefault />}
 
             {/* If logged in -> Profile dropdown is shown */}
             {isLoggedIn && <ProfileIcon isLoggedIn={isLoggedIn} />}
+          </div>
+          <div className="">
+            <ColorModeToggle />
           </div>
         </div>
       </div>

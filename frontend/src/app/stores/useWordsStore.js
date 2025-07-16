@@ -11,7 +11,13 @@ const useWordsStore = create((set, get) => ({
   startTime: null,
   endTime: null,
   numWords: 25,
-  numWordsTyped: 0,  
+  numWordsTyped: 0,
+  inputRef: null,
+
+  // Action to set inputRef
+  setInputRef: (ref) => {
+    set({ inputRef: ref });
+  },
 
   // Action to set numWordsTyped
   setNumWordsTyped: (num) => {
@@ -77,7 +83,7 @@ const useWordsStore = create((set, get) => ({
     const lettersCorrectlyTyped = get().lettersCorrectlyTyped;
     const errors = get().errors;
     const accuracy = Number(
-      (lettersCorrectlyTyped / (lettersCorrectlyTyped + errors))
+      lettersCorrectlyTyped / (lettersCorrectlyTyped + errors)
     );
 
     if (isNaN(accuracy)) {

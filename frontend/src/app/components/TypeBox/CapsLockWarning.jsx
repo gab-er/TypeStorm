@@ -30,7 +30,7 @@ const CapsLockWarning = () => {
             style={{ color: "#FFD43B" }}
             bounce
           />
-          <div className="flex text-white opacity-90 select-none"> Caps Lock is on!</div>
+          <div className="flex text-selected opacity-90 select-none"> Caps Lock is on!</div>
         </div>
       </div>
     )

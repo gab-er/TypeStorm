@@ -4,21 +4,21 @@ import { useState, useEffect } from "react";
 
 const TimeNumberButton = ({ num, changeTime }) => {
   const timeLimit = useTimedStore((state) => state.timeLimit);
-  const [color, setColor] = useState("text-gray-500");
+  const [color, setColor] = useState("text-secondary");
 
   useEffect(() => {
     if (num === timeLimit) {
       // The current button chosen will become highlighted
-      setColor("text-white");
+      setColor("text-selected");
     } else {
-      setColor("text-gray-500");
+      setColor("text-secondary");
     }
   }, [timeLimit]);
 
   return (
     <div className={`rounded-xl`}>
       <button onClick={changeTime}>
-        <div className={`${color} text-xl hover:text-white`}> {num} </div>
+        <div className={`${color} text-xl hover:text-hover`}> {num} </div>
       </button>
     </div>
   );

@@ -14,8 +14,7 @@ const TimedSettingsBar = ({ setFocus, inputRef }) => {
   };
 
   return (
-    // bg-gray-800
-    <div className="select-none gap-2 flex items-center rounded-xl pl-2 text-xl text-gray-500">
+    <div className="select-none gap-2 flex items-center rounded-xl pl-2 text-xl text-secondary">
       <p> times | </p>
       <TimeNumberButton num={10} changeTime={() => changeTime(10)} />
       <TimeNumberButton num={20} changeTime={() => changeTime(20)} />
