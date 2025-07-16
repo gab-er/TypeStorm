@@ -46,7 +46,11 @@ const ProfileChanger = () => {
       .then((res) => {
         window.location.reload(false);
       })
-      .catch((err) => console.log(err));
+      .catch(
+        (err) =>
+          console.log(err) &
+          alert("Failed to upload profile picture. Please try again")
+      );
   };
 
   return (
@@ -58,13 +62,17 @@ const ProfileChanger = () => {
         />
       </button>
       <Dialog
+        transition
         open={isOpen}
-        onClose={isUploading ? () => {} : () => setIsOpen(false)}
+        onClose={isUploading ? () => {} : () => setIsOpen(false) & setFile()}
         className="relative z-50"
       >
         <DialogBackdrop className="fixed inset-0 bg-black/30" />
         <div className="fixed inset-0 flex flex-col w-screen items-center justify-center p-4">
-          <DialogPanel className="max-w-lg space-y-4 rounded-md bg-gray-800 p-12">
+          <DialogPanel
+            transition
+            className="max-w-lg space-y-4 rounded-md bg-gray-800 p-12 transition duration-100 ease-out data-closed:opacity-0 inset-0"
+          >
             {isUploading ? (
               <>
                 <Description className="text-center"> uploading...</Description>
@@ -81,14 +89,20 @@ const ProfileChanger = () => {
                   onChange={(e) => handleFileChange(e)}
                   accept="image/*"
                 />
-                {file ? <img src={URL.createObjectURL(file)} /> : <></>}
-                <button
-                  className="text-gray-500 hover:text-white"
-                  onClick={handleUpload}
-                  disabled={file ? false : true}
-                >
-                  update
-                </button>
+                {file ? (
+                  <>
+                    {" "}
+                    <img src={URL.createObjectURL(file)} />
+                    <button
+                      className="text-gray-500 hover:text-white"
+                      onClick={handleUpload}
+                    >
+                      update
+                    </button>{" "}
+                  </>
+                ) : (
+                  <></>
+                )}
               </>
             )}
           </DialogPanel>
