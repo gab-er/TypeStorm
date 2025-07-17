@@ -15,11 +15,7 @@ const ColorModeToggle = () => {
     return null;
   }
 
-  return (
-    <div className="">
-      <ColorModeButton />
-    </div>
-  );
+  return <ColorModeButton />;
 };
 
 export default ColorModeToggle;
