@@ -93,6 +93,7 @@ router.get("/:level", async (req, res) => {
         user: {
           select: {
             username: true,
+            profilePic: true,
           },
         },
       },
