@@ -212,7 +212,7 @@ const StatsBox = ({
       <div className="flex flex-col w-[600px] h-[325px] text-2xl">
         {/* Mode */}
         <div className="flex justify-center text-gray-400">
-          <div className="text-yellow-400 ml-2"> {mode.toUpperCase()} </div>
+          <div className="text-[var(--caretcolor)] ml-2"> {mode.toUpperCase()} </div>
         </div>
         {/* Row 1 */}
         <div className="flex justify-between h-1/2">

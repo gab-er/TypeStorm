@@ -7,12 +7,12 @@ const useAuthStore = create((set) => ({
   isLoading: true,
 
   // Action to log in
-  login: (username,userData) =>
+  login: (username, userData) =>
     set(() => ({
       username: username,
-      userData:userData,
+      userData: userData,
       isLoggedIn: true,
-      isLoading: false
+      isLoading: false,
     })),
 
   // Action to log out
@@ -21,12 +21,17 @@ const useAuthStore = create((set) => ({
       username: "",
       userData: {},
       isLoggedIn: false,
-      isLoading: false
+      isLoading: false,
     })),
 
-  setIsLoading: (bool) => 
+  setUserData: (userData) =>
     set(() => ({
-      isLoading: bool
+      userData: userData,
+    })),
+
+  setIsLoading: (bool) =>
+    set(() => ({
+      isLoading: bool,
     })),
 }));
 

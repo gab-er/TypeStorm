@@ -18,7 +18,7 @@ const StandardSettingsBar = ({
 
   return (
     // bg-gray-800
-    <div className="select-none gap-2 w-100 flex items-center rounded-xl text-xl pl-2 text-gray-500">
+    <div className="select-none gap-2 w-100 flex items-center rounded-xl text-xl pl-2 text-secondary">
       <p> words | </p>
       <WordNumberButton
         num={10}

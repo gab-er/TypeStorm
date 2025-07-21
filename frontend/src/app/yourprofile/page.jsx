@@ -1,4 +1,5 @@
 "use client";
+
 //Components
 import Statistics from "../components/YourProfile/Statistics";
 import Profile from "../components/YourProfile/Profile";
@@ -13,38 +14,40 @@ import GameProvider from "../components/YourProfile/GameProvider";
 
 //Stores
 import useAuthStore from "../stores/useAuthStore";
-import useGameStore from "../stores/useGameStore";
 import useStatStore from "../stores/useStatStore";
-
+import useGameStore from "../stores/useGameStore";
 
 const YourProfile = () => {
-    const isLoadingAuth = useAuthStore((state)=>state.isLoading)
-    const isLoggedIn = useAuthStore((state)=>state.isLoggedIn)
-    const isLoadingStat = useStatStore((state)=>state.isLoading)
-    const isLoadingGame = useGameStore((state)=>state.isLoading)
-    return (
-        <>
-           
-                {isLoadingAuth? <Loading/>:
-                !isLoggedIn? <NotLoggedIn/>: 
-                <>
-                    <StatisticsProvider>
-                        {isLoadingStat? <Loading/>:
-                            <>
-                                <Profile/>
-                                <Statistics/>
-                            </>}
-                    </StatisticsProvider>
-                    <GameProvider>
-                        {isLoadingGame? <Loading/>:
-                            <>
-                                <RecentGames/>
-                            </>}
-                    </GameProvider>
-                </>}
-            
-        </>
-    )
-}
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const isLoadingAuth = useAuthStore((state) => state.isLoading);
+  const isLoadingStat = useStatStore((state) => state.isLoading);
+  const isLoadingGame = useGameStore((state) => state.isLoading);
 
-export default YourProfile
+  return (
+    <>
+      <AuthProvider>
+        {isLoadingAuth ? (
+          <Loading />
+        ) : !isLoggedIn ? (
+          <NotLoggedIn />
+        ) : (
+          <StatisticsProvider>
+            <GameProvider>
+              {isLoadingStat || isLoadingGame ? (
+                <Loading />
+              ) : (
+                <>
+                  <Profile />
+                  <Statistics />
+                  <RecentGames />
+                </>
+              )}
+            </GameProvider>
+          </StatisticsProvider>
+        )}
+      </AuthProvider>
+    </>
+  );
+};
+
+export default YourProfile;

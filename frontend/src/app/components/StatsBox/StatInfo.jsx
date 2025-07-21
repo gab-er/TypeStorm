@@ -16,7 +16,7 @@ const StatInfo = ({
   aaScore,
   startedTyping,
 }) => {
-  const [textColor, setTextColor] = useState("text-white");
+  const [textColor, setTextColor] = useState("text-selected");
   const [emoji, setEmoji] = useState("");
   const [achievement, setAchievement] = useState(null);
   const [hasNewPb, setHasNewPb] = useState(false);
@@ -27,7 +27,7 @@ const StatInfo = ({
     }
 
     if (header.toLowerCase() == "current ranking" && stat == "#1") {
-      setTextColor("text-yellow-400");
+      setTextColor("text-[var(--caretcolor)]");
     } else if (header == "Ranking" && stat == "#2") {
       setTextColor("text-slate-400");
     } else if (header == "Ranking" && stat == "#3") {
@@ -36,19 +36,19 @@ const StatInfo = ({
 
     // Set displays for new PB
     if (pbWpm || pbAccuracy || pbScore) {
-      setTextColor("text-yellow-400");
+      setTextColor("text-[var(--caretcolor)]");
       setEmoji("🎉");
       setAchievement("(New Personal Best!)".toLowerCase());
       setHasNewPb(true);
     } else if (aaWpm || aaAccuracy || aaScore) {
-      setTextColor("text-green-400");
+      setTextColor("text-above-average");
       setAchievement("(Above Your Average!)".toLowerCase());
     }
   }, [stat, pbWpm, pbAccuracy, pbScore, aaWpm, aaAccuracy, aaScore]);
 
   return (
-    <div className="relative flex flex-col w-full h-full items-center justify-center">
-      <div className="absolute top-0 text-sm text-gray-400 mt-[1.5em] w-full h-[20px] flex justify-center">
+    <div className="relative flex flex-col w-full h-full items-center justify-center cursor-default">
+      <div className="absolute top-0 text-sm text-secondary mt-[1.5em] w-full h-[20px] flex justify-center">
         <Animation
           id="achievement"
           visible={achievement}
@@ -57,7 +57,7 @@ const StatInfo = ({
           {achievement}
         </Animation>
       </div>
-      <div className="text-gray-400 w-full flex justify-center">
+      <div className="text-secondary w-full flex justify-center">
         <Tooltip
           title={<Typography fontSize="1rem"> {headerDesc} </Typography>}
           placement="top"
@@ -96,25 +96,8 @@ const StatInfo = ({
         </Tooltip>
       </div>
 
-      <div className={`text-4xl ${textColor} cursor-pointer`}>
-        <Tooltip
-          title={<Typography> {statDesc}</Typography>}
-          placement="bottom"
-          slotProps={{
-            popper: {
-              modifiers: [
-                {
-                  name: "offset",
-                  options: {
-                    offset: [0, -14],
-                  },
-                },
-              ],
-            },
-          }}
-        >
-          {!startedTyping ? "-" : String(stat)}
-        </Tooltip>
+      <div className={`text-4xl ${textColor} cursor-default`}>
+        {!startedTyping ? "-" : String(stat)}
       </div>
     </div>
   );

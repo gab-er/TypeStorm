@@ -19,7 +19,7 @@ const Letter = ({
   const currentLetterRef = useRef();
 
   // Default color
-  let color = "text-gray-500";
+  let color = "text-primary"; // -> use css defined color 
 
   // Decide if the caret should be shown
   const globalId = globalIdRef.current; // The current letter's global position
@@ -32,11 +32,11 @@ const Letter = ({
   if (typedWord) {
     if (typedWord[id] === undefined) {
     } else if (typedWord[id] === letter) {
-      // Letter typed was correct
-      color = "text-white";
+      // Letter typed was correct -> use css defined color 
+      color = "text-correct";
     } else {
-      // Letter typed was wrong
-      color = "text-red-400";
+      // Letter typed was wrong -> use css defined color 
+      color = "text-wrong";
     }
   }
 
@@ -53,7 +53,7 @@ const Letter = ({
   return (
     <span className={`relative ${blur}`} ref={currentLetterRef}>
       <span
-        className={`${color} text-[33px] select-none opacity-85 ${
+        className={`${color} text-[33px] select-none opacity-95 ${
           letter === " " ? "w-[1ch]" : ""
         }`}
       >

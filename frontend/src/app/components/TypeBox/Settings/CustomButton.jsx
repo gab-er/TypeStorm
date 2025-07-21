@@ -23,7 +23,7 @@ const CustomButton = ({
 }) => {
   let [isOpen, setIsOpen] = useState(false);
   let [inputValue, setInputValue] = useState("");
-  let [color, setColor] = useState("text-gray-500");
+  let [color, setColor] = useState("text-secondary");
   const customInputRef = useRef(null);
   const containerRef = useRef(null); // Ref for the container (button + input)
   const mode = useWordsStore((state) => state.mode);
@@ -32,19 +32,13 @@ const CustomButton = ({
   const defaultStandardNumbers = [10, 25, 50, 75, 100]; // The default options in the standard settings bar
   const defaultTimedNumbers = [10, 20, 30, 45, 60]; // The default options in the timed settings bar
 
-  const notifySuccess = () => {
-    toast.success(
-      <div className="flex items-center mr-2">Updated word count</div>
-    );
-  };
-
   const notifyError = () => toast.error("Please input a number");
 
   // Standard mode highlight
   useEffect(() => {
     if (mode === gameModes.STANDARD) {
       const shouldHighlight = !defaultStandardNumbers.includes(numWords);
-      setColor(shouldHighlight ? "text-white" : "text-gray-500");
+      setColor(shouldHighlight ? "text-selected" : "text-secondary");
     }
   }, [numWords, mode]);
 
@@ -52,7 +46,7 @@ const CustomButton = ({
   useEffect(() => {
     if (mode === gameModes.TIMED) {
       const shouldHighlight = !defaultTimedNumbers.includes(timeLimit);
-      setColor(shouldHighlight ? "text-white" : "text-gray-500");
+      setColor(shouldHighlight ? "text-selected" : "text-secondary");
     }
   }, [timeLimit, mode]);
 
@@ -109,20 +103,13 @@ const CustomButton = ({
     <>
       <div className="flex select-none">
         <button
-          className={`${color} hover:text-white select-none focus:outline-none focus:ring-0 focus:border-transparent`}
+          className={`${color} hover:text-hover select-none focus:outline-none focus:ring-0 focus:border-transparent`}
           onClick={() => setIsOpen(true)}
         >
           {/* Custom Icon */}
           {mode == gameModes.STANDARD && <FontAwesomeIcon icon={faHashtag} />}
           {mode == gameModes.TIMED && <FontAwesomeIcon icon={faClock} />}
         </button>
-        {/* <Dialog
-        static
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-        // mt-68 ml-121
-        className="fixed focus:outline-none focus:ring-0 focus:border-transparent border flex justify-center"
-      > */}
         <div
           ref={containerRef}
           className="focus:outline-none focus:ring-0 focus:border-transparent ml-2"
@@ -133,7 +120,7 @@ const CustomButton = ({
                 <input
                   ref={customInputRef}
                   value={inputValue}
-                  className="bg-gray-500 focus:outline-none focus:ring-0 focus:border-transparent w-29 rounded-lg px-2 h-6 text-white text-[16px]"
+                  className="background-secondary focus:outline-none focus:ring-0 focus:border-transparent w-29 rounded-lg px-2 h-6 text-white text-[16px]"
                   onChange={(e) => setInputValue(e.target.value)}
                   placeholder="custom value"
                 ></input>

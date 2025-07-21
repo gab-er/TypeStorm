@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "./components/Navbar/Navbar";
 import AuthProvider from "./components/Auth/AuthProvider";
 import QueryProvider from "./components/QueryProvider";
+import { ThemeProvider } from "next-themes";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,20 +16,35 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "TypeStorm",
-  description: "TypeStorm",
+  title: { default: "TypeStorm", template: "TypeStorm - %s" },
+  description: "Improve your typing skills with TypeStorm!",
+  keywords: [
+    "typing",
+    "type",
+    "typing test",
+    "typing practice",
+    "typing game",
+    "typing challenge",
+    "speed typing",
+    "improve typing speed",
+    "wpm calculator",
+    "free typing test",
+    "free typing speed test online",
+  ],
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <QueryProvider>
           <AuthProvider>
-            <Navbar />
-            {children}
+            <ThemeProvider enableSystem={true}>
+              <Navbar />
+              {children}
+            </ThemeProvider>
           </AuthProvider>
         </QueryProvider>
       </body>

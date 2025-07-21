@@ -9,20 +9,21 @@ const WelcomeBack = () => {
   const CURSOR_CLASS_NAME = "custom-type-animation-cursor";
 
   return (
-    <>
+    <div className="text-xl text-selected">
       <TypeAnimation
         sequence={[
           // Same substring at the start will only be typed out once, initially
-          `welcome back, ${username}`,
+          `welcome back!`,
           (el) => el.classList.remove(CURSOR_CLASS_NAME), // A reference to the element gets passed as the first argument of a callback function
           1000,
+          `${username}`
         ]}
         wrapper="span"
         className={CURSOR_CLASS_NAME}
-        speed={15}
+        speed={12}
         cursor={false}
       />
-    </>
+    </div>
   );
 };
 

@@ -1,10 +1,26 @@
+import React from "react";
 import { render, screen } from "@testing-library/react";
-import { expect, test, it, describe, afterEach, beforeEach } from "vitest";
+import { expect, test, it, describe, afterEach, beforeEach, vi } from "vitest";
 import InputBox from "../src/app/components/TypeBox/InputBox";
 import "@testing-library/jest-dom/vitest";
 import userEvent from "@testing-library/user-event";
 import { cleanup, waitFor } from "@testing-library/react";
-import { useState } from "react";
+import { useState, useRef } from "react";
+
+// Mock the inputRef that your component uses internally
+const mockInputRef = {
+  current: {
+    focus: vi.fn(),
+    blur: vi.fn(),
+    value: "",
+    setSelectionRange: vi.fn(),
+    selectionStart: 0,
+    selectionEnd: 0,
+  },
+};
+
+// Mock useRef to return our mock inputRef
+vi.spyOn(React, "useRef").mockReturnValue(mockInputRef);
 
 // Use a mock input box component to allow for state changes
 const InputBoxTestWrapper = () => {
@@ -25,8 +41,12 @@ const InputBoxTestWrapper = () => {
       setTypedWordsCount={() => {}}
       setStartedTyping={() => {}}
       setAllTypedWords={() => {}}
+      focus={true}
+      setFocus={() => {}}
+      setNumWordsTyped={() => {}}
       typedText={typedText}
       setTypedText={setTypedText}
+      inputRef={mockInputRef}
     />
   );
 };
@@ -48,6 +68,10 @@ const defaultProps = {
   setStartedTyping: () => {},
   startedTyping: false,
   setAllTypedWords: () => {},
+  focus: true,
+  setFocus: vi.fn(),
+  setNumWordsTyped: () => {},
+  inputRef: mockInputRef
 };
 
 describe("InputBox and BlurBox", () => {

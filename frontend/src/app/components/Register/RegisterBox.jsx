@@ -26,7 +26,7 @@ const RegisterBox = ({
       </Head>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-white-900">
+          <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-selected">
             Register for a new account
           </h2>
         </div>
@@ -36,7 +36,7 @@ const RegisterBox = ({
             <div>
               <label
                 htmlFor="email"
-                className="block text-lg/6 font-medium text-white-900"
+                className="block text-xl font-medium text-selected"
               >
                 Username
               </label>
@@ -49,12 +49,12 @@ const RegisterBox = ({
                   autoComplete="new-password"
                   onChange={handleUsernameChange}
                   placeholder="Username"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-white-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-white-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 text-black"
+                  className="w-full rounded-md bg-gray-400 px-3 py-1.5 placeholder:text-black placeholder:text-lg focus:outline-2 focus:outline-white text-black h-10 text-lg [&:-webkit-autofill]:[-webkit-text-fill-color:black]"
                 />
               </div>
               {/* Error message pops up if there is an error */}
               {usernameError && (
-                <p className="text-red-400"> Error: {usernameError} </p>
+                <p className="text-wrong"> Error: {usernameError} </p>
               )}
             </div>
 
@@ -62,7 +62,7 @@ const RegisterBox = ({
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="password"
-                  className="block text-lg/6 font-medium text-white-900"
+                  className="block text-xl font-medium text-selected"
                 >
                   Password
                 </label>
@@ -76,7 +76,7 @@ const RegisterBox = ({
                   autoComplete="new-password"
                   onChange={handlePasswordChange}
                   placeholder="Password"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-white-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-white-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 text-black"
+                  className="w-full rounded-md bg-gray-400 px-3 py-1.5 placeholder:text-black placeholder:text-lg focus:outline-2 focus:outline-white text-black h-10 text-lg [&:-webkit-autofill]:[-webkit-text-fill-color:black]"
                 />
                 {/* Password strength meter */}
                 <PasswordStrengthBar
@@ -86,7 +86,7 @@ const RegisterBox = ({
                 />
                 {/* Error message pops up if there is an error */}
                 {passwordError && (
-                  <p className="text-red-400"> Error: {passwordError} </p>
+                  <p className="text-wrong"> Error: {passwordError} </p>
                 )}
               </div>
             </div>
@@ -95,7 +95,7 @@ const RegisterBox = ({
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="password"
-                  className="block text-lg/6 font-medium text-white-900"
+                  className="block text-xl font-medium text-selected"
                 >
                   Confirm Password
                 </label>
@@ -108,7 +108,7 @@ const RegisterBox = ({
                   required
                   onChange={handleConfirmPasswordChange}
                   placeholder="Confirm Password"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-white-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-white-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 text-black"
+                  className="w-full rounded-md bg-gray-400 px-3 py-1.5 placeholder:text-black placeholder:text-lg focus:outline-2 focus:outline-white text-black h-10 text-lg [&:-webkit-autofill]:[-webkit-text-fill-color:black]"
                 />
                 {/* Error message pops up if there is an error */}
                 {confirmPasswordError && (
@@ -119,7 +119,7 @@ const RegisterBox = ({
             <div>
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer"
+                className="flex w-full justify-center rounded-md bg-gray-800 px-3 py-1.5 text-lg font-semibold text-white shadow-xs hover:bg-gray-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-default"
               >
                 Register
               </button>
