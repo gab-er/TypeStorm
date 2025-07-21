@@ -15,7 +15,7 @@ const ColorModeButton = () => {
     } else {
       setTheme("dark");
     }
-    if (inputRef.current) {
+    if (inputRef && inputRef.current) {
       inputRef.current.focus(); // Focus the input box so user can continue typing after pressing the button
     }
   };

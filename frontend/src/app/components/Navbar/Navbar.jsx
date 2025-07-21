@@ -94,16 +94,18 @@ const Navbar = () => {
             </div>
           </div>
           {/* Sign in button / Profile Icon*/}
-          <div className="absolute inset-y-0 right-0 flex items-center sm:static sm:inset-auto sm:ml-6 sm:pr-0 mx-6">
-            {/* If loading, it shows the loading effect. Else, it shows one of the login displays*/}
-            {(!isLoading && loginDisplay) || <DelayedLoadingDefault />}
+          {/* <div className="flex translate-x-[50px]"> */}
+            <div className="absolute inset-y-0 right-0 flex items-center sm:static sm:inset-auto sm:ml-6 sm:pr-0 mx-3">
+              {/* If loading, it shows the loading effect. Else, it shows one of the login displays*/}
+              {(!isLoading && loginDisplay) || <DelayedLoadingDefault />}
 
-            {/* If logged in -> Profile dropdown is shown */}
-            {isLoggedIn && <ProfileIcon isLoggedIn={isLoggedIn} />}
-          </div>
-          <div className="">
-            <ColorModeToggle />
-          </div>
+              {/* If logged in -> Profile dropdown is shown */}
+              {isLoggedIn && <ProfileIcon isLoggedIn={isLoggedIn} />}
+            </div>
+            <div className="translate-x-[6px]">
+              <ColorModeToggle />
+            </div>
+          {/* </div> */}
         </div>
       </div>
     </Disclosure>
