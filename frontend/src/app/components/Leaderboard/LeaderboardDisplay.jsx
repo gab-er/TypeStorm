@@ -95,7 +95,7 @@ const LeaderboardDisplay = () => {
 
                 {/*Display Accuracy achieved in game*/}
                 <td className="text-center p-2">
-                  {Math.round(game.accuracy * 100)}%
+                  {Math.floor(game.accuracy * 100)}%
                 </td>
 
                 {/*Display amount of Errors in game*/}
