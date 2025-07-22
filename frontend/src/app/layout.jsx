@@ -34,6 +34,9 @@ export const metadata = {
   verification: {
     google: "REBrJwYZlG_xiRY2Tp00vq1vYIJJvOCfGaC9RGanVnE",
   },
+  openGraph: {
+    siteName: "TypeStorm",
+  },
 };
 
 export default function RootLayout({ children }) {
