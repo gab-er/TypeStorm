@@ -46,6 +46,7 @@ describe("POST /auth/register", () => {
         data: [
           { userId: 1, gamemode: "STANDARD" },
           { userId: 1, gamemode: "TIMED" },
+          { userId: 1, gamemode: "CHALLENGE" },
         ],
       });
 
