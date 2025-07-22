@@ -1,24 +1,30 @@
-import { vi } from 'vitest'
+import { vi } from "vitest";
 
 const mockPrisma = {
-    user: {
-        create: vi.fn(),
-        findUnique: vi.fn()
+  user: {
+    create: vi.fn(),
+    findUnique: vi.fn(),
+  },
+  statistic: {
+    createMany: vi.fn(),
+    findMany: vi.fn(),
+    findFirst: vi.fn(),
+    updateMany: vi.fn(),
+  },
+  game: {
+    create: vi.fn(),
+    findMany: vi.fn(),
+    count: vi.fn(),
+  },
+  challenge: {
+    create: vi.fn(),
+    findMany: vi.fn(),
+    findFirst: vi.fn(),
+    update: vi.fn(),
+    count: vi.fn(),
+  },
+};
 
-    },
-    statistic: {
-        createMany: vi.fn(),
-        findMany: vi.fn(),
-        findFirst: vi.fn(),
-        updateMany: vi.fn()
-    },
-    game: {
-        create: vi.fn(),
-        findMany: vi.fn(),
-        count: vi.fn()
-    }
-}
+export const PrismaClient = vi.fn(() => mockPrisma);
 
-export const PrismaClient = vi.fn(()=>mockPrisma);
-
-export default { PrismaClient }
+export default { PrismaClient };
