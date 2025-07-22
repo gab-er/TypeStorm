@@ -20,7 +20,7 @@ const ProfileIcon = () => {
           {/* User Icon */}
           <ProfilePic
             profilePic={userData.profilePic}
-            className="size-6 rounded-full"
+            className="size-6 rounded-full text-selected"
           />
         </MenuButton>
       </div>
