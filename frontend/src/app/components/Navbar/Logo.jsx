@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import NextImage from "next/image";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
@@ -11,6 +11,21 @@ const Logo = ({ width, height }) => {
   );
 
   useEffect(() => {
+    // preload both logo images
+    const preloadImages = [
+      "/images/TypeStormLogoWhiteYellow.png",
+      "/images/TypeStormLogoBlackDarkBlue.png",
+    ];
+
+    // get the browser to cache both images
+    // avoids the lag on very first toggle
+    preloadImages.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
+  useEffect(() => {
     if (theme) {
       if (theme.toLowerCase() == "dark") {
         setLogoUrl(`/images/TypeStormLogoWhiteYellow.png`);
@@ -19,15 +34,16 @@ const Logo = ({ width, height }) => {
       }
     }
   }, [theme]);
+
   return (
-    <Image
+    <NextImage
       src={`${logoUrl}`}
       alt="TypeStorm"
       width={width}
       height={height}
       priority={true}
       className="select-none"
-    ></Image>
+    ></NextImage>
   );
 };
 
