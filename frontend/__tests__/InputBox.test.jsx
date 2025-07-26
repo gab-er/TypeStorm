@@ -25,6 +25,7 @@ vi.spyOn(React, "useRef").mockReturnValue(mockInputRef);
 // Use a mock input box component to allow for state changes
 const InputBoxTestWrapper = () => {
   const [typedText, setTypedText] = useState("");
+  const [focus, setFocus] = useState(true);
 
   return (
     <InputBox
@@ -41,37 +42,14 @@ const InputBoxTestWrapper = () => {
       setTypedWordsCount={() => {}}
       setStartedTyping={() => {}}
       setAllTypedWords={() => {}}
-      focus={true}
-      setFocus={() => {}}
+      focus={focus}
+      setFocus={setFocus}
       setNumWordsTyped={() => {}}
       typedText={typedText}
       setTypedText={setTypedText}
       inputRef={mockInputRef}
     />
   );
-};
-
-// Mock props required by InputBox
-const defaultProps = {
-  wordsData: ["hello", "world", "foo", "bar"],
-  wordsTypedOffset: 0,
-  setWordsTypedOffset: () => {},
-  numWords: 4,
-  gameCompleted: false,
-  setGameCompleted: () => {},
-  currentLineIndex: 0,
-  setCurrentLineIndex: () => {},
-  typedWordsCount: 0,
-  setTypedWordsCount: () => {},
-  typedText: "",
-  setTypedText: () => {},
-  setStartedTyping: () => {},
-  startedTyping: false,
-  setAllTypedWords: () => {},
-  focus: true,
-  setFocus: vi.fn(),
-  setNumWordsTyped: () => {},
-  inputRef: mockInputRef
 };
 
 describe("InputBox and BlurBox", () => {
@@ -81,10 +59,11 @@ describe("InputBox and BlurBox", () => {
 
   // Test that the BlurBox only shows up when the InputBox is clicked on
   it("hides BlurBox when InputBox is clicked on", async () => {
-    render(<InputBox {...defaultProps} />);
+    render(<InputBoxTestWrapper />);
 
     // Get the InputBox component
     const input = screen.getByTestId("typing-input");
+    expect(screen.queryByTestId("typing-input")).toBeInTheDocument();
 
     // InputBox is autoFocused, so the default is that BlurBox is not in the document
     expect(screen.queryByTestId("blur-box")).not.toBeInTheDocument();
@@ -96,7 +75,7 @@ describe("InputBox and BlurBox", () => {
   });
 
   it("shows BlurBox on blur and hides again on refocus", async () => {
-    render(<InputBox {...defaultProps} />);
+    render(<InputBoxTestWrapper />);
 
     const input = screen.getByTestId("typing-input");
 
