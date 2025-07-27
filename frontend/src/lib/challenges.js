@@ -27,7 +27,7 @@ const challenges = [
   {
     text: "To be, or not to be, that is the question: Whether 'tis nobler in the mind to suffer, the slings and arrows of outrageous fortune, or to take arms against a sea of troubles, and by opposing end them. To die - to sleep, No more.",
     description: "William Shakespeare - To be or not to be",
-    title: "To be or Not To Be",
+    title: "To Be or Not To Be",
   },
   {
     text: "So, even though you have broken my heart yet again, I wanted to say, in another life, I would have really liked just doing laundry and taxes with you.",
