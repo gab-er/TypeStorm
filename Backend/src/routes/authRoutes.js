@@ -22,8 +22,6 @@ const cookieSettings =
         sameSite: "none",
       };
 
-console.log(cookieSettings);
-
 // Register new account
 router.post("/register", async (req, res) => {
   // Extract username and password from body of request
