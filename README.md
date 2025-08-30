@@ -1,4 +1,5 @@
-[![TypeStorm](frontend/public/images/TypeStormCircularLogo.png)](https://type-storm-eight.vercel.app/) <br />
+
+ <a href="https://type-storm-eight.vercel.app/"> <img src="frontend/public/images/TypeStormCircularLogo.png" alt="TypeStorm" width="200"/> </a> <br>
 
 ![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)
 ![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat&logo=nextdotjs&logoColor=white)
