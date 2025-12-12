@@ -281,13 +281,13 @@ const InputBox = ({
 
   return (
     <>
-      <div className="flex justify-center relative">
+      <div className="flex justify-center relative ">
         {!focus && (
-          <div data-testid="blur-box" className="absolute">
+          <div data-testid="blur-box" className="absolute pointer-events-none">
             <BlurBox />
           </div>
         )}
-        <div className="absolute">
+        <div className="absolute pointer-events-none">
           <DisplayBox
             currentLetter={currentLetter}
             typedWords={typedWords}
@@ -316,7 +316,7 @@ const InputBox = ({
           onCut={(e) => e.preventDefault()}
           onContextMenu={(e) => e.preventDefault()}
           ref={inputRef}
-          className="text-start opacity-0 cursor-default w-[1200px] h-[200px] absolute bg-white text-black pb-40 pl-2.5 text-3xl border"
+          className="text-start opacity-0 cursor-default max-sm:w-screen sm:w-[1200px] h-[200px] absolute bg-white text-black pb-40 pl-2.5 text-3xl border pointer-events-auto z-20"
         />
       </div>
     </>

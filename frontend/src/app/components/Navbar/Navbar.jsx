@@ -1,5 +1,9 @@
 "use client";
-import { Disclosure, DisclosureButton } from "@headlessui/react";
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+} from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import LoginButton from "./LoginButton";
@@ -59,8 +63,33 @@ const Navbar = () => {
               />
             </DisclosureButton>
           </div>
+          {/* Mobile menu panel */}
+          <DisclosurePanel className="sm:hidden absolute top-16 left-0 background-primary">
+            <div className="space-y-1 px-2 pb-3 pt-2">
+              {navigation.map((item) => {
+                const isActive =
+                  item.href == "/"
+                    ? pathName == "/"
+                    : pathName.includes(item.href);
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className={classNames(
+                      isActive
+                        ? "text-selected cursor-default"
+                        : "text-primary hover:text-hover cursor-default",
+                      "block rounded-md px-3 py-2 text-base font-medium"
+                    )}
+                  >
+                    {item.name}
+                  </Link>
+                );
+              })}
+            </div>
+          </DisclosurePanel>
           {/* Team Logo */}
-          <Link href="/" className="">
+          <Link href="/" className="pl-12 sm:pl-0">
             {/* 120 120 */}
             <Logo width="180" height="120" />
           </Link>
@@ -95,16 +124,16 @@ const Navbar = () => {
           </div>
           {/* Sign in button / Profile Icon*/}
           {/* <div className="flex translate-x-[50px]"> */}
-            <div className="absolute inset-y-0 right-0 flex items-center sm:static sm:inset-auto sm:ml-6 sm:pr-0 mx-3">
-              {/* If loading, it shows the loading effect. Else, it shows one of the login displays*/}
-              {(!isLoading && loginDisplay) || <DelayedLoadingDefault />}
+          <div className="absolute inset-y-0 right-0 flex items-center sm:static sm:inset-auto sm:ml-6 sm:pr-0 mx-3">
+            {/* If loading, it shows the loading effect. Else, it shows one of the login displays*/}
+            {(!isLoading && loginDisplay) || <DelayedLoadingDefault />}
 
-              {/* If logged in -> Profile dropdown is shown */}
-              {isLoggedIn && <ProfileIcon isLoggedIn={isLoggedIn} />}
-            </div>
-            <div className="translate-x-[6px]">
-              <ColorModeToggle />
-            </div>
+            {/* If logged in -> Profile dropdown is shown */}
+            {isLoggedIn && <ProfileIcon isLoggedIn={isLoggedIn} />}
+          </div>
+          <div className="translate-x-[6px]">
+            <ColorModeToggle />
+          </div>
           {/* </div> */}
         </div>
       </div>

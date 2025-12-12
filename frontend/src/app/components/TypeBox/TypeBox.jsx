@@ -230,7 +230,7 @@ const TypeBox = ({ words = null, challengeId = null }) => {
       </Animation>
     )) || (
       <Animation id="typebox" visible={!gameCompleted}>
-        <div className={`relative`}>
+        <div className={`flex flex-col relative`}>
           {/* Timer */}
           <Animation key="timer" id="timer" visible={mode == gameModes.TIMED}>
             <div
@@ -281,7 +281,7 @@ const TypeBox = ({ words = null, challengeId = null }) => {
           />
           {/* SettingsBars/Instructions */}
           <Animation id="settings" visible={showSettingsBar}>
-            <div className="absolute translate-y-[225px] translate-x-[-595px] flex flex-col gap-5">
+            <div className="sm:absolute sm:translate-y-[225px] sm:translate-x-[-595px] flex flex-col gap-5 max-sm:translate-y-[500px] max-sm:translate-x-[-230px]">
               <ModeBar inputRef={inputRef} />
               {mode == gameModes.STANDARD && (
                 <StandardSettingsBar
