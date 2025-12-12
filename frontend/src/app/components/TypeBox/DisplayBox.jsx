@@ -26,7 +26,7 @@ const DisplayBox = ({
   return (
     <>
       <div
-        className="relative w-[1200px] h-[200px] flex flex-col"
+        className="relative max-sm:w-screen sm:w-[1200px] sm:h-[200px] flex flex-col overflow-hidden"
         ref={displayBoxRef}
       >
         {/* Caret - Blinks if the user has not started typing*/}
@@ -53,7 +53,7 @@ const DisplayBox = ({
 
         {visibleLines.map((line, i) => (
           // Each individual line
-          <div key={i} className="flex justify-left h-1/3 items-center ml-2">
+          <div key={i} className="flex max-sm:flex-wrap justify-left h-1/3 items-center ml-2">
             {line.map((word, index) => (
               <Word
                 key={index}

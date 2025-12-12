@@ -7,7 +7,7 @@ const BlurBox = () => {
   return (
     <div className="select-none flex justify-center items-center text-center cursor-default w-[1000px] h-[200px] text-xl gap-1 text-selected">
       <FontAwesomeIcon icon={faArrowPointer} size="lg" />
-      click here to continue typing...
+      click here to continue typing... 
     </div>
   );
 };
