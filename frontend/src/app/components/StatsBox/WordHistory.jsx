@@ -14,7 +14,7 @@ const WordHistory = ({ allTypedWords, wordsToType }) => {
     .flat(); // Array of all correct letters to type
 
   return (
-    <div className="flex flex-col flex-wrap w-[1200px] items-center text-2xl text-secondary">
+    <div className="flex flex-col flex-wrap w-full max-w-[1200px] items-center text-2xl text-secondary">
       <Tooltip
         title={
           <Typography>
@@ -38,7 +38,7 @@ const WordHistory = ({ allTypedWords, wordsToType }) => {
       >
         <strong> {`Word History - ${allTypedWords.length} words`.toLowerCase()} </strong>
       </Tooltip>
-      <div>
+      <div className="">
         {allCorrectLetters.map((letter, index) => {
           let color = "text-selected";
           if (allCorrectLetters[index] !== allTypedLetters[index]) {

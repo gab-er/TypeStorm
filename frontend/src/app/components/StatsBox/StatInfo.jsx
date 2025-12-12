@@ -48,7 +48,7 @@ const StatInfo = ({
 
   return (
     <div className="relative flex flex-col w-full h-full items-center justify-center cursor-default">
-      <div className="absolute top-0 text-sm text-secondary mt-[1.5em] w-full h-[20px] flex justify-center">
+      <div className="top-0 text-sm text-secondary mt-[1.5em] w-full h-[20px] flex justify-center">
         <Animation
           id="achievement"
           visible={achievement}
