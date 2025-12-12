@@ -206,61 +206,77 @@ const StatsBox = ({
 
   return (
     // (!isLoading && (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center flex-wrap">
       {isNewPb && <ConfettiExplosion particleCount={150} duration={3000} />}
       {/* Stats */}
-      <div className="flex flex-col w-[600px] h-[325px] text-2xl">
+      <div className="flex flex-col w-full max-w-[600px] h-auto text-2xl px-4 py-2">
         {/* Mode */}
         <div className="flex justify-center text-gray-400">
-          <div className="text-[var(--caretcolor)] ml-2"> {mode.toUpperCase()} </div>
+          <div className="text-[var(--caretcolor)] ml-2">
+            {mode.toUpperCase()}
+          </div>
         </div>
-        {/* Row 1 */}
-        <div className="flex justify-between h-1/2">
-          <StatInfo
-            header={"Net WPM".toLowerCase()}
-            stat={frozenStats.netWPM}
-            pbWpm={pbWpm}
-            aaWpm={aaWpm}
-            headerDesc={headerDescriptions.netwpm}
-            startedTyping={startedTyping}
-          />
-          <StatInfo
-            header={"Score".toLowerCase()}
-            stat={frozenStats.score}
-            pbScore={pbScore}
-            aaScore={aaScore}
-            headerDesc={headerDescriptions.score}
-            startedTyping={startedTyping}
-          />
-          <StatInfo
-            header={"Accuracy".toLowerCase()}
-            stat={`${Math.floor(frozenStats.accuracy * 100)}%`}
-            pbAccuracy={pbAccuracy}
-            aaAccuracy={aaAccuracy}
-            headerDesc={headerDescriptions.accuracy}
-            startedTyping={startedTyping}
-          />
-        </div>
-        {/* Row 2 */}
-        <div className="flex justify-center h-1/2">
-          <StatInfo
-            header={"Raw WPM".toLowerCase()}
-            stat={frozenStats.grossWPM}
-            headerDesc={headerDescriptions.rawwpm}
-            startedTyping={startedTyping}
-          />
-          <StatInfo
-            header={"Errors".toLowerCase()}
-            stat={frozenStats.errors}
-            headerDesc={headerDescriptions.errors}
-            startedTyping={startedTyping}
-          />
-          <StatInfo
-            header={"Time".toLowerCase()}
-            stat={`${frozenStats.elapsedTime}s`}
-            headerDesc={headerDescriptions.time}
-            startedTyping={startedTyping}
-          />
+
+        <div className="flex flex-wrap w-full mt-3">
+          <div className="w-full sm:w-1/2 md:w-1/3 p-2 flex">
+            <StatInfo
+              header="net wpm"
+              stat={frozenStats.netWPM}
+              pbWpm={pbWpm}
+              aaWpm={aaWpm}
+              headerDesc={headerDescriptions.netwpm}
+              startedTyping={startedTyping}
+            />
+          </div>
+
+          <div className="w-full sm:w-1/2 md:w-1/3 p-2 flex">
+            <StatInfo
+              header="score"
+              stat={frozenStats.score}
+              pbScore={pbScore}
+              aaScore={aaScore}
+              headerDesc={headerDescriptions.score}
+              startedTyping={startedTyping}
+            />
+          </div>
+
+          <div className="w-full sm:w-1/2 md:w-1/3 p-2 flex">
+            <StatInfo
+              header="accuracy"
+              stat={`${Math.floor(frozenStats.accuracy * 100)}%`}
+              pbAccuracy={pbAccuracy}
+              aaAccuracy={aaAccuracy}
+              headerDesc={headerDescriptions.accuracy}
+              startedTyping={startedTyping}
+            />
+          </div>
+
+          <div className="w-full sm:w-1/2 md:w-1/3 p-2 flex">
+            <StatInfo
+              header="raw wpm"
+              stat={frozenStats.grossWPM}
+              headerDesc={headerDescriptions.rawwpm}
+              startedTyping={startedTyping}
+            />
+          </div>
+
+          <div className="w-full sm:w-1/2 md:w-1/3 p-2 flex">
+            <StatInfo
+              header="errors"
+              stat={frozenStats.errors}
+              headerDesc={headerDescriptions.errors}
+              startedTyping={startedTyping}
+            />
+          </div>
+
+          <div className="w-full sm:w-1/2 md:w-1/3 p-2 flex">
+            <StatInfo
+              header="time"
+              stat={`${frozenStats.elapsedTime}s`}
+              headerDesc={headerDescriptions.time}
+              startedTyping={startedTyping}
+            />
+          </div>
         </div>
       </div>
       <div>
@@ -274,7 +290,7 @@ const StatsBox = ({
         )}
       </div>
       {/* Word History */}
-      <div className="mt-4">
+      <div className="mt-4 max-sm:ml-15">
         <WordHistory allTypedWords={allTypedWords} wordsToType={wordsToType} />
       </div>
       {/* Enter to start game  */}
